@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qui vote avec qui</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="data.js?v=f54b4a1706"></script>
+<style>
+/* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
+:root {
+  color-scheme: light;
+  --bg: #efe8dc; --paper: #fbf7ef; --paper-2: #f3ecdf; --ink: #22181a; --ink-2: #5b4a42; --muted: #75665b;
+  --rule: #dccbab; --gold: #a07a32; --gold-ink: #7a5a1f; --velvet: #8a1c26; --velvet-2: #a3262f; --velvet-deep: #5c0f17; --velvet-ink: #f7ecd6;
+  --wood: #5b2f1f; --blue: #1f3a6b;
+  --seq-0: #f6efe2; --seq-1: #e3cf9e; --seq-2: #c58f4a; --seq-3: #9b3b2c; --seq-4: #5c0f17;
+  --vein: rgba(120, 100, 80, .06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
+    --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
+    --wood: #3a1d13; --blue: #8fa9d6;
+    --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+    --vein: rgba(201, 164, 90, .035);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
+  --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
+  --wood: #3a1d13; --blue: #8fa9d6;
+  --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+  --vein: rgba(201, 164, 90, .035);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; color: var(--ink); font: 15px/1.55 "Public Sans", system-ui, sans-serif; font-variant-numeric: tabular-nums;
+  background-color: var(--bg);
+  /* marbre : quelques veines très légères */
+  background-image: radial-gradient(120% 60% at 10% 0%, var(--vein), transparent 60%), radial-gradient(90% 50% at 90% 30%, var(--vein), transparent 55%),
+    linear-gradient(115deg, transparent 40%, var(--vein) 41%, transparent 43%), linear-gradient(160deg, transparent 70%, var(--vein) 71%, transparent 72%);
+  background-attachment: fixed;
+}
+.serif { font-family: "Cormorant Garamond", Georgia, serif; }
+button { font: inherit; color: inherit; }
+
+/* ---- Tenture d'en-tête ---- */
+.drape {
+  position: relative; color: var(--velvet-ink); padding: 44px 24px 54px;
+  background: repeating-linear-gradient(90deg, #6e141d 0px, #8e1f29 22px, #a12a33 34px, #8e1f29 46px, #6e141d 68px, #5a0f17 80px),
+    #7a1620;
+  background-blend-mode: normal;
+  box-shadow: inset 0 -30px 40px -20px rgba(0,0,0,.45), inset 0 20px 30px -20px rgba(0,0,0,.5);
+}
+.drape::after { /* frange dorée */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 14px;
+  background: radial-gradient(circle at 8px 0, #b8913f 6px, #8a6a2a 7px, transparent 8px) repeat-x 0 0 / 16px 14px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.35));
+}
+.drape-in { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.eyebrow { font: 600 12px/1.3 "Public Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #e9cf8f; }
+.drape h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; font-size: clamp(38px, 6.4vw, 72px); line-height: .98; margin: 10px 0 14px; letter-spacing: -.01em; }
+.drape h1 em { font-style: italic; font-weight: 500; color: #f1d9a0; }
+.drape .lede { max-width: 700px; margin: 0; font-size: 16px; color: #f3e3c6; }
+.drape .meta { margin-top: 14px; font-size: 13px; color: #e6cfa4; }
+.drape .meta a { color: #f6dc9c; }
+.drape .indep { display: inline-block; margin-top: 10px; font-size: 12px; letter-spacing: .04em; border: 1px solid rgba(233, 207, 143, .6); color: #f1dcae; padding: 3px 10px; }
+.tricolore { display: flex; height: 3px; width: 72px; margin: 0 0 14px; }
+.tricolore span { flex: 1; } .tricolore span:nth-child(1) { background: #3a5aa8; } .tricolore span:nth-child(2) { background: #f4efe6; } .tricolore span:nth-child(3) { background: #e2383f; }
+.theme-btn { background: transparent; border: 1px solid rgba(233, 207, 143, .7); color: #f1dcae; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; flex: none; }
+.theme-btn:hover { background: rgba(0,0,0,.15); }
+
+/* ---- Barre de filtres : filets dorés ---- */
+.ledger { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px);
+  border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); box-shadow: 0 3px 0 -2px var(--gold); margin-top: 12px; }
+.ledger-in { max-width: 1180px; margin: 0 auto; padding: 8px 24px; display: flex; flex-wrap: wrap; gap: 4px 22px; align-items: baseline; }
+.ledger .lab { font: 600 11px/1 "Public Sans"; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); margin-right: 4px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; }
+.tab { background: none; border: none; padding: 4px 0; cursor: pointer; font-size: 13.5px; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.tab:hover { color: var(--velvet); }
+.tab[aria-pressed="true"] { color: var(--velvet); border-bottom-color: var(--gold); font-weight: 600; }
+:root[data-theme="dark"] .tab[aria-pressed="true"], :root[data-theme="dark"] .tab:hover { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab[aria-pressed="true"], :root:not([data-theme="light"]) .tab:hover { color: var(--gold-ink); } }
+
+/* ---- Chapitres ---- */
+main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
+.chapter { margin-top: 46px; }
+.ch-head { text-align: center; margin: 0 auto 22px; max-width: 760px; }
+.ornament { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--gold); margin-bottom: 8px; }
+.ornament::before, .ornament::after { content: ""; flex: 1; max-width: 200px; height: 5px; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
+.ornament span { font: 600 14px/1 "Cormorant Garamond", serif; letter-spacing: .2em; color: var(--gold-ink); }
+.ch-head h2 { font: 700 clamp(28px, 4vw, 40px)/1.05 "Cormorant Garamond", Georgia, serif; margin: 0 0 8px; }
+.ch-head p { margin: 0; color: var(--ink-2); }
+.panel { background: var(--paper); border: 1px solid var(--rule); box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px color-mix(in srgb, var(--gold) 35%, transparent); padding: 22px; min-width: 0; }
+.panel h3 { font: 700 22px/1.15 "Cormorant Garamond", Georgia, serif; margin: 0 0 4px; }
+.note { color: var(--muted); font-size: 13px; margin: 0; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+.cols-hemi { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.scroll-x { overflow-x: auto; }
+
+/* ---- Chiffres de séance ---- */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); margin-top: 26px; }
+.fig { padding: 16px 18px; border-left: 1px solid var(--rule); min-width: 0; }
+.fig:first-child { border-left: none; }
+.fig .k { font: 600 11px/1.3 "Public Sans"; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.fig .v { font: 700 38px/1.05 "Cormorant Garamond", serif; color: var(--gold-ink); margin-top: 4px; }
+.fig .d { font-size: 13px; color: var(--ink-2); }
+
+/* ---- Hémicycle ---- */
+.modes { display: flex; flex-wrap: wrap; gap: 2px 12px; margin: 6px 0 4px; align-items: baseline; }
+.seat { cursor: pointer; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-size: 12.5px; color: var(--ink-2); }
+.legend button { background: none; border: none; padding: 2px 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 12.5px; }
+.legend button.dim { opacity: .35; }
+.sw { width: 11px; height: 11px; display: inline-block; flex: none; border-radius: 50%; }
+.gradbar { height: 8px; width: 180px; }
+.scale { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); flex-wrap: wrap; margin-top: 8px; }
+
+/* ---- Fiche ---- */
+.search { position: relative; }
+.search input { width: 100%; font: inherit; color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); padding: 8px 12px; }
+.search input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.sugg { position: absolute; left: 0; right: 0; top: calc(100% + 2px); background: var(--paper); border: 1px solid var(--gold); max-height: 260px; overflow: auto; z-index: 30; display: none; }
+.sugg button { display: flex; width: 100%; justify-content: space-between; gap: 10px; padding: 8px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13.5px; }
+.sugg button:hover, .sugg button:focus { background: var(--paper-2); outline: none; }
+.sugg .m { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.dep-name { font: 700 28px/1.05 "Cormorant Garamond", serif; margin: 16px 0 2px; }
+.dep-meta { font-size: 13px; color: var(--ink-2); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.stats3 { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 12px 0; }
+.stats3 > div { padding: 8px 10px; border-left: 1px solid var(--rule); }
+.stats3 > div:first-child { border-left: none; padding-left: 0; }
+.stats3 .v { font: 700 24px/1.1 "Cormorant Garamond", serif; color: var(--gold-ink); }
+.stats3 .k { font-size: 11.5px; color: var(--muted); }
+.sm-h { font: 600 11px/1.3 "Public Sans"; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); margin: 16px 0 6px; }
+.plist { list-style: none; margin: 0; padding: 0; }
+.plist li { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px dotted var(--rule); font-size: 13.5px; cursor: pointer; }
+.plist li:hover { color: var(--velvet); }
+.plist .m { color: var(--muted); white-space: nowrap; font-size: 12.5px; }
+.row { display: grid; grid-template-columns: 70px 1fr 42px; gap: 8px; align-items: center; font-size: 12.5px; margin: 3px 0; }
+.row .n { color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .b { height: 8px; }
+.row .val { text-align: right; font-weight: 600; }
+
+/* ---- Boussoles ---- */
+.axis-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-bottom: 18px; }
+.axis-tabs .tab { font: 600 19px/1.2 "Cormorant Garamond", serif; color: var(--ink-2); }
+.warning { border: 1px solid var(--gold); border-left: 4px solid var(--velvet); background: var(--paper-2); padding: 10px 14px; font-size: 13.5px; color: var(--ink-2); margin: 0 0 18px; }
+.warning b { color: var(--ink); }
+.def { font: italic 500 20px/1.35 "Cormorant Garamond", serif; color: var(--ink); margin: 0 0 4px; }
+.gauge { display: grid; grid-template-columns: 74px 1fr 56px; gap: 10px; align-items: center; margin: 7px 0; font-size: 13px; cursor: default; }
+.gauge .n { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.gauge .track { position: relative; height: 14px; background: var(--paper-2); border: 1px solid var(--rule);
+  background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), color-mix(in srgb, var(--gold) 45%, transparent) calc(10% - 1px) 10%); }
+.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; }
+.gauge .fill::after { content: ""; position: absolute; right: -1px; top: -3px; bottom: -3px; width: 2px; background: var(--gold); }
+.gauge .v { font: 700 22px/1 "Cormorant Garamond", serif; color: var(--gold-ink); text-align: right; }
+.gauge .v small { font: 400 10.5px "Public Sans"; color: var(--muted); display: block; }
+.radars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; }
+.radar { text-align: center; min-width: 0; }
+.radar .t { font: 700 17px/1.1 "Cormorant Garamond", serif; margin-top: -2px; }
+details.refs { margin-top: 18px; border-top: 1px solid var(--rule); padding-top: 10px; }
+details.refs summary { cursor: pointer; font: 600 18px "Cormorant Garamond", serif; color: var(--velvet); }
+:root[data-theme="dark"] details.refs summary { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) details.refs summary { color: var(--gold-ink); } }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font: 600 11px/1.2 "Public Sans"; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-ink); padding: 8px; border-bottom: 1px solid var(--gold); }
+td { padding: 8px; border-bottom: 1px dotted var(--rule); vertical-align: top; }
+td .sub { color: var(--muted); font-size: 12px; }
+.sens { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border: 1px solid currentColor; white-space: nowrap; display: inline-block; }
+.sens.plus { color: var(--gold-ink); } .sens.minus { color: var(--velvet-2); }
+.res { font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.res.ok { color: #2f7d32; } .res.ko { color: var(--velvet-2); }
+:root[data-theme="dark"] .res.ok { color: #7fcf83; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .res.ok { color: #7fcf83; } }
+.gv { display: flex; gap: 3px; flex-wrap: wrap; min-width: 110px; }
+.gv span { width: 14px; height: 14px; display: inline-block; }
+.more { margin-top: 12px; background: none; border: 1px solid var(--gold); color: var(--gold-ink); padding: 7px 14px; cursor: pointer; font-weight: 600; }
+.cell { cursor: pointer; }
+.cell:hover rect { stroke: var(--ink); stroke-width: 1.5px; }
+svg text { fill: var(--ink); }
+.tip { position: fixed; pointer-events: none; z-index: 100; background: var(--paper); border: 1px solid var(--gold); box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  padding: 10px 12px; font-size: 12.5px; min-width: 150px; max-width: 300px; opacity: 0; transition: opacity .12s; }
+.tip .t { font-weight: 600; color: var(--muted); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+.tip .big { font: 700 22px/1.1 "Cormorant Garamond", serif; color: var(--ink); }
+.tip .r { display: flex; justify-content: space-between; gap: 10px; }
+.tip .r b { color: var(--ink); }
+footer { max-width: 1180px; margin: 0 auto; padding: 22px 24px 50px; border-top: 1px solid var(--gold); color: var(--muted); font-size: 13px; line-height: 1.65; }
+footer b { color: var(--ink-2); }
+@media (max-width: 900px) {
+  .cols, .cols-hemi { grid-template-columns: minmax(0, 1fr); }
+  .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fig:nth-child(3) { border-left: none; }
+  .fig:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  .radars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .drape { padding: 30px 16px 42px; }
+  main { padding: 4px 16px 48px; }
+  .ledger { position: static; }
+  .ledger-in { padding: 8px 16px; }
+  .panel { padding: 16px; }
+  .fig .v { font-size: 30px; }
+  .radars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gauge { grid-template-columns: 62px 1fr 48px; }
+}
+</style>
+</head>
+<body>
+<header class="drape">
+  <div class="drape-in">
+    <div>
+      <div class="tricolore" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="eyebrow">Assemblée nationale · XVII<sup>e</sup> législature</div>
+      <h1>Qui vote <em>avec qui&nbsp;?</em></h1>
+      <p class="lede">Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — écologie, social, budget, économie, simplification, immigration, sécurité —, leurs alliances de vote et la place de chaque député dans l'hémicycle.</p>
+      <div class="meta">Source&nbsp;: données publiques <a href="https://data.assemblee-nationale.fr" target="_blank" rel="noopener">Assemblée nationale</a> · <span id="asof"></span></div>
+      <div class="indep">Site indépendant, non affilié à l'Assemblée nationale</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Séance de jour / de nuit" aria-label="Changer de thème">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<nav class="ledger" aria-label="Filtres">
+  <div class="ledger-in">
+    <div class="tabs" id="periods"><span class="lab">Session</span></div>
+    <div class="tabs" id="themes"><span class="lab">Thème</span></div>
+  </div>
+</nav>
+
+<main>
+  <section class="figures" id="kpis" aria-label="Chiffres clés"></section>
+
+  <section class="chapter" id="ch-hemi">
+    <div class="ch-head">
+      <div class="ornament"><span>I</span></div>
+      <h2>L'hémicycle</h2>
+      <p>577 sièges, de la gauche à la droite de la présidente. Survolez un siège, cliquez pour la fiche du député — ou colorez l'hémicycle selon une boussole.</p>
+    </div>
+    <div class="cols-hemi">
+      <div class="panel">
+        <div class="modes tabs" id="hemiModes"><span class="lab">Couleur</span></div>
+        <div id="hemi"></div>
+        <div id="hemiLegend"></div>
+      </div>
+      <div class="panel">
+        <div class="search">
+          <input type="search" id="search" placeholder="Rechercher un député, un département…" autocomplete="off" aria-label="Rechercher un député">
+          <div class="sugg" id="sugg"></div>
+        </div>
+        <div id="fiche"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="ch-axes">
+    <div class="ch-head">
+      <div class="ornament"><span>II</span></div>
+      <h2>Les sept boussoles</h2>
+      <p>Un score de 0 à 100 par groupe, calculé sur une liste publique de scrutins de référence dont le sens a été codé à la main.</p>
+    </div>
+    <p class="warning"><b>Avertissement&nbsp;:</b> ces scores reposent sur des choix éditoriaux — quels textes retenir, dans quel sens les lire. Ils résument des votes, pas des convictions, et ne disent pas ce qui est «&nbsp;bien&nbsp;». Chaque scrutin retenu est listé ci-dessous pour pouvoir être discuté.</p>
+    <div class="axis-tabs tabs" id="axisTabs"></div>
+    <div class="cols">
+      <div class="panel">
+        <p class="def" id="axisDef"></p>
+        <p class="note" id="axisNote"></p>
+        <div id="gauges" style="margin-top:14px"></div>
+      </div>
+      <div class="panel">
+        <h3>Portraits des groupes</h3>
+        <p class="note">Les sept scores de chaque groupe · survolez un portrait</p>
+        <div class="radars" id="radars" style="margin-top:10px"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:22px">
+      <details class="refs" id="refsBox" open>
+        <summary id="refsTitle"></summary>
+        <p class="note" style="margin:8px 0">«&nbsp;Pour → +&nbsp;»&nbsp;: voter pour va dans le sens de l'axe. Les motions de rejet et les amendements de suppression comptent en sens inverse du texte.</p>
+        <div class="scroll-x" style="max-height:560px;overflow-y:auto"><table id="refsTable"><thead><tr><th>Date</th><th>Scrutin</th><th>Sens retenu</th><th>Position des groupes</th></tr></thead><tbody></tbody></table></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="chapter" id="ch-alliances">
+    <div class="ch-head">
+      <div class="ornament"><span>III</span></div>
+      <h2>Les complaisances</h2>
+      <p>Qui vote avec qui&nbsp;: la part des scrutins où deux groupes ont pris la même position, et la constellation qui en découle.</p>
+    </div>
+    <div class="cols">
+      <div class="panel">
+        <h3>Taux d'accord entre groupes</h3>
+        <p class="note">Même position majoritaire (pour, contre ou abstention) · cliquez un groupe pour l'isoler</p>
+        <div class="scroll-x" style="margin-top:10px"><div id="matrix"></div></div>
+        <div class="scale" id="matScale"></div>
+      </div>
+      <div class="panel">
+        <h3>La constellation</h3>
+        <p class="note">Groupes placés selon leurs votes · filets dorés = accord d'au moins <span id="linkThr"></span></p>
+        <div id="constel" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:22px">
+      <h3>La carte des votes</h3>
+      <p class="note" id="mapSub"></p>
+      <div id="map" style="margin-top:8px"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="ch-discipline">
+    <div class="ch-head">
+      <div class="ornament"><span>IV</span></div>
+      <h2>Discipline et dissidences</h2>
+      <p>La part des voix alignées sur la majorité du groupe, et les députés qui s'en écartent le plus.</p>
+    </div>
+    <div class="cols">
+      <div class="panel"><h3>Cohésion des groupes</h3><div id="cohesion" style="margin-top:10px"></div></div>
+      <div class="panel">
+        <h3>Les plus frondeurs</h3>
+        <p class="note">Députés en fonction, au moins 200 votes</p>
+        <div class="tabs" id="frondTabs" style="margin:8px 0"></div>
+        <ul class="plist" id="frond"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="ch-votes">
+    <div class="ch-head">
+      <div class="ornament"><span>V</span></div>
+      <h2>Les grands scrutins</h2>
+      <p>Scrutins solennels et motions de censure, avec la position majoritaire de chaque groupe.</p>
+    </div>
+    <div class="panel">
+      <div class="legend" id="gvLegend" style="margin:0 0 8px"></div>
+      <div class="scroll-x"><table id="bigVotes"><thead><tr><th>Date</th><th>Scrutin</th><th>Issue</th><th>Groupes</th></tr></thead><tbody></tbody></table></div>
+      <button class="more" id="moreVotes">Afficher plus</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b>Site indépendant</b>, réalisé à partir de l'open data de l'Assemblée nationale (data.assemblee-nationale.fr, 17<sup>e</sup> législature&nbsp;: scrutins publics et référentiel des acteurs, mandats et organes)&nbsp;; il n'est ni affilié ni validé par l'Assemblée.
+  <b>Boussoles</b>&nbsp;: pour chaque axe, une liste de textes dont l'intitulé indique clairement le sens (fichier <code>scripts/axes.py</code>)&nbsp;; sont retenus les votes sur l'ensemble, l'article premier ou unique (même sens que le texte), les motions de rejet et, dans les textes courts, les amendements de suppression (sens inverse). Score = moyenne de sens × vote (pour +1, contre −1, abstention 0, absents ignorés) ramenée sur 0–100. Les scores des groupes suivent la session choisie&nbsp;; ceux des députés portent sur toute la législature.
+  <b>Accord</b>&nbsp;: positions majoritaires identiques. <b>Carte et constellation</b>&nbsp;: axes de clivage tirés des votes des groupes (décomposition en valeurs singulières), chaque député placé d'après ses propres votes. <b>Loyauté</b>&nbsp;: votes conformes à la majorité de son groupe.
+  <b>Thèmes</b>&nbsp;: classement automatique des scrutins par mots-clés sur le titre du texte (<code>scripts/themes.py</code>).
+</footer>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const D = window.DATA, S = D.S, NS = S.n.length, G = D.groups, NG = G.length, AXES = D.axes, DEPS = D.deputies;
+const EPOCH = new Date(D.epoch + "T00:00:00");
+const dateOf = j => new Date(EPOCH.getTime() + S.d[j] * 864e5);
+const fmtDate = j => dateOf(j).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+const THEMES = D.themes;
+const TSHORT = { immigration: "Immigration", sante: "Santé & fin de vie", budget: "Budget", social: "Social", agriculture: "Agriculture", ecologie: "Écologie",
+  securite: "Sécurité", economie: "Économie", societe: "Société", international: "International", institutions: "Institutions", autres: "Autres" };
+const ASHORT = { ecologie: "Écologie", social: "Social", budget: "Budget", economie: "Économie", simplification: "Simplif.", immigration: "Restr. migr.", securite: "Sécurité" };
+const fmtPct = v => v == null || isNaN(v) ? "—" : Math.round(v * 100) + " %";
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const gi = k => G.findIndex(g => g.k === k);
+const seqColors = () => [0, 1, 2, 3, 4].map(i => css("--seq-" + i));
+document.getElementById("asof").textContent = `${NS.toLocaleString("fr-FR")} scrutins, du ${fmtDate(0)} au ${fmtDate(NS - 1)}`;
+
+/* ---------- Tooltip ---------- */
+const tip = document.getElementById("tip");
+function showTip(ev, build) { tip.replaceChildren(); build(tip); tip.style.opacity = 1; moveTip(ev); }
+function moveTip(ev) {
+  const r = tip.getBoundingClientRect(); let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - 14;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+const hideTip = () => tip.style.opacity = 0;
+const tipRow = (t, a, b) => { const r = el("div", "r"); r.append(el("span", null, a), el("b", null, b)); t.append(r); };
+
+/* ---------- Filtres ---------- */
+const state = { period: "all", theme: "all", axis: "ecologie", hemiMode: "group", hlGroup: null, dep: null, voteLimit: 10, frond: gi("EPR") };
+const PERIODS = [["all", "Toute la législature", 0, NS - 1]];
+(() => {
+  const y0 = dateOf(0).getFullYear(), y1 = dateOf(NS - 1).getFullYear();
+  for (let y = y0 - 1; y <= y1; y++) {
+    const a = new Date(y, 9, 1), b = new Date(y + 1, 8, 30, 23);
+    const js = d3.range(NS).filter(j => dateOf(j) >= a && dateOf(j) <= b);
+    if (js.length >= 50) PERIODS.push([String(y), `${y}-${String(y + 1).slice(2)}`, js[0], js.at(-1)]);
+  }
+})();
+function tabs(hostId, items, get, set, after = update) {
+  const host = document.getElementById(hostId);
+  items.forEach(([v, label]) => { const b = el("button", "tab", label); b.dataset.v = v; b.onclick = () => { set(v); after(); }; host.append(b); });
+  return () => host.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v) === String(get())));
+}
+const syncPeriods = tabs("periods", PERIODS, () => state.period, v => state.period = v);
+const syncThemes = tabs("themes", [["all", "Tous"], ...THEMES.filter(t => t.k !== "autres").map(t => [t.k, TSHORT[t.k]])], () => state.theme, v => state.theme = v);
+const syncAxes = tabs("axisTabs", AXES.map(a => [a.k, a.n]), () => state.axis, v => state.axis = v, () => { syncAxes(); renderAxis(); });
+const syncModes = tabs("hemiModes", [["group", "Groupes"], ...AXES.map(a => [a.k, ASHORT[a.k]]), ["loyal", "Loyauté"]], () => state.hemiMode, v => state.hemiMode = v, () => { syncModes(); renderHemi(); });
+const syncFrond = tabs("frondTabs", G.filter(g => g.k !== "NI").map(g => [gi(g.k), g.k]), () => state.frond, v => state.frond = +v, () => { syncFrond(); renderFrond(); });
+const themeIdx = k => THEMES.findIndex(t => t.k === k);
+const periodRange = () => { const p = PERIODS.find(p => p[0] === state.period); return [p[2], p[3]]; };
+function scope({ theme = state.theme } = {}) {
+  const [a, b] = periodRange(), ti = theme === "all" ? -1 : themeIdx(theme), out = [];
+  for (let j = a; j <= b; j++) if (ti < 0 || S.th[j] === ti) out.push(j);
+  return out;
+}
+
+/* ---------- Statistiques de groupe ---------- */
+const cnt = (j, g, k) => S.g[j][4 * g + k];
+function majority(j, g) {
+  const p = cnt(j, g, 0), n = cnt(j, g, 1), a = cnt(j, g, 2);
+  if (p + n + a === 0) return null;
+  const m = Math.max(p, n, a);
+  if ([p, n, a].filter(x => x === m).length > 1) return null;
+  return m === p ? 1 : m === n ? -1 : 0;
+}
+function groupStats(js) {
+  const st = G.map(() => ({ win: 0, winN: 0, same: 0, expr: 0 }));
+  for (const j of js) for (let g = 0; g < NG; g++) {
+    const p = cnt(j, g, 0), n = cnt(j, g, 1), a = cnt(j, g, 2), e = p + n + a, s = st[g];
+    s.expr += e; if (e) s.same += Math.max(p, n, a);
+    const m = majority(j, g);
+    if (m !== null) { s.winN++; if ((m === 1 && S.r[j]) || (m === -1 && !S.r[j])) s.win++; }
+  }
+  return st.map(s => ({ win: s.winN ? s.win / s.winN : null, coh: s.expr ? s.same / s.expr : null }));
+}
+function agreement(js) {
+  const M = G.map(() => G.map(() => [0, 0]));
+  for (const j of js) {
+    const pos = G.map((_, g) => majority(j, g));
+    for (let a = 0; a < NG; a++) { if (pos[a] === null) continue;
+      for (let b = a; b < NG; b++) { if (pos[b] === null) continue; const c = M[a][b]; c[1]++; if (pos[a] === pos[b]) c[0]++; } }
+  }
+  return G.map((_, a) => G.map((_, b) => { const c = a <= b ? M[a][b] : M[b][a]; return c[1] >= 5 ? c[0] / c[1] : null; }));
+}
+function jacobi(A) {
+  const n = A.length, a = A.map(r => r.slice()), v = A.map((_, i) => A.map((_, k) => i === k ? 1 : 0));
+  for (let it = 0; it < 80; it++) {
+    let off = 0; for (let i = 0; i < n; i++) for (let k = 0; k < n; k++) if (i !== k) off += a[i][k] ** 2;
+    if (off < 1e-12) break;
+    for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) {
+      if (Math.abs(a[p][q]) < 1e-15) continue;
+      const th = (a[q][q] - a[p][p]) / (2 * a[p][q]), t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1)), c = 1 / Math.sqrt(t * t + 1), s = t * c;
+      for (let k = 0; k < n; k++) { const x = a[k][p], y = a[k][q]; a[k][p] = c * x - s * y; a[k][q] = s * x + c * y; }
+      for (let k = 0; k < n; k++) { const x = a[p][k], y = a[q][k]; a[p][k] = c * x - s * y; a[q][k] = s * x + c * y; }
+      for (let k = 0; k < n; k++) { const x = v[k][p], y = v[k][q]; v[k][p] = c * x - s * y; v[k][q] = s * x + c * y; }
+    }
+  }
+  const order = d3.range(n).sort((i, k) => a[k][k] - a[i][i]);
+  return { vals: order.map(i => a[i][i]), vecs: order.map(i => v.map(r => r[i])) };
+}
+const SEATS = G.map(g => Math.max(1, g.seats)), W8 = SEATS.map(Math.sqrt);
+function groupAxes(js) {
+  const nets = [], means = [];
+  for (const j of js) {
+    const x = G.map((_, g) => { const p = cnt(j, g, 0), n = cnt(j, g, 1), a = cnt(j, g, 2); return p + n + a ? (p - n) / (p + n + a) : null; });
+    let num = 0, den = 0; x.forEach((v, g) => { if (v !== null) { num += SEATS[g] * v; den += SEATS[g]; } });
+    if (den) { nets.push(x); means.push(num / den); }
+  }
+  if (nets.length < 8) return null;
+  const Y = G.map((_, g) => nets.map((x, i) => x[g] === null ? 0 : W8[g] * (x[g] - means[i])));
+  const K = G.map((_, g) => G.map((_, h) => d3.sum(Y[g], (v, i) => v * Y[h][i])));
+  const { vals, vecs } = jacobi(K);
+  const coords = [0, 1].map(k => {
+    const sig = Math.sqrt(Math.max(vals[k], 1e-12));
+    const load = nets.map((_, i) => d3.sum(G, (_, g) => Y[g][i] * vecs[k][g]) / sig);
+    return G.map((_, g) => { let num = 0, den = 0; nets.forEach((x, i) => { if (x[g] !== null) { num += (x[g] - means[i]) * load[i]; den += load[i] ** 2; } }); return den ? num / den : null; });
+  });
+  if (coords[0][gi("LFI-NFP")] > 0) coords[0] = coords[0].map(v => v === null ? null : -v);
+  if (coords[1][gi("RN")] < 0) coords[1] = coords[1].map(v => v === null ? null : -v);
+  return { x: coords[0], y: coords[1] };
+}
+const norm1 = arr => { const m = d3.max(arr, v => v === null ? 0 : Math.abs(v)) || 1; return arr.map(v => v === null ? null : v / m); };
+
+/* ---------- Scores des boussoles (groupes, sur la session choisie) ---------- */
+function axisScores(ax) {
+  const [a, b] = periodRange();
+  const num = new Float64Array(NG), den = new Float64Array(NG), n = new Int32Array(NG);
+  for (const [j, sg] of ax.refs) {
+    if (j < a || j > b) continue;
+    for (let g = 0; g < NG; g++) {
+      const p = cnt(j, g, 0), c = cnt(j, g, 1), ab = cnt(j, g, 2), e = p + c + ab;
+      if (!e) continue;
+      num[g] += sg * (p - c); den[g] += e; n[g]++;
+    }
+  }
+  return G.map((_, g) => den[g] ? { s: 50 * (1 + num[g] / den[g]), n: n[g] } : null);
+}
+const refsInPeriod = ax => { const [a, b] = periodRange(); return ax.refs.filter(r => r[0] >= a && r[0] <= b); };
+
+/* ---------- Chiffres de séance ---------- */
+function renderKPIs(js, st, agr) {
+  const adopted = d3.sum(js, j => S.r[j]);
+  const BLOC = { "LFI-NFP": "g", GDR: "g", ECOS: "g", SOC: "g", DEM: "c", EPR: "c", HOR: "c", DR: "c", UDR: "d", RN: "d" };
+  let best = null;
+  for (let a = 0; a < NG; a++) for (let b = a + 1; b < NG; b++) {
+    const ba = BLOC[G[a].k], bb = BLOC[G[b].k];
+    if (!ba || !bb || ba === bb || agr[a][b] == null) continue;
+    if (!best || agr[a][b] > best[2]) best = [a, b, agr[a][b]];
+  }
+  const win = st.map((s, g) => [g, s.win]).filter(d => d[1] != null && G[d[0]].k !== "NI").sort((a, b) => b[1] - a[1])[0];
+  const coh = st.map((s, g) => [g, s.coh]).filter(d => d[1] != null && G[d[0]].k !== "NI").sort((a, b) => b[1] - a[1])[0];
+  const items = [
+    ["Scrutins", js.length.toLocaleString("fr-FR"), `${fmtPct(adopted / (js.length || 1))} adoptés`],
+    ["Le plus souvent gagnant", win ? G[win[0]].k : "—", win ? `${fmtPct(win[1])} des scrutins` : ""],
+    ["Le plus discipliné", coh ? G[coh[0]].k : "—", coh ? `${fmtPct(coh[1])} des voix alignées` : ""],
+    ["Alliance entre blocs", best ? `${G[best[0]].k} × ${G[best[1]].k}` : "—", best ? `${fmtPct(best[2])} d'accord` : ""],
+  ];
+  const host = document.getElementById("kpis"); host.replaceChildren();
+  items.forEach(([k, v, d]) => { const c = el("div", "fig"); c.append(el("div", "k", k), el("div", "v", v), el("div", "d", d)); host.append(c); });
+}
+
+/* ---------- I. L'hémicycle ---------- */
+// Sièges en arcs concentriques ; attribués de gauche à droite, groupe par groupe (comme une répartition parlementaire)
+const ROWS = 12, TOTAL = 577;
+const hemiSeats = (() => {
+  const radii = d3.range(ROWS).map(i => .42 + .58 * i / (ROWS - 1));
+  const sum = d3.sum(radii);
+  let counts = radii.map(r => Math.round(TOTAL * r / sum)), diff = TOTAL - d3.sum(counts);
+  for (let i = ROWS - 1; diff !== 0; i = (i - 1 + ROWS) % ROWS) { counts[i] += Math.sign(diff); diff -= Math.sign(diff); }
+  const seats = [];
+  radii.forEach((r, i) => { const n = counts[i]; for (let k = 0; k < n; k++) { const a = Math.PI * (1 - (k + .5) / n); seats.push({ r, a }); } });
+  seats.sort((s, t) => t.a - s.a || s.r - t.r);
+  return seats;
+})();
+// Députés en fonction, par groupe (gauche → droite), puis par position sur la carte des votes
+const seated = (() => {
+  const mx = D.maps.all;
+  const active = DEPS.map((d, i) => ({ d, i })).filter(o => o.d.active);
+  active.sort((a, b) => a.d.g - b.d.g || ((mx[a.i]?.[0] ?? 0) - (mx[b.i]?.[0] ?? 0)));
+  return hemiSeats.map((s, k) => ({ ...s, dep: active[k] ? active[k].i : null }));
+})();
+function seatColor(o) {
+  if (o.dep == null) return css("--rule");
+  const d = DEPS[o.dep];
+  if (state.hemiMode === "group") return G[d.g].c;
+  const seq = d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([0, 100]);
+  if (state.hemiMode === "loyal") return d.loyal == null ? css("--paper-2") : d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([.7, 1])(Math.max(.7, d.loyal));
+  const sc = AXES.find(a => a.k === state.hemiMode).deps[o.dep];
+  return sc ? seq(sc[0]) : css("--paper-2");
+}
+function renderHemi() {
+  const host = document.getElementById("hemi"); host.replaceChildren();
+  const W = host.clientWidth, H = W * .56, cx = W / 2, cy = H - 14, R = Math.min(W / 2 - 8, H - 24);
+  const seatR = Math.max(2, R * .0205);
+  const svg = d3.select(host).append("svg").attr("width", W).attr("height", H).attr("role", "img").attr("aria-label", "Hémicycle : 577 sièges");
+  // tribune et perchoir
+  svg.append("path").attr("d", `M${cx - R * .3},${cy} A${R * .3},${R * .3} 0 0 1 ${cx + R * .3},${cy}`).attr("fill", "none").attr("stroke", css("--gold")).attr("stroke-width", 1.2);
+  svg.append("rect").attr("x", cx - R * .09).attr("y", cy - R * .1).attr("width", R * .18).attr("height", R * .1).attr("fill", css("--wood")).attr("stroke", css("--gold"));
+  svg.append("text").attr("x", cx).attr("y", cy - R * .12 - 4).attr("text-anchor", "middle").style("font", `600 ${Math.max(10, R * .035)}px 'Cormorant Garamond'`).style("fill", css("--gold-ink")).text("Perchoir");
+  const pos = s => [cx + Math.cos(s.a) * R * s.r, cy - Math.sin(s.a) * R * s.r];
+  svg.append("g").selectAll("circle").data(seated).join("circle").attr("class", "seat")
+    .attr("cx", s => pos(s)[0]).attr("cy", s => pos(s)[1]).attr("r", s => s.dep === state.dep ? seatR * 1.7 : seatR)
+    .attr("fill", seatColor).attr("stroke", s => s.dep === state.dep ? css("--ink") : state.hemiMode === "group" ? "none" : css("--gold"))
+    .attr("stroke-width", s => s.dep === state.dep ? 2 : .5).attr("stroke-opacity", s => s.dep === state.dep ? 1 : .55)
+    .attr("opacity", s => state.hlGroup != null && (s.dep == null || DEPS[s.dep].g !== state.hlGroup) ? .18 : 1)
+    .on("pointermove", (e, s) => showTip(e, tt => {
+      if (s.dep == null) { tt.append(el("div", "big", "Siège vacant")); return; }
+      const d = DEPS[s.dep];
+      tt.append(el("div", "t", `${G[d.g].k} · ${d.dep || ""}`)); tt.append(el("div", "big", d.n));
+      if (state.hemiMode === "group" || state.hemiMode === "loyal") tipRow(tt, "Loyauté au groupe", fmtPct(d.loyal));
+      else { const ax = AXES.find(a => a.k === state.hemiMode), sc = ax.deps[s.dep]; tipRow(tt, ax.n, sc ? `${Math.round(sc[0])} / 100` : "—"); }
+    }))
+    .on("pointerleave", hideTip).on("click", (e, s) => { if (s.dep != null) selectDep(s.dep); });
+  // effectifs aux extrémités
+  const leg = document.getElementById("hemiLegend"); leg.replaceChildren();
+  if (state.hemiMode === "group") {
+    const box = el("div", "legend");
+    G.forEach((g, i) => { const n = seated.filter(s => s.dep != null && DEPS[s.dep].g === i).length; if (!n) return;
+      const b = el("button", state.hlGroup != null && state.hlGroup !== i ? "dim" : ""); const sw = el("span", "sw"); sw.style.background = g.c;
+      b.append(sw, document.createTextNode(`${g.k} ${n}`)); b.title = g.n; b.onclick = () => { state.hlGroup = state.hlGroup === i ? null : i; renderHemi(); renderMatrix(lastAgr); renderConstel(lastAgr, lastAxes); }; box.append(b); });
+    leg.append(box);
+  } else {
+    const sc = el("div", "scale"), bar = el("div", "gradbar"); bar.style.background = `linear-gradient(90deg, ${seqColors().join(",")})`;
+    const ax = AXES.find(a => a.k === state.hemiMode);
+    sc.append(el("span", null, state.hemiMode === "loyal" ? "70 %" : "0"), bar, el("span", null, state.hemiMode === "loyal" ? "100 % de loyauté" : `100 · ${ax.n}`),
+      el("span", null, state.hemiMode === "loyal" ? "" : "· scores individuels, toute la législature (au moins 3 votes de référence)"));
+    leg.append(sc);
+  }
+}
+
+/* ---------- Fiche député ---------- */
+const initials = n => n.split(/[\s-]+/).filter(Boolean).map(w => w[0]).filter(c => /\p{Lu}/u.test(c)).slice(0, 2).join("") || n[0];
+function selectDep(i) { state.dep = i; renderFiche(); renderHemi(); renderMap(); if (innerWidth < 900) document.getElementById("fiche").scrollIntoView({ behavior: "smooth", block: "start" }); }
+function renderFiche() {
+  const host = document.getElementById("fiche"); host.replaceChildren();
+  if (state.dep == null) { host.append(el("p", "note", "Choisissez un siège dans l'hémicycle.")); return; }
+  const d = DEPS[state.dep], g = G[d.g];
+  host.append(el("div", "dep-name", d.n));
+  const meta = el("div", "dep-meta"); const sw = el("span", "sw"); sw.style.background = g.c;
+  meta.append(sw, document.createTextNode(`${g.n}${d.dep ? " · " + d.dep + (d.c ? ` (${d.c}${d.c === "1" ? "re" : "e"} circ.)` : "") : ""}${d.active ? "" : " · mandat terminé"}`));
+  host.append(meta);
+  const same = DEPS.filter(x => x.g === d.g && x.active && x.loyal != null && x.nv >= 200).sort((a, b) => a.loyal - b.loyal), rank = same.indexOf(d);
+  const st = el("div", "stats3");
+  [[d.nv.toLocaleString("fr-FR"), "votes"], [fmtPct(d.part), "participation"], [fmtPct(d.loyal), rank >= 0 ? `loyauté · ${rank + 1}e frondeur sur ${same.length}` : "loyauté"]]
+    .forEach(([v, k]) => { const c = el("div"); c.append(el("div", "v", v), el("div", "k", k)); st.append(c); });
+  host.append(st);
+  // Les 7 boussoles du député face à son groupe
+  host.append(el("div", "sm-h", "Ses sept boussoles"));
+  const W = host.clientWidth || 320, rh = 26, lw = 92, rw = 34, svg = d3.select(host).append("svg").attr("width", W).attr("height", AXES.length * rh + 18);
+  const x = d3.scaleLinear().domain([0, 100]).range([lw, W - rw]);
+  const all = AXES.map(a => { const s = axisScores(a); return s; });
+  [0, 50, 100].forEach(v => svg.append("text").attr("x", x(v)).attr("y", AXES.length * rh + 14).attr("text-anchor", "middle").style("font-size", "10px").style("fill", css("--muted")).text(v));
+  AXES.forEach((a, r) => {
+    const y = r * rh + rh / 2, sc = a.deps[state.dep], gs = all[r][d.g];
+    svg.append("text").attr("x", 0).attr("y", y).attr("dy", ".35em").style("font-size", "12px").style("fill", css("--ink-2")).text(ASHORT[a.k]);
+    svg.append("line").attr("x1", x(0)).attr("x2", x(100)).attr("y1", y).attr("y2", y).attr("stroke", css("--rule")).attr("stroke-width", 6);
+    if (gs) svg.append("rect").attr("x", x(gs.s) - 2).attr("y", y - 8).attr("width", 4).attr("height", 16).attr("fill", g.c);
+    if (sc) {
+      svg.append("path").attr("d", d3.symbol(d3.symbolDiamond, 90)()).attr("transform", `translate(${x(sc[0])},${y})`).attr("fill", css("--ink")).attr("stroke", css("--paper")).attr("stroke-width", 1.5);
+      svg.append("text").attr("x", W).attr("y", y).attr("dy", ".35em").attr("text-anchor", "end").style("font", "700 15px 'Cormorant Garamond'").style("fill", css("--gold-ink")).text(Math.round(sc[0]));
+    } else svg.append("text").attr("x", W).attr("y", y).attr("dy", ".35em").attr("text-anchor", "end").style("font-size", "11px").style("fill", css("--muted")).text("—");
+    svg.append("rect").attr("x", 0).attr("y", y - rh / 2).attr("width", W).attr("height", rh).attr("fill", "transparent")
+      .on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", a.n)); tt.append(el("div", "big", sc ? `${Math.round(sc[0])} / 100` : "pas assez de votes"));
+        if (sc) tipRow(tt, "votes de référence", sc[1]); if (gs) tipRow(tt, `moyenne ${g.k}`, Math.round(gs.s)); }))
+      .on("pointerleave", hideTip);
+  });
+  const lg = el("div", "scale"); const dm = el("span", null, "◆ le député"); const gm = el("span"); const b = el("span"); b.style.cssText = `display:inline-block;width:4px;height:12px;background:${g.c};margin-right:5px;vertical-align:-1px`;
+  gm.append(b, document.createTextNode(`moyenne du groupe ${g.k} (session choisie)`)); lg.append(dm, gm); host.append(lg);
+  // Avec qui il vote
+  host.append(el("div", "sm-h", "Vote comme…"));
+  G.map((h, k) => [k, d.ga[k]]).filter(z => z[1] != null).sort((p, q) => q[1] - p[1]).slice(0, 6).forEach(([k, v]) => {
+    const r = el("div", "row"), track = el("div"), bar = el("div", "b"); bar.style.width = Math.max(2, v * 100) + "%"; bar.style.background = G[k].c; track.append(bar);
+    r.append(el("span", "n", G[k].k), track, el("span", "val", fmtPct(v))); host.append(r);
+  });
+  const list = (title, arr) => {
+    if (!arr.length) return;
+    host.append(el("div", "sm-h", title));
+    const ul = el("ul", "plist");
+    arr.forEach(([k, v]) => { const li = el("li"); const left = el("span"); const s = el("span", "sw"); s.style.cssText = `background:${G[DEPS[k].g].c};margin-right:7px`;
+      left.append(s, document.createTextNode(DEPS[k].n)); li.append(left, el("span", "m", `${G[DEPS[k].g].k} · ${fmtPct(v)}`)); li.onclick = () => selectDep(k); ul.append(li); });
+    host.append(ul);
+  };
+  list("Ses plus proches", d.close.slice(0, 3));
+  list("Ses plus proches hors de son groupe", d.closeOut);
+}
+const search = document.getElementById("search"), sugg = document.getElementById("sugg");
+const nrm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const idxS = DEPS.map((d, i) => ({ i, k: nrm(`${d.n} ${d.dep} ${G[d.g].k}`) }));
+search.oninput = () => {
+  const q = nrm(search.value.trim()); sugg.replaceChildren();
+  if (q.length < 2) { sugg.style.display = "none"; return; }
+  const res = idxS.filter(s => q.split(/\s+/).every(w => s.k.includes(w))).sort((a, b) => DEPS[b.i].active - DEPS[a.i].active || DEPS[b.i].nv - DEPS[a.i].nv).slice(0, 12);
+  res.forEach(({ i }) => { const b = el("button"); b.append(el("span", null, DEPS[i].n), el("span", "m", `${G[DEPS[i].g].k} · ${DEPS[i].dep}`));
+    b.onclick = () => { selectDep(i); search.value = ""; sugg.style.display = "none"; }; sugg.append(b); });
+  sugg.style.display = res.length ? "block" : "none";
+};
+search.onkeydown = e => { if (e.key === "Enter") sugg.querySelector("button")?.click(); if (e.key === "Escape") sugg.style.display = "none"; };
+document.addEventListener("click", e => { if (!e.target.closest(".search")) sugg.style.display = "none"; });
+
+/* ---------- II. Les sept boussoles ---------- */
+function renderAxis() {
+  const ax = AXES.find(a => a.k === state.axis), sc = axisScores(ax), refs = refsInPeriod(ax);
+  document.getElementById("axisDef").textContent = ax.def;
+  document.getElementById("axisNote").textContent = `${refs.length} scrutins de référence sur cette session (${ax.texts} textes) · 0 = toujours contre le sens de l'axe, 100 = toujours dans son sens`;
+  const host = document.getElementById("gauges"); host.replaceChildren();
+  G.map((g, i) => ({ g, i, s: sc[i] })).filter(o => o.s).sort((a, b) => b.s.s - a.s.s).forEach(o => {
+    const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = o.g.c; n.append(sw, document.createTextNode(o.g.k));
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = o.s.s + "%"; fill.style.background = o.g.c; track.append(fill);
+    const v = el("div", "v", String(Math.round(o.s.s))); v.append(el("small", null, `${o.s.n} scrutins`));
+    row.append(n, track, v); row.title = o.g.n;
+    row.onpointermove = e => showTip(e, tt => { tt.append(el("div", "t", ax.n)); tt.append(el("div", "big", `${o.g.k} : ${Math.round(o.s.s)} / 100`)); tipRow(tt, "scrutins pris en compte", o.s.n); });
+    row.onpointerleave = hideTip;
+    host.append(row);
+  });
+  if (!host.children.length) host.append(el("p", "note", "Aucun scrutin de référence sur cette session."));
+  renderRefs(ax, refs);
+  renderRadars();
+}
+function renderRadars() {
+  const host = document.getElementById("radars"); host.replaceChildren();
+  const scores = AXES.map(axisScores);
+  const size = Math.max(110, Math.min(170, (host.clientWidth - 30) / (innerWidth < 560 ? 2 : innerWidth < 900 ? 3 : 4)));
+  const labels = size >= 150, R = size / 2 - (labels ? 34 : 10), c = size / 2, ang = k => -Math.PI / 2 + 2 * Math.PI * k / AXES.length;
+  G.forEach((g, gIdx) => {
+    if (g.k === "NI") return;
+    const box = el("div", "radar"); host.append(box);
+    const svg = d3.select(box).append("svg").attr("width", size).attr("height", size);
+    [25, 50, 75, 100].forEach(v => svg.append("polygon").attr("points", AXES.map((_, k) => [c + Math.cos(ang(k)) * R * v / 100, c + Math.sin(ang(k)) * R * v / 100].join(",")).join(" "))
+      .attr("fill", "none").attr("stroke", css(v === 100 ? "--gold" : "--rule")).attr("stroke-width", v === 100 ? 1 : .8));
+    AXES.forEach((a, k) => {
+      svg.append("line").attr("x1", c).attr("y1", c).attr("x2", c + Math.cos(ang(k)) * R).attr("y2", c + Math.sin(ang(k)) * R).attr("stroke", css("--rule")).attr("stroke-width", .8);
+      if (!labels) return;
+      const lx = c + Math.cos(ang(k)) * (R + 6), ly = c + Math.sin(ang(k)) * (R + 6);
+      svg.append("text").attr("x", lx).attr("y", ly).attr("dy", ".35em").attr("text-anchor", Math.abs(Math.cos(ang(k))) < .2 ? "middle" : Math.cos(ang(k)) > 0 ? "start" : "end")
+        .style("font-size", "9.5px").style("fill", css(a.k === state.axis ? "--gold-ink" : "--muted")).style("font-weight", a.k === state.axis ? 700 : 400).text(ASHORT[a.k].slice(0, 9));
+    });
+    const pts = AXES.map((a, k) => { const s = scores[k][gIdx]; const v = s ? s.s : 0; return [c + Math.cos(ang(k)) * R * v / 100, c + Math.sin(ang(k)) * R * v / 100]; });
+    svg.append("polygon").attr("points", pts.map(p => p.join(",")).join(" ")).attr("fill", g.c).attr("fill-opacity", .35).attr("stroke", g.c).attr("stroke-width", 1.8);
+    pts.forEach((p, k) => svg.append("circle").attr("cx", p[0]).attr("cy", p[1]).attr("r", AXES[k].k === state.axis ? 3.2 : 2).attr("fill", AXES[k].k === state.axis ? css("--gold") : g.c));
+    box.append(el("div", "t", g.k));
+    box.onpointermove = e => showTip(e, tt => { tt.append(el("div", "t", g.n)); AXES.forEach((a, k) => tipRow(tt, a.n, scores[k][gIdx] ? Math.round(scores[k][gIdx].s) : "—")); });
+    box.onpointerleave = hideTip;
+  });
+  if (!labels) { const n = el("p", "note", "Axes dans le sens des aiguilles d'une montre, depuis le haut : " + AXES.map(a => a.n).join(", ") + " · point doré : boussole sélectionnée."); n.style.gridColumn = "1 / -1"; host.append(n); }
+}
+function groupSquares(j) {
+  const box = el("div", "gv");
+  G.forEach((g, k) => { const m = majority(j, k), s = el("span");
+    s.style.background = m === 1 ? g.c : "transparent";
+    s.style.border = m === -1 ? `2px solid ${g.c}` : m === 0 ? `2px dashed ${g.c}` : `1px solid ${css("--rule")}`;
+    s.onpointermove = e => showTip(e, tt => { tt.append(el("div", "t", g.n)); tt.append(el("div", "big", m === 1 ? "Pour" : m === -1 ? "Contre" : m === 0 ? "Abstention" : "Partagé / absent"));
+      tipRow(tt, "pour", cnt(j, k, 0)); tipRow(tt, "contre", cnt(j, k, 1)); tipRow(tt, "abstention", cnt(j, k, 2)); });
+    s.onpointerleave = hideTip; box.append(s); });
+  return box;
+}
+function renderRefs(ax, refs) {
+  document.getElementById("refsTitle").textContent = `Les ${refs.length} scrutins de référence — ${ax.n}`;
+  const tb = document.querySelector("#refsTable tbody"); tb.replaceChildren();
+  const KIND = { t: "texte", m: "motion de rejet", s: "amendement de suppression" };
+  refs.slice().sort((a, b) => b[0] - a[0]).forEach(([j, sg, kind]) => {
+    const tr = el("tr");
+    const t = el("td"), tx = S.tx[j] >= 0 ? D.texts[S.tx[j]] : "";
+    const title = el("div", null, tx); title.style.fontWeight = 600; t.append(title, el("div", "sub", `${S.ti[j]} · n° ${S.n[j]} · ${S.r[j] ? "adopté" : "rejeté"}`));
+    const se = el("td"); se.append(el("span", "sens " + (sg > 0 ? "plus" : "minus"), sg > 0 ? "Pour → +" : "Pour → −")); se.append(el("div", "sub", KIND[kind]));
+    const gv = el("td"); gv.append(groupSquares(j));
+    tr.append(el("td", null, fmtDate(j)), t, se, gv);
+    tb.append(tr);
+  });
+}
+
+/* ---------- III. Complaisances ---------- */
+let lastAgr, lastAxes;
+function renderMatrix(agr) {
+  const host = document.getElementById("matrix"); host.replaceChildren();
+  const W = host.parentElement.clientWidth, labelW = 64, cs = Math.max(22, Math.min(38, (W - labelW - 4) / NG)), head = 58;
+  const svg = d3.select(host).append("svg").attr("width", labelW + cs * NG + 2).attr("height", head + cs * NG + 2);
+  const seq = d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([.2, 1]);
+  const light = css("--seq-0").startsWith("#f");
+  G.forEach((g, i) => {
+    svg.append("text").attr("x", labelW - 6).attr("y", head + i * cs + cs / 2).attr("dy", ".35em").attr("text-anchor", "end").style("font-size", "11px").style("fill", css("--ink-2")).text(g.k);
+    svg.append("circle").attr("cx", 5).attr("cy", head + i * cs + cs / 2).attr("r", 4).attr("fill", g.c);
+    svg.append("text").attr("transform", `translate(${labelW + i * cs + cs / 2},${head - 6}) rotate(-50)`).style("font-size", "11px").style("fill", css("--ink-2")).text(g.k);
+  });
+  G.forEach((ga, a) => G.forEach((gb, b) => {
+    const v = agr[a][b];
+    const c = svg.append("g").attr("class", "cell").attr("transform", `translate(${labelW + b * cs},${head + a * cs})`);
+    c.append("rect").attr("x", 1).attr("y", 1).attr("width", cs - 2).attr("height", cs - 2)
+      .attr("fill", a === b ? css("--paper-2") : v == null ? "transparent" : seq(Math.max(.2, v)))
+      .attr("opacity", state.hlGroup != null && a !== state.hlGroup && b !== state.hlGroup ? .25 : 1);
+    if (a !== b && v != null && cs >= 26) c.append("text").attr("x", cs / 2).attr("y", cs / 2).attr("dy", ".35em").attr("text-anchor", "middle")
+      .style("font-size", cs >= 34 ? "10.5px" : "9px").style("pointer-events", "none").style("fill", v > .62 ? (light ? "#fbf3e3" : "#1c1012") : css("--ink-2")).text(Math.round(v * 100));
+    c.on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", `${ga.k} et ${gb.k}`)); tt.append(el("div", "big", a === b ? "—" : fmtPct(v))); tt.append(el("div", null, "des scrutins avec la même position")); }))
+      .on("pointerleave", hideTip).on("click", () => { state.hlGroup = state.hlGroup === a ? null : a; renderMatrix(agr); renderConstel(lastAgr, lastAxes); renderHemi(); });
+  }));
+  const sc = document.getElementById("matScale"); sc.replaceChildren();
+  const grad = el("div", "gradbar"); grad.style.background = `linear-gradient(90deg, ${seqColors().join(",")})`;
+  sc.append(el("span", null, "20 %"), grad, el("span", null, "100 % d'accord"));
+}
+function renderConstel(agr, ax) {
+  const host = document.getElementById("constel"); host.replaceChildren();
+  const W = host.clientWidth, H = Math.min(400, Math.max(290, W * .78)), M = 34;
+  const svg = d3.select(host).append("svg").attr("width", W).attr("height", H);
+  if (!ax) return;
+  const xs = norm1(ax.x), ys = norm1(ax.y);
+  const x = d3.scaleLinear().domain([-1.1, 1.1]).range([M, W - M]), y = d3.scaleLinear().domain([-1.15, 1.15]).range([H - M, M]);
+  const r = d3.scaleSqrt().domain([0, d3.max(G, g => g.seats)]).range([5, 26]);
+  const vals = []; for (let a = 0; a < NG; a++) for (let b = a + 1; b < NG; b++) if (agr[a][b] != null) vals.push(agr[a][b]);
+  const thr = d3.quantile(vals.sort(d3.ascending), .6) || .6;
+  document.getElementById("linkThr").textContent = fmtPct(thr);
+  svg.append("text").attr("x", M).attr("y", H - 6).style("font-size", "10.5px").style("fill", css("--muted")).text("← côté LFI");
+  svg.append("text").attr("x", W - M).attr("y", H - 6).attr("text-anchor", "end").style("font-size", "10.5px").style("fill", css("--muted")).text("côté opposé →");
+  svg.append("text").attr("x", 4).attr("y", 12).style("font-size", "10.5px").style("fill", css("--muted")).text("↑ oppositions");
+  const nd = G.map((g, i) => ({ g, i, px: xs[i] == null ? 0 : x(xs[i]), py: ys[i] == null ? 0 : y(ys[i]) })).filter(d => xs[d.i] != null);
+  for (let it = 0; it < 120; it++) for (const a of nd) for (const b of nd) {
+    if (a === b) continue;
+    const dx = b.px - a.px, dy = b.py - a.py, dist = Math.hypot(dx, dy) || .01, min = r(a.g.seats) + r(b.g.seats) + 14;
+    if (dist < min) { const push = (min - dist) / 2, ux = dx / dist, uy = dy / dist; a.px -= ux * push; a.py -= uy * push; b.px += ux * push; b.py += uy * push; }
+  }
+  nd.forEach(d => { d.px = Math.max(M, Math.min(W - M, d.px)); d.py = Math.max(M, Math.min(H - M, d.py)); });
+  const P = new Map(nd.map(d => [d.i, d]));
+  const links = svg.append("g");
+  for (let a = 0; a < NG; a++) for (let b = a + 1; b < NG; b++) {
+    const v = agr[a][b]; if (v == null || v < thr || !P.has(a) || !P.has(b)) continue;
+    const on = state.hlGroup == null || a === state.hlGroup || b === state.hlGroup;
+    links.append("line").attr("x1", P.get(a).px).attr("y1", P.get(a).py).attr("x2", P.get(b).px).attr("y2", P.get(b).py).attr("class", `l${a} l${b}`)
+      .attr("stroke", css("--gold")).attr("stroke-linecap", "round").attr("stroke-width", 1 + 8 * ((v - thr) / (1 - thr)) ** 1.5).attr("opacity", on ? .55 : .08);
+  }
+  const nodes = svg.append("g").selectAll("g").data(nd).join("g").attr("transform", d => `translate(${d.px},${d.py})`).style("cursor", "pointer")
+    .attr("opacity", d => state.hlGroup == null || d.i === state.hlGroup || (agr[d.i][state.hlGroup] ?? 0) >= thr ? 1 : .3);
+  nodes.append("circle").attr("r", d => r(d.g.seats)).attr("fill", d => d.g.c).attr("stroke", css("--gold")).attr("stroke-width", 1.5);
+  nodes.append("text").attr("y", d => -r(d.g.seats) - 5).attr("text-anchor", "middle").style("font", "700 13px 'Cormorant Garamond'").text(d => d.g.k)
+    .style("paint-order", "stroke").style("stroke", css("--paper")).style("stroke-width", 3);
+  nodes.on("pointerenter", (e, d) => links.selectAll("line").attr("opacity", function () { return this.classList.contains("l" + d.i) ? .85 : .05; }))
+    .on("pointermove", (e, d) => showTip(e, tt => { tt.append(el("div", "t", d.g.n)); tt.append(el("div", "big", `${d.g.seats} députés`));
+      G.map((h, k) => [h.k, agr[d.i][k], k]).filter(z => z[2] !== d.i && z[1] != null).sort((a, b) => b[1] - a[1]).slice(0, 4).forEach(z => tipRow(tt, "avec " + z[0], fmtPct(z[1]))); }))
+    .on("pointerleave", () => { hideTip(); links.selectAll("line").attr("opacity", .55); })
+    .on("click", (e, d) => { state.hlGroup = state.hlGroup === d.i ? null : d.i; renderMatrix(lastAgr); renderConstel(lastAgr, lastAxes); renderHemi(); });
+}
+function renderMap() {
+  const host = document.getElementById("map"); host.replaceChildren();
+  const key = state.theme !== "all" && D.maps[state.theme] ? state.theme : "all";
+  const pts = D.maps[key], gco = D.gmaps[key];
+  const sx = d3.max(gco, c => Math.abs(c[0])) || 1, sy = d3.max(gco, c => Math.abs(c[1])) || 1;
+  const W = host.clientWidth, H = Math.min(520, Math.max(300, W * .5)), M = 26;
+  const data = DEPS.map((d, i) => ({ d, i, p: pts[i] })).filter(o => o.p && (o.d.active || o.i === state.dep));
+  const xd = d3.extent(data, o => o.p[0] / sx), yd = d3.extent(data, o => o.p[1] / sy);
+  const x = d3.scaleLinear().domain([Math.min(-1.1, xd[0]), Math.max(1.1, xd[1])]).range([M, W - M]);
+  const y = d3.scaleLinear().domain([Math.min(-1.15, yd[0]), Math.max(1.15, yd[1])]).range([H - M, M]);
+  const svg = d3.select(host).append("svg").attr("width", W).attr("height", H);
+  svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", M).attr("y2", H - M).attr("stroke", css("--rule")).attr("stroke-dasharray", "2 4");
+  svg.append("line").attr("x1", M).attr("x2", W - M).attr("y1", y(0)).attr("y2", y(0)).attr("stroke", css("--rule")).attr("stroke-dasharray", "2 4");
+  svg.append("text").attr("x", M).attr("y", H - 6).style("font-size", "10.5px").style("fill", css("--muted")).text("← côté LFI");
+  svg.append("text").attr("x", W - M).attr("y", H - 6).attr("text-anchor", "end").style("font-size", "10.5px").style("fill", css("--muted")).text("côté opposé →");
+  svg.append("text").attr("x", x(0) + 6).attr("y", 12).style("font-size", "10.5px").style("fill", css("--muted")).text("↑ oppositions");
+  svg.append("text").attr("x", x(0) + 6).attr("y", H - 18).style("font-size", "10.5px").style("fill", css("--muted")).text("↓ bloc central");
+  svg.append("g").selectAll("circle").data(data).join("circle").attr("cx", o => x(o.p[0] / sx)).attr("cy", o => y(o.p[1] / sy))
+    .attr("r", o => o.i === state.dep ? 7 : 3.6).attr("fill", o => G[o.d.g].c).attr("stroke", o => o.i === state.dep ? css("--ink") : css("--paper")).attr("stroke-width", o => o.i === state.dep ? 2.5 : .8)
+    .attr("opacity", o => state.hlGroup != null && o.d.g !== state.hlGroup ? .12 : .9);
+  G.forEach((g, k) => { const mine = data.filter(o => o.d.g === k); if (mine.length < 3) return;
+    svg.append("text").attr("x", d3.median(mine, o => x(o.p[0] / sx))).attr("y", d3.median(mine, o => y(o.p[1] / sy)) - 10).attr("text-anchor", "middle")
+      .style("font", "700 13px 'Cormorant Garamond'").style("paint-order", "stroke").style("stroke", css("--paper")).style("stroke-width", 3.5).style("pointer-events", "none").text(g.k); });
+  if (state.dep != null) { const o = data.find(o => o.i === state.dep);
+    if (o) svg.append("text").attr("x", x(o.p[0] / sx) + 10).attr("y", y(o.p[1] / sy) + 4).style("font-weight", 700).style("font-size", "12px").style("paint-order", "stroke").style("stroke", css("--paper")).style("stroke-width", 3.5).text(o.d.n); }
+  const del = d3.Delaunay.from(data, o => x(o.p[0] / sx), o => y(o.p[1] / sy));
+  svg.append("rect").attr("width", W).attr("height", H).attr("fill", "transparent")
+    .on("pointermove", e => { const [mx, my] = d3.pointer(e), o = data[del.find(mx, my)];
+      if (!o || Math.hypot(x(o.p[0] / sx) - mx, y(o.p[1] / sy) - my) > 24) return hideTip();
+      showTip(e, tt => { tt.append(el("div", "t", `${G[o.d.g].k} · ${o.d.dep || ""}`)); tt.append(el("div", "big", o.d.n)); tipRow(tt, "Loyauté", fmtPct(o.d.loyal)); }); })
+    .on("pointerleave", hideTip).on("click", e => { const [mx, my] = d3.pointer(e), o = data[del.find(mx, my)]; if (o) selectDep(o.i); });
+  document.getElementById("mapSub").textContent = `${data.length} députés placés d'après leurs votes${key === "all" ? "" : " sur « " + TSHORT[key] + " »"} (toute la législature) · le « fer à cheval » de l'hémicycle · cliquez un point pour sa fiche`;
+}
+
+/* ---------- IV. Discipline ---------- */
+function renderCohesion(st) {
+  const host = document.getElementById("cohesion"); host.replaceChildren();
+  const rows = G.map((g, i) => [i, st[i].coh]).filter(z => z[1] != null).sort((a, b) => b[1] - a[1]);
+  const min = Math.max(0, Math.floor((d3.min(rows, z => z[1]) - .05) * 20) / 20);
+  rows.forEach(([i, v]) => {
+    const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = G[i].c; n.append(sw, document.createTextNode(G[i].k));
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = Math.max(1, (v - min) / (1 - min) * 100) + "%"; fill.style.background = G[i].c; track.append(fill);
+    row.append(n, track, el("div", "v", fmtPct(v))); row.title = G[i].n; row.style.cursor = "pointer"; row.onclick = () => { state.frond = i; syncFrond(); renderFrond(); };
+    host.append(row);
+  });
+  host.append(el("p", "note", `Échelle de ${Math.round(min * 100)} à 100 % · session et thème choisis`));
+}
+function renderFrond() {
+  const host = document.getElementById("frond"); host.replaceChildren();
+  DEPS.map((d, i) => ({ d, i })).filter(o => o.d.g === state.frond && o.d.active && o.d.nv >= 200 && o.d.loyal != null).sort((a, b) => a.d.loyal - b.d.loyal).slice(0, 8).forEach(o => {
+    const li = el("li"); li.append(el("span", null, o.d.n), el("span", "m", `${fmtPct(o.d.loyal)} de loyauté · ${o.d.nv} votes`)); li.onclick = () => selectDep(o.i); host.append(li);
+  });
+  if (!host.children.length) host.append(el("li", "m", "Aucun député avec assez de votes."));
+}
+
+/* ---------- V. Grands scrutins ---------- */
+function renderBigVotes(js) {
+  const tb = document.querySelector("#bigVotes tbody"); tb.replaceChildren();
+  const big = js.filter(j => S.ty[j] > 0).reverse();
+  big.slice(0, state.voteLimit).forEach(j => {
+    const tr = el("tr"), tx = S.tx[j] >= 0 ? D.texts[S.tx[j]] : "";
+    const t = el("td"), title = el("div", null, S.ty[j] === 2 ? "Motion de censure" : tx || S.ti[j]); title.style.fontWeight = 600;
+    t.append(title, el("div", "sub", `${TSHORT[THEMES[S.th[j]].k]} · scrutin n° ${S.n[j]}`));
+    const res = el("td"); res.append(el("span", "res " + (S.r[j] ? "ok" : "ko"), S.r[j] ? "Adopté" : "Rejeté"));
+    const gv = el("td"); gv.append(groupSquares(j));
+    tr.append(el("td", null, fmtDate(j)), t, res, gv); tb.append(tr);
+  });
+  if (!big.length) { const tr = el("tr"), td = el("td", "sub", "Aucun scrutin solennel sur cette sélection."); td.colSpan = 4; tr.append(td); tb.append(tr); }
+  document.getElementById("moreVotes").style.display = big.length > state.voteLimit ? "" : "none";
+  const lg = document.getElementById("gvLegend"); lg.replaceChildren();
+  [["pour", `background:${css("--ink-2")}`], ["contre", `border:2px solid ${css("--ink-2")}`], ["abstention", `border:2px dashed ${css("--ink-2")}`]].forEach(([l, st]) => {
+    const s = el("span"); const b = el("span"); b.style.cssText = `width:13px;height:13px;display:inline-block;margin-right:6px;vertical-align:-2px;${st}`; s.append(b, document.createTextNode(l)); lg.append(s); });
+}
+document.getElementById("moreVotes").onclick = () => { state.voteLimit += 20; renderBigVotes(scope()); };
+
+/* ---------- Thème ---------- */
+document.getElementById("themeBtn").onclick = () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("va-theme", root.dataset.theme); } catch (e) {}
+  update();
+};
+try { const t = localStorage.getItem("va-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+/* ---------- Orchestration ---------- */
+function update() {
+  syncPeriods(); syncThemes(); syncAxes(); syncModes(); syncFrond();
+  const js = scope(), st = groupStats(js), agr = agreement(js), ax = groupAxes(js);
+  lastAgr = agr; lastAxes = ax;
+  renderKPIs(js, st, agr); renderHemi(); renderFiche(); renderAxis();
+  renderMatrix(agr); renderConstel(agr, ax); renderMap(); renderCohesion(st); renderFrond(); renderBigVotes(js);
+}
+let rz, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; update(); } }, 150); });
+state.dep = DEPS.findIndex(d => /Attal/.test(d.n) && d.active); if (state.dep < 0) state.dep = 0;
+update();
+</script>
+</body>
+</html>

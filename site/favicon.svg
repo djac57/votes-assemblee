@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Hémicycle stylisé : trois rangées de sièges colorés de la gauche vers la droite -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#1a2b4c"/>
+  <g stroke-width="7" fill="none" stroke-linecap="round">
+    <path d="M12 46a20 20 0 0 1 10-17.3" stroke="#d4232b"/>
+    <path d="M26 27a20 20 0 0 1 12 0" stroke="#f2b100"/>
+    <path d="M42 28.7A20 20 0 0 1 52 46" stroke="#3c8fd6"/>
+  </g>
+  <g stroke-width="5" fill="none" stroke-linecap="round" opacity=".85">
+    <path d="M22 46a10 10 0 0 1 4.5-8.4" stroke="#e8579a"/>
+    <path d="M37.5 37.6A10 10 0 0 1 42 46" stroke="#5b6fc2"/>
+  </g>
+  <circle cx="32" cy="46" r="4" fill="#f6f5f1"/>
+</svg>
