@@ -418,7 +418,16 @@ for q in QZ.QUIZ:
         continue
     # Vote de chaque député (même ordre que la liste des députés) : P pour, C contre, A abstention, . absent
     votes = "".join(CODE[d["votes"][j][0]] if j in d["votes"] else "." for d in deps)
-    quiz_out.append({"j": j, "q": q["q"], "note": q["note"], "sens": q["sens"], "axes": q["axes"], "v": votes})
+    raw = raw_scrutins[j]
+    dc = raw["syntheseVote"]["decompte"]
+    quiz_out.append({"j": j, "n": q["n"], "q": q["q"], "sens": q["sens"], "axes": q["axes"], "v": votes,
+                     # Intitulé officiel, verbatim (espaces normalisés seulement)
+                     "titre": re.sub(r"\s+", " ", raw["titre"]).strip(),
+                     "date": raw["dateScrutin"], "sort": raw["sort"]["code"],
+                     "dc": [int(dc.get("pour") or 0), int(dc.get("contre") or 0), int(dc.get("abstentions") or 0)],
+                     "dossier": q.get("dossier") or "",
+                     "contenu": q["contenu"], "pour": q["pour"], "contre": q["contre"], "suite": q["suite"],
+                     "sources": q["sources"], "consulte": QZ.CONSULTED})
 print(f"  quiz : {len(quiz_out)} questions")
 
 data = {
@@ -438,6 +447,27 @@ data = {
     "gmaps": gmaps,
     "explained": explained,
 }
+# ---------- Jeu « Présidentielle 2027 » (quiz2027.json -> site/data2027.js) ----------
+Q27 = os.path.join(HERE, "quiz2027.json")
+OUT27 = os.path.join(os.path.dirname(OUT), "data2027.js")
+if os.path.exists(Q27):
+    q27 = json.load(open(Q27, encoding="utf-8"))
+    pkeys = {p["k"] for p in q27["props"]}
+    for ck, pos in q27["positions"].items():
+        for pk, cell in pos.items():
+            assert pk in pkeys, f"quiz2027 : proposition inconnue {pk} ({ck})"
+            assert cell["p"] in ("pour", "contre", "nuance"), f"quiz2027 : position invalide {ck}/{pk}"
+            assert cell["s"] and all(x in q27["sources"] for x in cell["s"]), f"quiz2027 : source manquante {ck}/{pk}"
+    for c in q27["candidates"]:
+        c["known"] = len(q27["positions"].get(c["k"], {}))
+    q27.pop("_lisez-moi", None)
+    os.makedirs(os.path.dirname(OUT27), exist_ok=True)
+    with open(OUT27, "w", encoding="utf-8") as fh:
+        fh.write("window.DATA27=")
+        json.dump(q27, fh, ensure_ascii=False, separators=(",", ":"))
+        fh.write(";")
+    print("  2027 : " + ", ".join(f"{c['n']} {c['known']}/{len(q27['props'])}" for c in q27["candidates"]))
+
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 with open(OUT, "w", encoding="utf-8") as fh:
     fh.write("window.DATA=")
@@ -455,3 +485,11 @@ if os.path.exists(_page):
     _new = re.sub(r'src="data\.js(\?v=[\w-]+)?"', f'src="data.js?v={_digest}"', _src)
     if _new != _src:
         open(_page, "w", encoding="utf-8").write(_new)
+if os.path.exists(OUT27):
+    _page27 = os.path.join(os.path.dirname(OUT), "2027.html")
+    _d27 = hashlib.sha1(open(OUT27, "rb").read()).hexdigest()[:10]
+    if os.path.exists(_page27):
+        _src = open(_page27, encoding="utf-8").read()
+        _new = re.sub(r'src="data2027\.js(\?v=[\w-]+)?"', f'src="data2027.js?v={_d27}"', _src)
+        if _new != _src:
+            open(_page27, "w", encoding="utf-8").write(_new)

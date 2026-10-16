@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Présidentielle 2027 : le jeu</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="data2027.js?v=2f3e56200a"></script>
+<style>
+/* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
+:root {
+  color-scheme: light;
+  --bg: #efe8dc; --paper: #fbf7ef; --paper-2: #f3ecdf; --ink: #22181a; --ink-2: #5b4a42; --muted: #75665b;
+  --rule: #dccbab; --gold: #a07a32; --gold-ink: #7a5a1f; --velvet: #8a1c26; --velvet-2: #a3262f; --velvet-deep: #5c0f17; --velvet-ink: #f7ecd6;
+  --wood: #5b2f1f; --blue: #1f3a6b;
+  --seq-0: #f6efe2; --seq-1: #e3cf9e; --seq-2: #c58f4a; --seq-3: #9b3b2c; --seq-4: #5c0f17;
+  --vein: rgba(120, 100, 80, .06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
+    --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
+    --wood: #3a1d13; --blue: #8fa9d6;
+    --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+    --vein: rgba(201, 164, 90, .035);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
+  --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
+  --wood: #3a1d13; --blue: #8fa9d6;
+  --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+  --vein: rgba(201, 164, 90, .035);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; color: var(--ink); font: 15px/1.55 "Public Sans", system-ui, sans-serif; font-variant-numeric: tabular-nums;
+  background-color: var(--bg);
+  /* marbre : quelques veines très légères */
+  background-image: radial-gradient(120% 60% at 10% 0%, var(--vein), transparent 60%), radial-gradient(90% 50% at 90% 30%, var(--vein), transparent 55%),
+    linear-gradient(115deg, transparent 40%, var(--vein) 41%, transparent 43%), linear-gradient(160deg, transparent 70%, var(--vein) 71%, transparent 72%);
+  background-attachment: fixed;
+}
+.serif { font-family: "Cormorant Garamond", Georgia, serif; }
+button { font: inherit; color: inherit; }
+
+/* ---- Tenture d'en-tête ---- */
+.drape {
+  position: relative; color: var(--velvet-ink); padding: 44px 24px 54px;
+  background: repeating-linear-gradient(90deg, #6e141d 0px, #8e1f29 22px, #a12a33 34px, #8e1f29 46px, #6e141d 68px, #5a0f17 80px),
+    #7a1620;
+  background-blend-mode: normal;
+  box-shadow: inset 0 -30px 40px -20px rgba(0,0,0,.45), inset 0 20px 30px -20px rgba(0,0,0,.5);
+}
+.drape::after { /* frange dorée */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 14px;
+  background: radial-gradient(circle at 8px 0, #b8913f 6px, #8a6a2a 7px, transparent 8px) repeat-x 0 0 / 16px 14px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.35));
+}
+.drape-in { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.eyebrow { font: 600 12px/1.3 "Public Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #e9cf8f; }
+.drape h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; font-size: clamp(38px, 6.4vw, 72px); line-height: .98; margin: 10px 0 14px; letter-spacing: -.01em; }
+.drape h1 em { font-style: italic; font-weight: 500; color: #f1d9a0; }
+.drape .lede { max-width: 700px; margin: 0; font-size: 16px; color: #f3e3c6; }
+.drape .meta { margin-top: 14px; font-size: 13px; color: #e6cfa4; }
+.drape .meta a { color: #f6dc9c; }
+.drape .indep { display: inline-block; margin-top: 10px; font-size: 12px; letter-spacing: .04em; border: 1px solid rgba(233, 207, 143, .6); color: #f1dcae; padding: 3px 10px; }
+.tricolore { display: flex; height: 3px; width: 72px; margin: 0 0 14px; }
+.tricolore span { flex: 1; } .tricolore span:nth-child(1) { background: #3a5aa8; } .tricolore span:nth-child(2) { background: #f4efe6; } .tricolore span:nth-child(3) { background: #e2383f; }
+.theme-btn { background: transparent; border: 1px solid rgba(233, 207, 143, .7); color: #f1dcae; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; flex: none; }
+.theme-btn:hover { background: rgba(0,0,0,.15); }
+
+/* ---- Barre de filtres : filets dorés ---- */
+.ledger { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px);
+  border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); box-shadow: 0 3px 0 -2px var(--gold); margin-top: 12px; }
+.ledger-in { max-width: 1180px; margin: 0 auto; padding: 8px 24px; display: flex; flex-wrap: wrap; gap: 4px 22px; align-items: baseline; }
+.ledger .lab { font: 600 11px/1 "Public Sans"; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); margin-right: 4px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; }
+.tab { background: none; border: none; padding: 4px 0; cursor: pointer; font-size: 13.5px; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.tab:hover { color: var(--velvet); }
+.tab[aria-pressed="true"] { color: var(--velvet); border-bottom-color: var(--gold); font-weight: 600; }
+:root[data-theme="dark"] .tab[aria-pressed="true"], :root[data-theme="dark"] .tab:hover { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab[aria-pressed="true"], :root:not([data-theme="light"]) .tab:hover { color: var(--gold-ink); } }
+
+/* ---- Chapitres ---- */
+main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
+.chapter { margin-top: 46px; }
+.ch-head { text-align: center; margin: 0 auto 22px; max-width: 760px; }
+.ornament { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--gold); margin-bottom: 8px; }
+.ornament::before, .ornament::after { content: ""; flex: 1; max-width: 200px; height: 5px; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
+.ornament span { font: 600 14px/1 "Cormorant Garamond", serif; letter-spacing: .2em; color: var(--gold-ink); }
+.ch-head h2 { font: 700 clamp(28px, 4vw, 40px)/1.05 "Cormorant Garamond", Georgia, serif; margin: 0 0 8px; }
+.ch-head p { margin: 0; color: var(--ink-2); }
+.panel { background: var(--paper); border: 1px solid var(--rule); box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px color-mix(in srgb, var(--gold) 35%, transparent); padding: 22px; min-width: 0; }
+.panel h3 { font: 700 22px/1.15 "Cormorant Garamond", Georgia, serif; margin: 0 0 4px; }
+.note { color: var(--muted); font-size: 13px; margin: 0; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+.cols-hemi { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.scroll-x { overflow-x: auto; }
+
+/* ---- Chiffres de séance ---- */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); margin-top: 26px; }
+.fig { padding: 16px 18px; border-left: 1px solid var(--rule); min-width: 0; }
+.fig:first-child { border-left: none; }
+.fig .k { font: 600 11px/1.3 "Public Sans"; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.fig .v { font: 700 38px/1.05 "Cormorant Garamond", serif; color: var(--gold-ink); margin-top: 4px; }
+.fig .d { font-size: 13px; color: var(--ink-2); }
+
+/* ---- Hémicycle ---- */
+.modes { display: flex; flex-wrap: wrap; gap: 2px 12px; margin: 6px 0 4px; align-items: baseline; }
+.seat { cursor: pointer; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-size: 12.5px; color: var(--ink-2); }
+.legend button { background: none; border: none; padding: 2px 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 12.5px; }
+.legend button.dim { opacity: .35; }
+.sw { width: 11px; height: 11px; display: inline-block; flex: none; border-radius: 50%; }
+.gradbar { height: 8px; width: 180px; }
+.scale { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); flex-wrap: wrap; margin-top: 8px; }
+
+/* ---- Fiche ---- */
+.search { position: relative; }
+.search input { width: 100%; font: inherit; color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); padding: 8px 12px; }
+.search input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.sugg { position: absolute; left: 0; right: 0; top: calc(100% + 2px); background: var(--paper); border: 1px solid var(--gold); max-height: 260px; overflow: auto; z-index: 30; display: none; }
+.sugg button { display: flex; width: 100%; justify-content: space-between; gap: 10px; padding: 8px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13.5px; }
+.sugg button:hover, .sugg button:focus { background: var(--paper-2); outline: none; }
+.sugg .m { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.dep-name { font: 700 28px/1.05 "Cormorant Garamond", serif; margin: 16px 0 2px; }
+.dep-meta { font-size: 13px; color: var(--ink-2); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.stats3 { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 12px 0; }
+.stats3 > div { padding: 8px 10px; border-left: 1px solid var(--rule); }
+.stats3 > div:first-child { border-left: none; padding-left: 0; }
+.stats3 .v { font: 700 24px/1.1 "Cormorant Garamond", serif; color: var(--gold-ink); }
+.stats3 .k { font-size: 11.5px; color: var(--muted); }
+.sm-h { font: 600 11px/1.3 "Public Sans"; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); margin: 16px 0 6px; }
+.plist { list-style: none; margin: 0; padding: 0; }
+.plist li { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px dotted var(--rule); font-size: 13.5px; cursor: pointer; }
+.plist li:hover { color: var(--velvet); }
+.plist .m { color: var(--muted); white-space: nowrap; font-size: 12.5px; }
+.row { display: grid; grid-template-columns: 70px 1fr 42px; gap: 8px; align-items: center; font-size: 12.5px; margin: 3px 0; }
+.row .n { color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .b { height: 8px; }
+.row .val { text-align: right; font-weight: 600; }
+
+/* ---- Boussoles ---- */
+.axis-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-bottom: 18px; }
+.axis-tabs .tab { font: 600 19px/1.2 "Cormorant Garamond", serif; color: var(--ink-2); }
+.warning { border: 1px solid var(--gold); border-left: 4px solid var(--velvet); background: var(--paper-2); padding: 10px 14px; font-size: 13.5px; color: var(--ink-2); margin: 0 0 18px; }
+.warning b { color: var(--ink); }
+.def { font: italic 500 20px/1.35 "Cormorant Garamond", serif; color: var(--ink); margin: 0 0 4px; }
+.gauge { display: grid; grid-template-columns: 74px 1fr 56px; gap: 10px; align-items: center; margin: 7px 0; font-size: 13px; cursor: default; }
+.gauge .n { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.gauge .track { position: relative; height: 14px; background: var(--paper-2); border: 1px solid var(--rule);
+  background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), color-mix(in srgb, var(--gold) 45%, transparent) calc(10% - 1px) 10%); }
+.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; }
+.gauge .fill::after { content: ""; position: absolute; right: -1px; top: -3px; bottom: -3px; width: 2px; background: var(--gold); }
+.gauge .v { font: 700 22px/1 "Cormorant Garamond", serif; color: var(--gold-ink); text-align: right; }
+.gauge .v small { font: 400 10.5px "Public Sans"; color: var(--muted); display: block; }
+.radars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; }
+.radar { text-align: center; min-width: 0; }
+.radar .t { font: 700 17px/1.1 "Cormorant Garamond", serif; margin-top: -2px; }
+details.refs { margin-top: 18px; border-top: 1px solid var(--rule); padding-top: 10px; }
+details.refs summary { cursor: pointer; font: 600 18px "Cormorant Garamond", serif; color: var(--velvet); }
+:root[data-theme="dark"] details.refs summary { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) details.refs summary { color: var(--gold-ink); } }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font: 600 11px/1.2 "Public Sans"; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-ink); padding: 8px; border-bottom: 1px solid var(--gold); }
+td { padding: 8px; border-bottom: 1px dotted var(--rule); vertical-align: top; }
+td .sub { color: var(--muted); font-size: 12px; }
+.sens { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border: 1px solid currentColor; white-space: nowrap; display: inline-block; }
+.sens.plus { color: var(--gold-ink); } .sens.minus { color: var(--velvet-2); }
+.res { font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.res.ok { color: #2f7d32; } .res.ko { color: var(--velvet-2); }
+:root[data-theme="dark"] .res.ok { color: #7fcf83; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .res.ok { color: #7fcf83; } }
+.gv { display: flex; gap: 3px; flex-wrap: wrap; min-width: 110px; }
+.gv span { width: 14px; height: 14px; display: inline-block; }
+.more { margin-top: 12px; background: none; border: 1px solid var(--gold); color: var(--gold-ink); padding: 7px 14px; cursor: pointer; font-weight: 600; }
+.cell { cursor: pointer; }
+.cell:hover rect { stroke: var(--ink); stroke-width: 1.5px; }
+svg text { fill: var(--ink); }
+.tip { position: fixed; pointer-events: none; z-index: 100; background: var(--paper); border: 1px solid var(--gold); box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  padding: 10px 12px; font-size: 12.5px; min-width: 150px; max-width: 300px; opacity: 0; transition: opacity .12s; }
+.tip .t { font-weight: 600; color: var(--muted); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+.tip .big { font: 700 22px/1.1 "Cormorant Garamond", serif; color: var(--ink); }
+.tip .r { display: flex; justify-content: space-between; gap: 10px; }
+.tip .r b { color: var(--ink); }
+/* ---- Le jeu ---- */
+.play-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; margin-left: 8px; background: #e9cf8f; color: #3a0a10; border: none; padding: 9px 18px; cursor: pointer;
+  font: 700 17px/1 "Cormorant Garamond", serif; letter-spacing: .02em; box-shadow: 0 2px 0 #8a6a2a; }
+.play-btn:hover { background: #f3dca4; }
+.game { max-width: 820px; margin: 0 auto; }
+.game .honest { font-size: 12.5px; color: var(--muted); text-align: center; margin: 12px 0 0; }
+.prog { height: 6px; background: var(--paper-2); border: 1px solid var(--rule); margin: 4px 0 14px; }
+.prog > div { height: 100%; background: linear-gradient(90deg, var(--gold), var(--velvet)); transition: width .3s ease; }
+.qmeta { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.qcard { transition: opacity .22s ease, transform .22s ease; }
+.qcard.out { opacity: 0; transform: translateX(-18px); }
+.qcard.in { opacity: 0; transform: translateX(18px); }
+.qtext { font: 600 clamp(24px, 3.4vw, 34px)/1.2 "Cormorant Garamond", serif; margin: 10px 0 22px; text-align: center; text-wrap: balance; }
+.answers { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.ans { min-width: 130px; padding: 12px 22px; font: 700 20px/1 "Cormorant Garamond", serif; cursor: pointer; border: 1px solid var(--gold); letter-spacing: .04em; }
+.ans.yes { background: var(--velvet); color: var(--velvet-ink); border-color: var(--velvet); }
+.ans.no { background: var(--paper); color: var(--ink); }
+.ans.skip { background: none; border: none; min-width: 0; font: 500 14px "Public Sans"; color: var(--muted); text-decoration: underline; }
+.ans.chosen { outline: 3px solid var(--gold); outline-offset: 2px; }
+.qtools { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+.link { background: none; border: none; color: var(--gold-ink); cursor: pointer; padding: 0; font-weight: 600; }
+.link:disabled { opacity: .35; cursor: default; }
+.kbd { color: var(--muted); font-size: 12px; }
+.kbd b { border: 1px solid var(--rule); padding: 0 5px; font-weight: 600; color: var(--ink-2); }
+.ctx { margin-top: 12px; padding: 10px 14px; background: var(--paper-2); border-left: 3px solid var(--gold); font-size: 13px; color: var(--ink-2); }
+.verdict { text-align: center; margin: 6px 0 18px; }
+.verdict .k { font: 600 12px "Public Sans"; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.verdict .v { font: 700 clamp(34px, 6vw, 56px)/1.05 "Cormorant Garamond", serif; color: var(--velvet); }
+.verdict .d { color: var(--ink-2); }
+:root[data-theme="dark"] .verdict .v { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .verdict .v { color: var(--gold-ink); } }
+.yours { font-weight: 700; white-space: nowrap; }
+footer { max-width: 1180px; margin: 0 auto; padding: 22px 24px 50px; border-top: 1px solid var(--gold); color: var(--muted); font-size: 13px; line-height: 1.65; }
+footer b { color: var(--ink-2); }
+@media (max-width: 900px) {
+  .cols, .cols-hemi { grid-template-columns: minmax(0, 1fr); }
+  .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fig:nth-child(3) { border-left: none; }
+  .fig:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  .radars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .drape { padding: 30px 16px 42px; }
+  main { padding: 4px 16px 48px; }
+  .ledger { position: static; }
+  .ledger-in { padding: 8px 16px; }
+  .panel { padding: 16px; }
+  .fig .v { font-size: 30px; }
+  .radars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gauge { grid-template-columns: 62px 1fr 48px; }
+}
+
+/* ---- Page 2027 ---- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.card27 { background: var(--paper); border: 1px solid var(--rule); box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5px color-mix(in srgb, var(--gold) 35%, transparent); padding: 16px; display: grid; gap: 8px; }
+.pastille { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 17px "Cormorant Garamond", serif; letter-spacing: .04em; }
+.cn { font: 700 21px/1.1 "Cormorant Garamond", serif; }
+.cp { font-size: 12.5px; color: var(--muted); }
+.cov { height: 6px; background: var(--paper-2); border: 1px solid var(--rule); }
+.cov > div { height: 100%; background: var(--gold); }
+.imp { display: flex; justify-content: center; gap: 6px; align-items: center; margin-top: 14px; font-size: 13.5px; color: var(--ink-2); cursor: pointer; }
+.imp input { accent-color: var(--velvet); width: 16px; height: 16px; }
+.pblock { border-top: 1px solid var(--rule); padding: 12px 0; }
+.ph { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
+.pt { font: 600 18px/1.25 "Cormorant Garamond", serif; color: var(--ink); }
+.plist2 { list-style: none; margin: 0; padding: 0; }
+.plist2 li { display: grid; grid-template-columns: 78px 170px 22px 1fr; gap: 8px; align-items: start; padding: 6px 0; border-bottom: 1px dotted var(--rule); font-size: 13px; }
+.badge { font-size: 11px; font-weight: 700; padding: 2px 6px; text-align: center; border: 1px solid currentColor; text-transform: uppercase; letter-spacing: .04em; }
+.badge.pour { color: var(--gold-ink); } .badge.contre { color: var(--velvet-2); } .badge.nuance { color: var(--blue); } .badge.unk { color: var(--muted); border-style: dashed; }
+.who { display: inline-flex; gap: 6px; align-items: center; font-weight: 600; }
+.match { font-weight: 700; color: var(--gold-ink); text-align: center; }
+.pq { color: var(--ink-2); }
+.pq.muted { color: var(--muted); font-style: italic; }
+.srcs { font-size: 12px; }
+.srcs a { color: var(--gold-ink); }
+.method p { margin: 0 0 10px; color: var(--ink-2); }
+.method b { color: var(--ink); }
+.game .gauge { grid-template-columns: 96px 1fr 60px; }
+@media (max-width: 640px) {
+  .game .gauge { grid-template-columns: 86px 1fr 56px; font-size: 12.5px; }
+  .plist2 li { grid-template-columns: 70px 1fr 20px; }
+  .plist2 li .pb { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<header class="drape">
+  <div class="drape-in">
+    <div>
+      <div class="tricolore" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="eyebrow">Présidentielle 2027 · premier tour le 18 avril 2027</div>
+      <h1>De quel candidat êtes-vous <em>le plus proche&nbsp;?</em></h1>
+      <p class="lede">Vingt propositions concrètes, une par écran. Répondez OUI, NON ou «&nbsp;sans avis&nbsp;», et comparez vos réponses aux positions publiques des candidats — chacune avec sa source.</p>
+      <div class="meta">Positions relevées le <span id="collected"></span>, susceptibles d'évoluer · <a href="index.html">← Qui vote avec qui à l'Assemblée</a></div>
+      <div class="indep">Jeu indicatif, non affilié, pas une consigne de vote</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Séance de jour / de nuit" aria-label="Changer de thème">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="chapter" style="margin-top:34px">
+    <div class="panel game" id="game"></div>
+  </section>
+
+  <section class="chapter" id="ch-cands">
+    <div class="ch-head">
+      <div class="ornament"><span>✦</span></div>
+      <h2>Les candidats comparés</h2>
+      <p>Ordre alphabétique. Sont retenus les candidats dont au moins 6 des 20 positions sont documentées par une source.</p>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div class="panel" style="margin-top:18px">
+      <h3>Positions insuffisamment documentées</h3>
+      <p class="note">Candidats déclarés ou pressentis pour lesquels moins de 6 positions sourcées ont été trouvées sur ces 20 propositions : ils ne sont pas classés, faute de matière.</p>
+      <ul class="plist" id="others" style="margin-top:8px"></ul>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="ch-head">
+      <div class="ornament"><span>✦</span></div>
+      <h2>Méthode</h2>
+    </div>
+    <div class="panel method">
+      <p><b>Propositions.</b> Vingt mesures concrètes, formulées de façon neutre, réparties entre mesures portées plutôt à gauche (9), plutôt à droite (9) et transversales (2), et couvrant les sept boussoles du site. Elles sont présentées dans un ordre aléatoire.</p>
+      <p><b>Positions.</b> Pour chaque couple candidat × proposition : pour, contre, nuancé, ou inconnue. Chaque position renvoie à une source lue (programme, déclaration ou interview rapportée par la presse, vote du candidat s'il est député). Une position n'est jamais déduite de la seule étiquette du parti : une déclaration de parti ou de porte-parole n'est retenue que si la source la présente au nom du candidat. Les programmes de 2022 sont signalés comme tels. Si rien n'a été trouvé : « inconnue », exclue du calcul pour ce candidat.</p>
+      <p><b>Calcul.</b> Pour chaque proposition où vous avez répondu et où la position du candidat est connue : accord = 1 si vous êtes du même avis, 0 si vous êtes d'avis contraire, ½ si sa position est nuancée. Une proposition marquée « importante » compte double. Score = moyenne pondérée, avec le nombre de propositions comparées. Un candidat comparé sur peu de propositions a un score moins fiable.</p>
+      <p><b>Limites.</b> Les campagnes ne font que commencer : beaucoup de programmes ne sont pas encore publiés, et plusieurs positions viennent de déclarations ou de programmes antérieurs. Les réponses restent dans votre navigateur ; rien n'est envoyé.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b>Site indépendant</b>, sans lien avec les candidats, les partis ou les institutions. Positions relevées le <span id="collected2"></span> à partir de sources publiques (franceinfo, Public Sénat, LCP, Europe 1, France 24, Sfen, Assemblée nationale, Wikipédia…), citées une à une. Signalez une erreur&nbsp;: chaque position est modifiable dans <code>scripts/quiz2027.json</code>.
+</footer>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const Q = window.DATA27, C = Q.candidates, P = Q.props, NP = P.length, SRC = Q.sources;
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const fmtPct = v => v == null || isNaN(v) ? "—" : Math.round(v * 100) + " %";
+const fmtD = d => /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + "T00:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : d.replace("consulté le ", "consulté le ").replace(/(\d{4})-(\d{2})-(\d{2})/, (m, y, mo, da) => new Date(`${y}-${mo}-${da}T00:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }));
+document.getElementById("collected").textContent = document.getElementById("collected2").textContent = fmtD(Q.collected);
+const AXN = { ecologie: "Écologie", social: "Social", budget: "Responsabilité budgétaire", economie: "Dynamisme économique", simplification: "Simplification", immigration: "Restriction migratoire", securite: "Sécurité" };
+const POS = { pour: { v: 1, l: "Pour" }, contre: { v: -1, l: "Contre" }, nuance: { v: 0, l: "Nuancé" } };
+const initials = n => n.split(/[\s-]+/).filter(w => /^\p{Lu}/u.test(w)).map(w => w[0]).slice(0, 2).join("");
+const surname = n => n.split(" ").slice(1).join(" ");
+const ALPHA = C.slice().sort((a, b) => surname(a.n).localeCompare(surname(b.n), "fr"));
+const tip = document.getElementById("tip");
+function showTip(ev, build) { tip.replaceChildren(); build(tip); tip.style.opacity = 1; const r = tip.getBoundingClientRect(); let x = ev.clientX + 14, y = ev.clientY + 14; if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - 14; if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - 14; tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px"; }
+const hideTip = () => tip.style.opacity = 0;
+
+/* ---------- Cartes des candidats (mêmes formats pour tous) ---------- */
+function renderCards() {
+  const host = document.getElementById("cards"); host.replaceChildren();
+  ALPHA.forEach(c => {
+    const card = el("div", "card27"), pill = el("div", "pastille", initials(c.n)); pill.style.background = c.c;
+    const t = el("div"); t.append(el("div", "cn", c.n), el("div", "cp", c.party));
+    const cov = el("div", "cov"), bar = el("div"); bar.style.width = (100 * c.known / NP) + "%"; cov.append(bar);
+    card.append(pill, t, cov, el("div", "note", `${c.known} positions documentées sur ${NP}`));
+    host.append(card);
+  });
+  const ul = document.getElementById("others"); ul.replaceChildren();
+  Q.others.slice().sort((a, b) => surname(a.n).localeCompare(surname(b.n), "fr")).forEach(o => {
+    const li = el("li"); li.style.cursor = "default"; li.append(el("span", null, o.n + (o.party ? ` (${o.party})` : "")), el("span", "m", `${o.known} / ${NP} positions trouvées`)); ul.append(li);
+  });
+}
+
+/* ---------- Le jeu ---------- */
+const KEY = "va-2027-v1";
+const game = { order: null, i: 0, ans: {}, imp: {}, started: false, done: false, ctx: false };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.order) && s.order.length === NP) Object.assign(game, s, { ctx: false }); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ order: game.order, i: game.i, ans: game.ans, imp: game.imp, done: game.done })); } catch (e) {} };
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+if (!game.order) game.order = shuffle(P.map(p => p.k));
+const propOf = k => P.find(p => p.k === k);
+function start() {
+  if (game.done) { game.done = false; game.ans = {}; game.imp = {}; game.i = 0; game.order = shuffle(P.map(p => p.k)); }
+  game.started = true; save(); render();
+}
+function answer(v) {
+  if (!game.started || game.done) return;
+  game.ans[game.order[game.i]] = v;
+  const card = document.querySelector("#game .qcard");
+  const next = () => { if (game.i < NP - 1) game.i++; else game.done = true; game.ctx = false; save(); render(true); };
+  if (card) { card.classList.add("out"); setTimeout(next, 200); } else next();
+}
+function back() { if (game.i > 0 && !game.done) { game.i--; game.ctx = false; save(); render(true); } }
+function toggleImp() { const k = game.order[game.i]; game.imp[k] = !game.imp[k]; save(); render(); }
+addEventListener("keydown", e => {
+  if (!game.started || game.done || e.target?.closest?.("input, textarea, select, button") || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === "o" || e.key === "O") answer(1);
+  else if (e.key === "n" || e.key === "N") answer(-1);
+  else if (e.key === " ") { e.preventDefault(); answer(0); }
+  else if (e.key === "i" || e.key === "I") toggleImp();
+  else if (e.key === "ArrowLeft" || e.key === "Backspace") { e.preventDefault(); back(); }
+});
+const honest = () => el("p", "honest", `Jeu indicatif, non affilié, pas une consigne de vote. Positions relevées le ${fmtD(Q.collected)}, susceptibles d'évoluer. Vos réponses restent dans votre navigateur.`);
+function render(animate) {
+  const host = document.getElementById("game"); host.replaceChildren();
+  if (game.done) return renderResults(host);
+  if (!game.started) {
+    const w = el("div"); w.style.textAlign = "center";
+    w.append(el("p", "qtext", "Retraites, impôts, immigration, nucléaire, fin de vie, institutions… Et vous, que pensez-vous de ces vingt propositions ?"));
+    const b = el("button", "ans yes", Object.keys(game.ans).length ? "Reprendre" : "Commencer"); b.onclick = start;
+    w.append(b, el("p", "kbd", "OUI, NON ou « sans avis » · marquez une proposition comme importante pour qu'elle compte double · environ 3 minutes"));
+    host.append(w, honest()); return;
+  }
+  const k = game.order[game.i], p = propOf(k);
+  const card = el("div", "qcard" + (animate ? " in" : ""));
+  const meta = el("div", "qmeta"); meta.append(el("span", null, `Proposition ${game.i + 1} sur ${NP}`), el("span", null, p.axis ? AXN[p.axis] : "Société et institutions"));
+  const prog = el("div", "prog"), bar = el("div"); bar.style.width = (100 * game.i / NP) + "%"; prog.append(bar);
+  card.append(meta, prog, el("div", "qtext", p.t));
+  const row = el("div", "answers");
+  [["OUI", 1, "yes"], ["NON", -1, "no"]].forEach(([l, v, c]) => { const b = el("button", "ans " + c + (game.ans[k] === v ? " chosen" : ""), l); b.onclick = () => answer(v); row.append(b); });
+  const skip = el("button", "ans skip", "Sans avis"); skip.onclick = () => answer(0); row.append(skip);
+  card.append(row);
+  const imp = el("label", "imp"); const cb = el("input"); cb.type = "checkbox"; cb.checked = !!game.imp[k]; cb.onchange = toggleImp;
+  imp.append(cb, document.createTextNode(" Important pour moi (compte double)")); card.append(imp);
+  const tools = el("div", "qtools");
+  const prev = el("button", "link", "← Précédente"); prev.disabled = game.i === 0; prev.onclick = back;
+  const kb = el("span", "kbd"); kb.append(document.createTextNode("Clavier : "), el("b", null, "O"), document.createTextNode(" oui · "), el("b", null, "N"), document.createTextNode(" non · "), el("b", null, "espace"), document.createTextNode(" sans avis · "), el("b", null, "I"), document.createTextNode(" importance · "), el("b", null, "←"), document.createTextNode(" retour"));
+  tools.append(prev, kb, el("span")); card.append(tools);
+  host.append(card, honest());
+  if (animate) setTimeout(() => card.classList.remove("in"), 30);
+}
+function scores() {
+  return C.map(c => {
+    let s = 0, w = 0, n = 0;
+    for (const p of P) {
+      const a = game.ans[p.k], pos = Q.positions[c.k]?.[p.k];
+      if (!a || !pos) continue;
+      const wt = game.imp[p.k] ? 2 : 1, cv = POS[pos.p].v;
+      s += wt * (cv === 0 ? .5 : cv === a ? 1 : 0); w += wt; n++;
+    }
+    return { c, a: w ? s / w : null, n };
+  });
+}
+function srcLinks(cell) {
+  const box = el("span", "srcs");
+  cell.s.forEach((sk, i) => { const s = SRC[sk]; const a = el("a", null, `${s.o}, ${fmtD(s.d)}`); a.href = s.u; a.target = "_blank"; a.rel = "noopener"; a.title = s.ty; if (i) box.append(document.createTextNode(" · ")); box.append(a); });
+  return box;
+}
+function renderResults(host) {
+  const R = scores().filter(r => r.n > 0).sort((a, b) => b.a - a.a || b.n - a.n);
+  const nAns = Object.values(game.ans).filter(v => v).length;
+  if (!R.length) { host.append(el("p", "qtext", "Vous n'avez donné aucun avis tranché !")); const b = el("button", "ans yes", "Rejouer"); b.onclick = start; const w = el("div"); w.style.textAlign = "center"; w.append(b); host.append(w, honest()); return; }
+  const v = el("div", "verdict"); v.append(el("div", "k", "Sur ces propositions, vous êtes le plus proche de"), el("div", "v", R[0].c.n), el("div", "d", `${fmtPct(R[0].a)} d'accord sur ${R[0].n} proposition${R[0].n > 1 ? "s" : ""} comparée${R[0].n > 1 ? "s" : ""} · ${nAns} réponse${nAns > 1 ? "s" : ""} tranchée${nAns > 1 ? "s" : ""}`));
+  host.append(v);
+  host.append(el("div", "sm-h", "Classement par accord"));
+  R.forEach(r => {
+    const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = r.c.c; n.append(sw, document.createTextNode(surname(r.c.n)));
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = (r.a * 100) + "%"; fill.style.background = r.c.c; track.append(fill);
+    const val = el("div", "v", fmtPct(r.a)); val.append(el("small", null, `${r.n} prop. comparées`));
+    row.append(n, track, val); row.title = `${r.c.n} — ${r.c.party}`; host.append(row);
+  });
+  host.append(el("p", "note", "Un score calculé sur peu de propositions est moins fiable : regardez le nombre de propositions comparées."));
+  // Détail proposition par proposition
+  const det = el("details", "refs"); det.open = true; det.append(el("summary", null, "Le détail, proposition par proposition (avec les sources)"));
+  P.forEach(p => {
+    const a = game.ans[p.k];
+    const blk = el("div", "pblock");
+    const h = el("div", "ph"); h.append(el("span", "pt", p.t), el("span", "yours", a === 1 ? `Vous : oui${game.imp[p.k] ? " (×2)" : ""}` : a === -1 ? `Vous : non${game.imp[p.k] ? " (×2)" : ""}` : "Vous : sans avis"));
+    blk.append(h);
+    const ul = el("ul", "plist2");
+    ALPHA.forEach(c => {
+      const cell = Q.positions[c.k]?.[p.k], li = el("li");
+      const badge = el("span", "badge " + (cell ? cell.p : "unk"), cell ? POS[cell.p].l : "Inconnue");
+      const who = el("span", "who"); const sw = el("span", "sw"); sw.style.background = c.c; who.append(sw, document.createTextNode(c.n));
+      const body = el("div", "pb");
+      if (cell) { body.append(el("div", "pq", cell.q), srcLinks(cell)); } else body.append(el("div", "pq muted", "Aucune position sourcée trouvée : exclue du calcul."));
+      const match = el("span", "match"); if (cell && a) { const cv = POS[cell.p].v; match.textContent = cv === 0 ? "½" : cv === a ? "✓" : "✗"; match.title = cv === 0 ? "accord partiel" : cv === a ? "même avis que vous" : "avis contraire"; }
+      li.append(badge, who, match, body); ul.append(li);
+    });
+    blk.append(ul); det.append(blk);
+  });
+  host.append(det);
+  const again = el("div"); again.style.cssText = "text-align:center;margin-top:18px";
+  const b = el("button", "ans yes", "Rejouer"); b.onclick = start; again.append(b);
+  host.append(again, honest());
+}
+
+/* ---------- Thème ---------- */
+document.getElementById("themeBtn").onclick = () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("va-theme", root.dataset.theme); } catch (e) {}
+};
+try { const t = localStorage.getItem("va-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+renderCards(); render();
+</script>
+
+</body>
+</html>
