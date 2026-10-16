@@ -1,164 +1,1268 @@
 {
-  "_lisez-moi": "Jeu « Présidentielle 2027 : de quel candidat êtes-vous le plus proche ? ». Chaque position (pour / contre / nuance) renvoie à une source lue (URL, date, type). Une case absente = position inconnue, exclue du calcul. Aucune position n'est déduite de l'étiquette du parti : les déclarations d'un parti ou d'un porte-parole ne sont retenues que si la source les présente explicitement au nom du candidat. Positions relevées le 16 octobre 2026, susceptibles d'évoluer.",
-  "collected": "2026-10-16",
-  "sources": {
-    "fi_retraites": {"u": "https://www.franceinfo.fr/economie/retraite/avancer-ou-reculer-l-age-legal-changer-la-duree-de-cotisation-capitalisation-ce-que-proposent-les-candidats-a-la-presidentielle-pour-les-retraites_8234524.html", "o": "franceinfo", "d": "2026-10-12", "ty": "presse (comparatif des programmes)"},
-    "lcp_retraites": {"u": "https://lcp.fr/actualites/presidentielle-que-proposent-les-candidats-a-l-elysee-sur-les-retraites-441751", "o": "LCP", "d": "consulté le 2026-10-16", "ty": "presse (comparatif des programmes)"},
-    "ps_glucksmann": {"u": "https://www.publicsenat.fr/actualites/politique/fiscalite-ecole-immigration-ce-que-propose-raphael-glucksmann", "o": "Public Sénat", "d": "2026-08-24", "ty": "presse (programme du candidat)"},
-    "fi_proportionnelle": {"u": "https://www.franceinfo.fr/politique/proportionnelle-aux-elections-legislatives-qu-en-pensent-les-differents-partis-politiques_7271859.html", "o": "franceinfo", "d": "2025-05-26", "ty": "presse (déclarations)"},
-    "fi_dette": {"u": "https://www.franceinfo.fr/economie/crise/crise-de-la-dette/que-proposent-les-candidats-a-la-presidentielle-pour-reduire-la-dette-publique_8215481.html", "o": "franceinfo", "d": "2026-09-29", "ty": "presse (déclarations)"},
-    "lcp_heritages": {"u": "https://lcp.fr/actualites/heritages-et-droits-de-succession-que-proposent-les-candidats-a-l-election", "o": "LCP", "d": "2026-08-27", "ty": "presse (déclarations)"},
-    "wiki_zucman": {"u": "https://fr.wikipedia.org/wiki/Taxe_Zucman", "o": "Wikipédia (citant Sud Ouest et la presse)", "d": "consulté le 2026-10-16", "ty": "encyclopédie (déclaration rapportée)"},
-    "ps_melenchon": {"u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-jean-luc-melenchon-table-sur-106-milliards-de-recettes-supplementaires-et-82-milliards-de-depenses-nouvelles-pour-2027", "o": "Public Sénat", "d": "2026-10-14", "ty": "presse (programme chiffré du candidat)"},
-    "fi_findevie": {"u": "https://www.franceinfo.fr/societe/euthanasie/presidentielle-2027-les-candidats-hostiles-a-la-loi-sur-la-fin-de-vie-vont-ils-promettre-de-l-abroger_8108582.html", "o": "franceinfo", "d": "2026-07-17", "ty": "presse (déclarations)"},
-    "jdd_melenchon_fdv": {"u": "https://www.lejdd.fr/politique/aide-a-mourir-melenchon-felicite-de-tout-coeur-les-deputes-qui-ont-fait-adopter-le-texte-158529", "o": "Le JDD", "d": "consulté le 2026-10-16", "ty": "presse (déclaration, titre de l'article)"},
-    "vih_melenchon": {"u": "https://vih.org/drogues-et-rdr/20220407/jean-luc-melenchon-la-france-insoumise/", "o": "vih.org", "d": "2022-04-07", "ty": "programme présidentiel 2022 (présenté par la presse spécialisée)"},
-    "an_qag418": {"u": "https://www.assemblee-nationale.fr/dyn/17/questions/QANR5L17QG418", "o": "Assemblée nationale", "d": "2025-02-19", "ty": "déclaration en séance (question au Gouvernement n° 418)"},
-    "ps_ric": {"u": "https://www.publicsenat.fr/actualites/non-classe/presidentielle-ric-rip-50-nuances-de-referendums-dans-les-programmes-des-candidats", "o": "Public Sénat", "d": "2022-02-15", "ty": "programme présidentiel 2022"},
-    "ps_otan": {"u": "https://www.publicsenat.fr/actualites/politique/otan-les-propositions-des-candidats-a-la-presidentielle-200136", "o": "Public Sénat", "d": "2022-03-25", "ty": "programme présidentiel 2022"},
-    "ps_ecole": {"u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-que-proposent-les-candidats-pour-lecole", "o": "Public Sénat", "d": "2026-08-31", "ty": "presse (programmes)"},
-    "ps_retailleau_eco": {"u": "https://www.publicsenat.fr/actualites/economie/presidentielle-2027-bruno-retailleau-sengage-sur-un-plan-deconomies-de-pres-de-200-milliards-deuros-sil-est-elu", "o": "Public Sénat", "d": "2026-10-12", "ty": "presse (programme chiffré du candidat)"},
-    "ps_lepen_eco": {"u": "https://www.publicsenat.fr/actualites/politique/140-milliards-deuros-deconomies-dici-2032-leffort-radical-propose-par-marine-le-pen-pour-redresser-les-f", "o": "Public Sénat", "d": "2026-10-06", "ty": "presse (programme chiffré de la candidate)"},
-    "e1_philippe_regle": {"u": "https://www.europe1.fr/economie/la-regle-dor-sur-le-deficit-proposee-par-edouard-philippe-est-elle-applicable-en-france-966120", "o": "Europe 1", "d": "consulté le 2026-10-16", "ty": "presse (proposition du candidat, titre de l'article)"},
-    "fi_lepen_constit": {"u": "https://www.franceinfo.fr/politique/front-national/presidentielle-2027-richard-ferrand-balaie-la-promesse-de-marine-le-pen-d-une-revision-de-la-constitution-par-referendum_8235298.html", "o": "franceinfo", "d": "2026-10-13", "ty": "presse (promesses de la candidate)"},
-    "e1_retailleau_sol": {"u": "https://www.europe1.fr/politique/objectif-elysee-2027-en-cas-delection-bruno-retailleau-annonce-quil-abrogera-le-droit-du-sol-1064300", "o": "Europe 1", "d": "consulté le 2026-10-16", "ty": "interview (titre de l'article)"},
-    "f24_zemmour": {"u": "https://www.france24.com/fr/info-en-continu/20211130-pr%C3%A9sidentielle-quelques-propositions-du-candidat-zemmour", "o": "France 24 / AFP", "d": "2021-11-30", "ty": "programme présidentiel 2022"},
-    "lcp_philippe_imm": {"u": "https://lcp.fr/actualites/edouard-philippe-veut-diviser-par-deux-l-immigration-legale-et-propose-un-moratoire-sur", "o": "LCP", "d": "2026-10-09", "ty": "interview (France 2, L'Heure de vérité)"},
-    "fi_bloc_central": {"u": "https://www.franceinfo.fr/politique/ni-possible-ni-souhaitable-en-vue-de-la-presidentielle-2027-le-bloc-central-montre-ses-divisions-sur-le-theme-de-l-immigration_8029442.html", "o": "franceinfo", "d": "2026-05-26", "ty": "presse (déclarations)"},
-    "ps_retailleau_constit": {"u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-bruno-retailleau-veut-renverser-la-table-avec-une-profonde-reforme-constitutionnelle", "o": "Public Sénat (entretien au Figaro)", "d": "2026-09-03", "ty": "interview"},
-    "sfen_ufe": {"u": "https://www.sfen.org/rgn/presidentielle-2027-au-colloque-de-lufe-les-grands-partis-listent-leurs-positions-sur-le-nucleaire/", "o": "Sfen (colloque de l'UFE du 23 juin 2026)", "d": "2026-07-02", "ty": "débat public (candidat ou représentant nommément désigné)"},
-    "lcp_glucksmann_eco": {"u": "https://lcp.fr/actualites/presidentielle-2027-s-il-gagne-raphael-glucksmann-engagera-les-100-jours-de-la", "o": "LCP", "d": "2026-08-25", "ty": "déclaration (déplacement de campagne)"},
-    "an_217": {"u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/217", "o": "Assemblée nationale", "d": "2024-10-31", "ty": "vote de la candidate ou du candidat (scrutin n° 217 : annulation des dernières réformes des retraites)"},
-    "an_881": {"u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/881", "o": "Assemblée nationale", "d": "2025-02-20", "ty": "vote du candidat (scrutin n° 881 : impôt plancher de 2 %)"},
-    "an_5729": {"u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/5729", "o": "Assemblée nationale", "d": "2026-02-25", "ty": "vote de la candidate ou du candidat (scrutin n° 5729 : aide à mourir, deuxième lecture)"}
+ "_lisez-moi": "Jeu « Présidentielle 2027 : de quel candidat êtes-vous le plus proche ? ». Chaque position (pour / contre / nuance) renvoie à une source lue (URL, date, type). Une case absente = position inconnue, exclue du calcul. Aucune position n'est déduite de l'étiquette du parti : les déclarations d'un parti ou d'un porte-parole ne sont retenues que si la source les présente explicitement au nom du candidat. Exception : le programme officiel du mouvement que préside le candidat (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan) est retenu comme le sien. Positions relevées le 16 octobre 2026, susceptibles d'évoluer.",
+ "collected": "2026-10-16",
+ "sources": {
+  "fi_retraites": {
+   "u": "https://www.franceinfo.fr/economie/retraite/avancer-ou-reculer-l-age-legal-changer-la-duree-de-cotisation-capitalisation-ce-que-proposent-les-candidats-a-la-presidentielle-pour-les-retraites_8234524.html",
+   "o": "franceinfo",
+   "d": "2026-10-12",
+   "ty": "presse (comparatif des programmes)"
   },
-  "candidates": [
-    {"k": "lepen", "n": "Marine Le Pen", "party": "Rassemblement national", "c": "#2c3f8f"},
-    {"k": "melenchon", "n": "Jean-Luc Mélenchon", "party": "La France insoumise", "c": "#b8323a"},
-    {"k": "glucksmann", "n": "Raphaël Glucksmann", "party": "Place publique, désigné par la primaire de la gauche sociale-démocrate", "c": "#c2577e"},
-    {"k": "philippe", "n": "Édouard Philippe", "party": "Horizons", "c": "#1b8a96"},
-    {"k": "attal", "n": "Gabriel Attal", "party": "Renaissance", "c": "#b8932a"},
-    {"k": "retailleau", "n": "Bruno Retailleau", "party": "Les Républicains", "c": "#3c6fb0"},
-    {"k": "zemmour", "n": "Éric Zemmour", "party": "Reconquête", "c": "#5a4a7a"}
-  ],
-  "others": [
-    {"n": "Marine Tondelier", "party": "Les Écologistes", "known": 4},
-    {"n": "Fabien Roussel", "party": "Parti communiste français", "known": 4},
-    {"n": "Delphine Batho", "party": "Génération écologie", "known": 2},
-    {"n": "Dominique de Villepin", "party": "La France humaniste", "known": 1},
-    {"n": "Nicolas Dupont-Aignan", "party": "Debout la France", "known": 1},
-    {"n": "David Lisnard", "party": "Nouvelle Énergie", "known": 1},
-    {"n": "Xavier Bertrand", "party": "", "known": 0},
-    {"n": "François Ruffin", "party": "", "known": 0},
-    {"n": "Karim Bouamrane", "party": "", "known": 0},
-    {"n": "Bernard Cazeneuve", "party": "La Convention", "known": 0},
-    {"n": "Nathalie Arthaud", "party": "Lutte ouvrière", "known": 0},
-    {"n": "Florian Philippot", "party": "Les Patriotes", "known": 0},
-    {"n": "François Asselineau", "party": "UPR", "known": 0},
-    {"n": "Anasse Kazib", "party": "Révolution permanente", "known": 0},
-    {"n": "Natacha Polony", "party": "", "known": 0}
-  ],
-  "props": [
-    {"k": "retraite62", "t": "Ramener l'âge légal de départ à la retraite à 62 ans, voire moins", "axis": "social", "lean": "gauche (et RN)"},
-    {"k": "zucman", "t": "Créer un impôt minimum de 2 % sur les patrimoines de plus de 100 millions d'euros (« taxe Zucman »)", "axis": "economie", "lean": "gauche"},
-    {"k": "heritages", "t": "Taxer davantage les très gros héritages", "axis": "economie", "lean": "gauche"},
-    {"k": "niches", "t": "Réduire les niches fiscales et les aides publiques aux entreprises", "axis": "economie", "lean": "gauche"},
-    {"k": "aideamourir", "t": "Soutenir le droit à l'aide à mourir (loi adoptée en juillet 2026)", "axis": "", "lean": "gauche et centre"},
-    {"k": "cannabis", "t": "Légaliser le cannabis à usage récréatif", "axis": "securite", "lean": "gauche"},
-    {"k": "proportionnelle", "t": "Élire les députés à la proportionnelle", "axis": "", "lean": "gauche (et RN)"},
-    {"k": "ric", "t": "Instaurer le référendum d'initiative citoyenne (RIC)", "axis": "", "lean": "LFI et RN"},
-    {"k": "isf", "t": "Rétablir un impôt sur la fortune (ISF)", "axis": "economie", "lean": "gauche"},
-    {"k": "otan", "t": "Quitter le commandement intégré de l'OTAN", "axis": "", "lean": "transpartisan (souverainistes)"},
-    {"k": "enseignants", "t": "Augmenter nettement le salaire des enseignants (au moins 10 à 15 %)", "axis": "", "lean": "transpartisan"},
-    {"k": "economies", "t": "Réaliser plus de 100 milliards d'euros d'économies sur la dépense publique pendant le quinquennat", "axis": "budget", "lean": "droite et centre"},
-    {"k": "reglor", "t": "Inscrire une « règle d'or » d'équilibre budgétaire dans la Constitution", "axis": "budget", "lean": "droite et centre"},
-    {"k": "impotsprod", "t": "Supprimer les impôts de production", "axis": "economie", "lean": "droite"},
-    {"k": "droitdusol", "t": "Supprimer le droit du sol", "axis": "immigration", "lean": "droite"},
-    {"k": "immlegale", "t": "Réduire fortement l'immigration légale (plafonds, division par deux…)", "axis": "immigration", "lean": "droite et centre"},
-    {"k": "regroupement", "t": "Suspendre ou supprimer le regroupement familial", "axis": "immigration", "lean": "droite"},
-    {"k": "nucleaire", "t": "Construire de nouveaux réacteurs nucléaires (EPR2)", "axis": "ecologie", "lean": "droite et centre"},
-    {"k": "planchers", "t": "Instaurer des peines minimales obligatoires (« peines planchers ») pour certains crimes et délits", "axis": "securite", "lean": "droite"},
-    {"k": "agents", "t": "Réduire le nombre d'agents publics (non-remplacement de départs, départs volontaires)", "axis": "simplification", "lean": "droite"}
-  ],
-  "positions": {
-    "lepen": {
-      "retraite62": {"p": "pour", "q": "« Revenir à 62 ans et 40 à 42 annuités » ; a voté pour l'annulation des dernières réformes des retraites (scrutin n° 217).", "s": ["fi_retraites", "an_217"]},
-      "zucman": {"p": "contre", "q": "Juge la taxe Zucman « inefficace, injuste et dangereuse puisqu'elle entraverait le développement de nos entreprises » (entretien à Sud Ouest, septembre 2025).", "s": ["wiki_zucman"]},
-      "aideamourir": {"p": "contre", "q": "Contre « à titre personnel » (texte « assorti d'insuffisamment de garde-fous »), sans promettre d'abroger la loi ; a voté contre (scrutin n° 5729).", "s": ["fi_findevie", "an_5729"]},
-      "proportionnelle": {"p": "pour", "q": "Juge la proportionnelle intégrale par département « un moindre mal par rapport à un système majoritaire ».", "s": ["fi_proportionnelle"]},
-      "ric": {"p": "pour", "q": "Programme 2022 : « entend instaurer un référendum d'initiative citoyenne ».", "s": ["ps_ric"]},
-      "otan": {"p": "nuance", "q": "Programme 2022 : sortie du commandement intégré, mais pas pendant la guerre en Ukraine : « On ne va pas le faire alors qu'il y a une guerre dans un pays européen ».", "s": ["ps_otan"]},
-      "economies": {"p": "pour", "q": "Plan de 140 milliards d'euros d'économies d'ici 2032.", "s": ["ps_lepen_eco"]},
-      "reglor": {"p": "pour", "q": "Propose d'inscrire une « règle d'or » dans la Constitution par référendum, « dans les douze mois » suivant l'élection.", "s": ["ps_lepen_eco"]},
-      "droitdusol": {"p": "pour", "q": "Promet une consultation nationale pour modifier la Constitution, notamment pour mettre fin au droit du sol.", "s": ["fi_lepen_constit"]},
-      "regroupement": {"p": "pour", "q": "Veut supprimer le regroupement familial.", "s": ["fi_lepen_constit"]}
-    },
-    "melenchon": {
-      "retraite62": {"p": "pour", "q": "« Un retour à la retraite à 60 ans après 40 annuités », 62 ans « dans un premier temps » ; le contre-budget chiffre le retour à 62 ans à 9 milliards.", "s": ["fi_retraites", "ps_melenchon"]},
-      "zucman": {"p": "pour", "q": "Contre-budget : taxe Zucman sur les patrimoines de plus de 100 millions d'euros, rendement estimé à 15 milliards.", "s": ["ps_melenchon"]},
-      "heritages": {"p": "pour", "q": "Contre-budget : taxe sur les héritages évaluée à 20 milliards.", "s": ["ps_melenchon"]},
-      "niches": {"p": "pour", "q": "Contre-budget : 22 milliards sur les niches fiscales, en « rabotant » notamment le pacte Dutreil et le crédit d'impôt recherche.", "s": ["ps_melenchon"]},
-      "aideamourir": {"p": "pour", "q": "« Félicite de tout cœur » les députés qui ont fait adopter le texte sur l'aide à mourir.", "s": ["jdd_melenchon_fdv"]},
-      "cannabis": {"p": "pour", "q": "Programme 2022 : « légaliser et d'encadrer par un monopole d'État » le cannabis.", "s": ["vih_melenchon"]},
-      "ric": {"p": "pour", "q": "Programme 2022 : « un référendum d'initiative citoyenne », avec possibilité de révoquer des élus.", "s": ["ps_ric"]},
-      "isf": {"p": "pour", "q": "Contre-budget : « ISF climatique » de 10 milliards.", "s": ["ps_melenchon"]},
-      "otan": {"p": "pour", "q": "Programme 2022 : retrait immédiat du commandement intégré, puis de l'organisation par étapes.", "s": ["ps_otan"]},
-      "economies": {"p": "contre", "q": "Contre-budget : 81,7 milliards de dépenses nouvelles, financées par 106,4 milliards de recettes supplémentaires.", "s": ["ps_melenchon"]},
-      "nucleaire": {"p": "contre", "q": "Sa représentante Aurélie Trouvé (« pour Jean-Luc Mélenchon ») défend une « sortie du nucléaire » à terme.", "s": ["sfen_ufe"]}
-    },
-    "glucksmann": {
-      "retraite62": {"p": "nuance", "q": "« Retour au principe des 62 ans » selon franceinfo, mais « évitant de fixer un âge légal de départ » selon LCP ; ceux qui ont une espérance de vie en bonne santé plus longue « doivent partir plus tard ».", "s": ["fi_retraites", "lcp_retraites", "ps_glucksmann"]},
-      "heritages": {"p": "pour", "q": "Veut « taxer les méga-héritages » (environ le 1 % des plus gros).", "s": ["lcp_heritages"]},
-      "niches": {"p": "pour", "q": "Veut réduire et réorienter les aides aux entreprises : « Il y a par exemple 211 milliards de cadeaux fiscaux ou d'exonération pour les entreprises ».", "s": ["fi_dette"]},
-      "proportionnelle": {"p": "pour", "q": "Favorable à une proportionnelle « régionale ».", "s": ["fi_proportionnelle"]},
-      "enseignants": {"p": "pour", "q": "Hausse de 10 à 25 % des salaires des enseignants (six milliards d'euros).", "s": ["ps_ecole"]},
-      "nucleaire": {"p": "pour", "q": "Se prononce pour de nouveaux EPR, tout en reconnaissant que « la question des nouveaux réacteurs nucléaires » reste à discuter avec Yannick Jadot.", "s": ["lcp_glucksmann_eco"]}
-    },
-    "philippe": {
-      "retraite62": {"p": "contre", "q": "Projet « portant à 65 ans l'âge légal de départ et 45 annuités ».", "s": ["fi_retraites"]},
-      "heritages": {"p": "contre", "q": "« En désaccord frontal » avec une hausse ; préfère relever fortement les plafonds de donation.", "s": ["lcp_heritages"]},
-      "proportionnelle": {"p": "contre", "q": "Estime que la proportionnelle conduirait à « une absence de majorité ».", "s": ["fi_proportionnelle"]},
-      "enseignants": {"p": "pour", "q": "Hausse de 20 % des salaires des enseignants sur le quinquennat.", "s": ["ps_ecole"]},
-      "reglor": {"p": "pour", "q": "Propose une règle d'or sur le déficit.", "s": ["e1_philippe_regle"]},
-      "immlegale": {"p": "pour", "q": "Veut « diviser par deux l'immigration légale » et « réduire très sensiblement le nombre de titres de séjour », sans la ramener « à zéro ».", "s": ["lcp_philippe_imm"]},
-      "regroupement": {"p": "pour", "q": "Propose « un moratoire » sur le regroupement familial pendant le quinquennat.", "s": ["lcp_philippe_imm"]}
-    },
-    "attal": {
-      "retraite62": {"p": "contre", "q": "Propose de « supprimer purement et simplement l'âge légal » au profit de la durée de cotisation ; a voté contre l'annulation des dernières réformes (scrutin n° 217).", "s": ["lcp_retraites", "an_217"]},
-      "zucman": {"p": "contre", "q": "A voté contre l'impôt plancher de 2 % sur les très hauts patrimoines (scrutin n° 881).", "s": ["an_881"]},
-      "heritages": {"p": "contre", "q": "Souhaite que la transmission « soit moins taxé[e] ».", "s": ["lcp_heritages"]},
-      "aideamourir": {"p": "pour", "q": "A voté pour la proposition de loi sur l'aide à mourir (scrutin n° 5729).", "s": ["an_5729"]},
-      "proportionnelle": {"p": "contre", "q": "Juge le scrutin majoritaire actuel « le moins pire des scrutins ».", "s": ["fi_proportionnelle"]},
-      "economies": {"p": "pour", "q": "Plan d'économies de 150 milliards d'euros sur cinq ans.", "s": ["fi_dette"]},
-      "immlegale": {"p": "nuance", "q": "Veut accueillir « moins, mais mieux », avec le travail comme premier motif, mais rejette le moratoire sur l'immigration légale (« ni possible, ni souhaitable »).", "s": ["fi_bloc_central"]},
-      "agents": {"p": "pour", "q": "Prévoit « un plan de départs volontaires dans nos administrations ».", "s": ["fi_dette"]}
-    },
-    "retailleau": {
-      "retraite62": {"p": "contre", "q": "« Pour la majorité des salariés, pas de retraite avant 63 ans ».", "s": ["fi_retraites"]},
-      "zucman": {"p": "contre", "q": "Affirme que Les Républicains ne participeront à aucun gouvernement incluant la taxe Zucman dans son programme.", "s": ["wiki_zucman"]},
-      "heritages": {"p": "contre", "q": "« Je ne serai pas le président qui augmentera les droits de succession mais celui qui les baissera. »", "s": ["lcp_heritages"]},
-      "aideamourir": {"p": "contre", "q": "Contre le texte (vote au Sénat) ; envisage, après un bilan d'un an, de demander aux Français « de trancher par eux-mêmes ».", "s": ["fi_findevie"]},
-      "cannabis": {"p": "contre", "q": "« Nous sommes opposés à la légalisation du cannabis » ; « la légalisation conduirait à une double défaite » (réponse en séance, alors ministre de l'Intérieur).", "s": ["an_qag418"]},
-      "proportionnelle": {"p": "contre", "q": "« La proportionnelle, c'est le plus sûr moyen de ne pas donner à la France une majorité. »", "s": ["fi_proportionnelle"]},
-      "economies": {"p": "pour", "q": "Plan de 197 milliards d'euros d'économies sur cinq ans.", "s": ["ps_retailleau_eco"]},
-      "reglor": {"p": "pour", "q": "Soumettrait à référendum l'inscription d'une règle d'équilibre des finances publiques dans la Constitution.", "s": ["ps_retailleau_eco"]},
-      "impotsprod": {"p": "pour", "q": "Prévoit la suppression des impôts de production pour les entreprises.", "s": ["ps_retailleau_eco"]},
-      "droitdusol": {"p": "pour", "q": "Annonce qu'en cas d'élection, il abrogera le droit du sol.", "s": ["e1_retailleau_sol"]},
-      "immlegale": {"p": "pour", "q": "Veut instaurer des « plafonds migratoires » par une révision de la Constitution soumise à référendum.", "s": ["ps_retailleau_constit"]},
-      "regroupement": {"p": "nuance", "q": "Prévoit de réduire le regroupement familial (et le nombre d'étudiants étrangers), sans le supprimer explicitement.", "s": ["ps_retailleau_eco"]},
-      "nucleaire": {"p": "pour", "q": "« Je poursuis le programme EPR2, déjà avec la première tranche de 6 réacteurs. »", "s": ["sfen_ufe"]},
-      "planchers": {"p": "pour", "q": "Propose des peines minimales pour certains crimes et délits graves, inscrites dans une « Charte de l'ordre républicain ».", "s": ["ps_retailleau_constit"]},
-      "agents": {"p": "pour", "q": "Ne pas remplacer 400 000 agents publics partant à la retraite.", "s": ["ps_retailleau_eco"]}
-    },
-    "zemmour": {
-      "retraite62": {"p": "contre", "q": "Programme 2022 : porter l'âge de départ à 64 ans.", "s": ["f24_zemmour"]},
-      "aideamourir": {"p": "contre", "q": "« J'abrogerai cette loi qui met fin à tous les garde-fous pour investir dans le soin et le progrès médical. »", "s": ["fi_findevie"]},
-      "ric": {"p": "nuance", "q": "Programme 2022 : ne défend pas le RIC et privilégie le référendum proposé par le président, tout en ayant dit qu'« il faut envisager des référendums d'initiative citoyenne ».", "s": ["ps_ric"]},
-      "otan": {"p": "pour", "q": "Programme 2022 : sortir du commandement intégré (« perte d'autonomie stratégique »).", "s": ["ps_otan", "f24_zemmour"]},
-      "impotsprod": {"p": "nuance", "q": "Programme 2022 : baisser les impôts de production (pas de suppression annoncée).", "s": ["f24_zemmour"]},
-      "droitdusol": {"p": "pour", "q": "Programme 2022 : supprimer le droit du sol.", "s": ["f24_zemmour"]},
-      "regroupement": {"p": "pour", "q": "Programme 2022 : supprimer le droit au regroupement familial.", "s": ["f24_zemmour"]},
-      "nucleaire": {"p": "pour", "q": "Programme 2022 : 14 nouveaux EPR à l'horizon 2050.", "s": ["f24_zemmour"]}
-    }
+  "lcp_retraites": {
+   "u": "https://lcp.fr/actualites/presidentielle-que-proposent-les-candidats-a-l-elysee-sur-les-retraites-441751",
+   "o": "LCP",
+   "d": "consulté le 2026-10-16",
+   "ty": "presse (comparatif des programmes)"
+  },
+  "ps_glucksmann": {
+   "u": "https://www.publicsenat.fr/actualites/politique/fiscalite-ecole-immigration-ce-que-propose-raphael-glucksmann",
+   "o": "Public Sénat",
+   "d": "2026-08-24",
+   "ty": "presse (programme du candidat)"
+  },
+  "fi_proportionnelle": {
+   "u": "https://www.franceinfo.fr/politique/proportionnelle-aux-elections-legislatives-qu-en-pensent-les-differents-partis-politiques_7271859.html",
+   "o": "franceinfo",
+   "d": "2025-05-26",
+   "ty": "presse (déclarations)"
+  },
+  "fi_dette": {
+   "u": "https://www.franceinfo.fr/economie/crise/crise-de-la-dette/que-proposent-les-candidats-a-la-presidentielle-pour-reduire-la-dette-publique_8215481.html",
+   "o": "franceinfo",
+   "d": "2026-09-29",
+   "ty": "presse (déclarations)"
+  },
+  "lcp_heritages": {
+   "u": "https://lcp.fr/actualites/heritages-et-droits-de-succession-que-proposent-les-candidats-a-l-election",
+   "o": "LCP",
+   "d": "2026-08-27",
+   "ty": "presse (déclarations)"
+  },
+  "wiki_zucman": {
+   "u": "https://fr.wikipedia.org/wiki/Taxe_Zucman",
+   "o": "Wikipédia (citant Sud Ouest et la presse)",
+   "d": "consulté le 2026-10-16",
+   "ty": "encyclopédie (déclaration rapportée)"
+  },
+  "ps_melenchon": {
+   "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-jean-luc-melenchon-table-sur-106-milliards-de-recettes-supplementaires-et-82-milliards-de-depenses-nouvelles-pour-2027",
+   "o": "Public Sénat",
+   "d": "2026-10-14",
+   "ty": "presse (programme chiffré du candidat)"
+  },
+  "fi_findevie": {
+   "u": "https://www.franceinfo.fr/societe/euthanasie/presidentielle-2027-les-candidats-hostiles-a-la-loi-sur-la-fin-de-vie-vont-ils-promettre-de-l-abroger_8108582.html",
+   "o": "franceinfo",
+   "d": "2026-07-17",
+   "ty": "presse (déclarations)"
+  },
+  "jdd_melenchon_fdv": {
+   "u": "https://www.lejdd.fr/politique/aide-a-mourir-melenchon-felicite-de-tout-coeur-les-deputes-qui-ont-fait-adopter-le-texte-158529",
+   "o": "Le JDD",
+   "d": "consulté le 2026-10-16",
+   "ty": "presse (déclaration, titre de l'article)"
+  },
+  "vih_melenchon": {
+   "u": "https://vih.org/drogues-et-rdr/20220407/jean-luc-melenchon-la-france-insoumise/",
+   "o": "vih.org",
+   "d": "2022-04-07",
+   "ty": "programme présidentiel 2022 (présenté par la presse spécialisée)"
+  },
+  "an_qag418": {
+   "u": "https://www.assemblee-nationale.fr/dyn/17/questions/QANR5L17QG418",
+   "o": "Assemblée nationale",
+   "d": "2025-02-19",
+   "ty": "déclaration en séance (question au Gouvernement n° 418)"
+  },
+  "ps_ric": {
+   "u": "https://www.publicsenat.fr/actualites/non-classe/presidentielle-ric-rip-50-nuances-de-referendums-dans-les-programmes-des-candidats",
+   "o": "Public Sénat",
+   "d": "2022-02-15",
+   "ty": "programme présidentiel 2022"
+  },
+  "ps_otan": {
+   "u": "https://www.publicsenat.fr/actualites/politique/otan-les-propositions-des-candidats-a-la-presidentielle-200136",
+   "o": "Public Sénat",
+   "d": "2022-03-25",
+   "ty": "programme présidentiel 2022"
+  },
+  "ps_ecole": {
+   "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-que-proposent-les-candidats-pour-lecole",
+   "o": "Public Sénat",
+   "d": "2026-08-31",
+   "ty": "presse (programmes)"
+  },
+  "ps_retailleau_eco": {
+   "u": "https://www.publicsenat.fr/actualites/economie/presidentielle-2027-bruno-retailleau-sengage-sur-un-plan-deconomies-de-pres-de-200-milliards-deuros-sil-est-elu",
+   "o": "Public Sénat",
+   "d": "2026-10-12",
+   "ty": "presse (programme chiffré du candidat)"
+  },
+  "ps_lepen_eco": {
+   "u": "https://www.publicsenat.fr/actualites/politique/140-milliards-deuros-deconomies-dici-2032-leffort-radical-propose-par-marine-le-pen-pour-redresser-les-f",
+   "o": "Public Sénat",
+   "d": "2026-10-06",
+   "ty": "presse (programme chiffré de la candidate)"
+  },
+  "e1_philippe_regle": {
+   "u": "https://www.europe1.fr/economie/la-regle-dor-sur-le-deficit-proposee-par-edouard-philippe-est-elle-applicable-en-france-966120",
+   "o": "Europe 1",
+   "d": "consulté le 2026-10-16",
+   "ty": "presse (proposition du candidat, titre de l'article)"
+  },
+  "fi_lepen_constit": {
+   "u": "https://www.franceinfo.fr/politique/front-national/presidentielle-2027-richard-ferrand-balaie-la-promesse-de-marine-le-pen-d-une-revision-de-la-constitution-par-referendum_8235298.html",
+   "o": "franceinfo",
+   "d": "2026-10-13",
+   "ty": "presse (promesses de la candidate)"
+  },
+  "e1_retailleau_sol": {
+   "u": "https://www.europe1.fr/politique/objectif-elysee-2027-en-cas-delection-bruno-retailleau-annonce-quil-abrogera-le-droit-du-sol-1064300",
+   "o": "Europe 1",
+   "d": "consulté le 2026-10-16",
+   "ty": "interview (titre de l'article)"
+  },
+  "f24_zemmour": {
+   "u": "https://www.france24.com/fr/info-en-continu/20211130-pr%C3%A9sidentielle-quelques-propositions-du-candidat-zemmour",
+   "o": "France 24 / AFP",
+   "d": "2021-11-30",
+   "ty": "programme présidentiel 2022"
+  },
+  "lcp_philippe_imm": {
+   "u": "https://lcp.fr/actualites/edouard-philippe-veut-diviser-par-deux-l-immigration-legale-et-propose-un-moratoire-sur",
+   "o": "LCP",
+   "d": "2026-10-09",
+   "ty": "interview (France 2, L'Heure de vérité)"
+  },
+  "fi_bloc_central": {
+   "u": "https://www.franceinfo.fr/politique/ni-possible-ni-souhaitable-en-vue-de-la-presidentielle-2027-le-bloc-central-montre-ses-divisions-sur-le-theme-de-l-immigration_8029442.html",
+   "o": "franceinfo",
+   "d": "2026-05-26",
+   "ty": "presse (déclarations)"
+  },
+  "ps_retailleau_constit": {
+   "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-2027-bruno-retailleau-veut-renverser-la-table-avec-une-profonde-reforme-constitutionnelle",
+   "o": "Public Sénat (entretien au Figaro)",
+   "d": "2026-09-03",
+   "ty": "interview"
+  },
+  "sfen_ufe": {
+   "u": "https://www.sfen.org/rgn/presidentielle-2027-au-colloque-de-lufe-les-grands-partis-listent-leurs-positions-sur-le-nucleaire/",
+   "o": "Sfen (colloque de l'UFE du 23 juin 2026)",
+   "d": "2026-07-02",
+   "ty": "débat public (candidat ou représentant nommément désigné)"
+  },
+  "lcp_glucksmann_eco": {
+   "u": "https://lcp.fr/actualites/presidentielle-2027-s-il-gagne-raphael-glucksmann-engagera-les-100-jours-de-la",
+   "o": "LCP",
+   "d": "2026-08-25",
+   "ty": "déclaration (déplacement de campagne)"
+  },
+  "an_217": {
+   "u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/217",
+   "o": "Assemblée nationale",
+   "d": "2024-10-31",
+   "ty": "vote de la candidate ou du candidat (scrutin n° 217 : annulation des dernières réformes des retraites)"
+  },
+  "an_881": {
+   "u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/881",
+   "o": "Assemblée nationale",
+   "d": "2025-02-20",
+   "ty": "vote du candidat (scrutin n° 881 : impôt plancher de 2 %)"
+  },
+  "an_5729": {
+   "u": "https://www.assemblee-nationale.fr/dyn/17/scrutins/5729",
+   "o": "Assemblée nationale",
+   "d": "2026-02-25",
+   "ty": "vote de la candidate ou du candidat (scrutin n° 5729 : aide à mourir, deuxième lecture)"
+  },
+  "fi_retraites_0930": {
+   "u": "https://www.franceinfo.fr/economie/retraite/reforme-des-retraites/changement-de-systeme-passage-a-60-ou-a-65-ans-capitalisation-que-proposent-les-principaux-candidats-a-l-election-presidentielle-pour-les-retraites_8215784.html",
+   "o": "franceinfo",
+   "d": "2026-09-30",
+   "ty": "presse (comparatif des programmes)"
+  },
+  "fi_tondelier_zucman": {
+   "u": "https://www.franceinfo.fr/replay-radio/8h30-fauvelle-dely/pour-marine-tondelier-sebastien-lecornu-n-a-rien-a-faire-la-son-equation-est-insoluble_7498987.html",
+   "o": "franceinfo (entretien)",
+   "d": "2025-10-02",
+   "ty": "entretien"
+  },
+  "fi_tondelier_isf": {
+   "u": "https://www.franceinfo.fr/replay-magazine/franceinfo/l-invite-politique/vague-de-chaleur-on-est-dans-une-impreparation-comme-souvent-dans-ce-pays-estime-l-ecologiste-marine-tondelier_7988627.html",
+   "o": "franceinfo (entretien)",
+   "d": "2026-05-27",
+   "ty": "entretien"
+  },
+  "fi_tondelier_fdv": {
+   "u": "https://www.franceinfo.fr/replay-radio/19h20-politique/droit-a-l-aide-a-mourir-je-suis-tres-emue-c-est-enfin-une-bonne-nouvelle-reagit-marine-tondelier_7259172.html",
+   "o": "franceinfo",
+   "d": "2025-05-27",
+   "ty": "réaction"
+  },
+  "f24_tondelier": {
+   "u": "https://www.france24.com/fr/info-en-continu/20260421-fragilis%C3%A9e-en-interne-marine-tondelier-veut-mettre-du-fond-dans-la-campagne-pour-2027",
+   "o": "France 24 / AFP",
+   "d": "2026-04-21",
+   "ty": "presse"
+  },
+  "ps_roussel_2022": {
+   "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-fabien-roussel-presente-180-propositions-pour-une-france-des-jours",
+   "o": "Public Sénat",
+   "d": "2022-01-24",
+   "ty": "presse (programme présidentiel 2022)"
+  },
+  "ne_ambition": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/reussir-une-nouvelle-ambition-francaise/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_destin": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/etre-maitre-de-notre-destin/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_civique": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/generer-un-renouveau-civique/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_immigration": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/immigration/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_securite": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/securite/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_education": {
+   "u": "https://www.unenouvelleenergie.fr/notre-programme/education/",
+   "o": "Nouvelle Énergie — programme de David Lisnard",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_q_economies": {
+   "u": "https://unenouvelleenergie.fr/questions/que-ferait-david-lisnard-des-200-milliards-d-economies/",
+   "o": "Nouvelle Énergie (FAQ du programme, citant Le Crayon du 11/10/2026)",
+   "d": "2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_q_nucleaire": {
+   "u": "https://unenouvelleenergie.fr/questions/quel-candidat-veut-construire-de-nouveaux-reacteurs-nucleaires/",
+   "o": "Nouvelle Énergie (FAQ du programme)",
+   "d": "2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_q_fonctionnaires": {
+   "u": "https://unenouvelleenergie.fr/questions/quel-candidat-veut-reduire-le-nombre-de-fonctionnaires/",
+   "o": "Nouvelle Énergie (FAQ du programme, meeting de Saint-Raphaël du 3/07/2026)",
+   "d": "2026-10-16",
+   "ty": "programme officiel"
+  },
+  "ne_q_referendums": {
+   "u": "https://unenouvelleenergie.fr/questions/quel-candidat-propose-des-referendums/",
+   "o": "Nouvelle Énergie (FAQ du programme)",
+   "d": "2026-10-16",
+   "ty": "programme officiel"
+  },
+  "dlf_immigration": {
+   "u": "https://www.debout-la-france.fr/projet/immigration-et-assimilation/",
+   "o": "Debout la France — projet (livret de mars 2026)",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme du parti présidé par le candidat"
+  },
+  "dlf_democratie": {
+   "u": "https://www.debout-la-france.fr/projet/refonder-et-moraliser-notre-democratie/",
+   "o": "Debout la France — projet (livret de juin 2026)",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme du parti présidé par le candidat"
+  },
+  "dlf_retraites": {
+   "u": "https://www.debout-la-france.fr/projet/retraites/",
+   "o": "Debout la France — projet",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme du parti présidé par le candidat"
+  },
+  "dlf_justice": {
+   "u": "https://www.debout-la-france.fr/projet/justice/",
+   "o": "Debout la France — projet (livret de juin 2026)",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme du parti présidé par le candidat"
+  },
+  "dlf_defense": {
+   "u": "https://www.debout-la-france.fr/projet/defense/",
+   "o": "Debout la France — projet (livret d'avril 2025)",
+   "d": "consulté le 2026-10-16",
+   "ty": "programme du parti présidé par le candidat"
   }
+ },
+ "candidates": [
+  {
+   "k": "lepen",
+   "n": "Marine Le Pen",
+   "party": "Rassemblement national",
+   "c": "#2c3f8f"
+  },
+  {
+   "k": "melenchon",
+   "n": "Jean-Luc Mélenchon",
+   "party": "La France insoumise",
+   "c": "#b8323a"
+  },
+  {
+   "k": "glucksmann",
+   "n": "Raphaël Glucksmann",
+   "party": "Place publique, désigné par la primaire de la gauche sociale-démocrate",
+   "c": "#c2577e"
+  },
+  {
+   "k": "philippe",
+   "n": "Édouard Philippe",
+   "party": "Horizons",
+   "c": "#1b8a96"
+  },
+  {
+   "k": "attal",
+   "n": "Gabriel Attal",
+   "party": "Renaissance",
+   "c": "#b8932a"
+  },
+  {
+   "k": "retailleau",
+   "n": "Bruno Retailleau",
+   "party": "Les Républicains",
+   "c": "#3c6fb0"
+  },
+  {
+   "k": "zemmour",
+   "n": "Éric Zemmour",
+   "party": "Reconquête",
+   "c": "#5a4a7a"
+  },
+  {
+   "k": "tondelier",
+   "n": "Marine Tondelier",
+   "party": "Les Écologistes",
+   "c": "#3d8b4f"
+  },
+  {
+   "k": "roussel",
+   "n": "Fabien Roussel",
+   "party": "Parti communiste français",
+   "c": "#c8462c"
+  },
+  {
+   "k": "lisnard",
+   "n": "David Lisnard",
+   "party": "Nouvelle Énergie",
+   "c": "#6b7a2a"
+  },
+  {
+   "k": "dupontaignan",
+   "n": "Nicolas Dupont-Aignan",
+   "party": "Debout la France",
+   "c": "#7a4e2e"
+  }
+ ],
+ "others": [
+  {
+   "n": "Dominique de Villepin",
+   "party": "La France humaniste",
+   "known": 4
+  },
+  {
+   "n": "Delphine Batho",
+   "party": "Génération écologie",
+   "known": 2
+  },
+  {
+   "n": "Xavier Bertrand",
+   "party": "",
+   "known": 0
+  },
+  {
+   "n": "François Ruffin",
+   "party": "",
+   "known": 0
+  },
+  {
+   "n": "Karim Bouamrane",
+   "party": "",
+   "known": 0
+  },
+  {
+   "n": "Bernard Cazeneuve",
+   "party": "La Convention",
+   "known": 0
+  },
+  {
+   "n": "Nathalie Arthaud",
+   "party": "Lutte ouvrière",
+   "known": 0
+  },
+  {
+   "n": "Florian Philippot",
+   "party": "Les Patriotes",
+   "known": 0
+  },
+  {
+   "n": "François Asselineau",
+   "party": "UPR",
+   "known": 0
+  },
+  {
+   "n": "Anasse Kazib",
+   "party": "Révolution permanente",
+   "known": 0
+  },
+  {
+   "n": "Natacha Polony",
+   "party": "",
+   "known": 0
+  }
+ ],
+ "props": [
+  {
+   "k": "retraite62",
+   "t": "Ramener l'âge légal de départ à la retraite à 62 ans, voire moins",
+   "axis": "social",
+   "lean": "gauche (et RN)"
+  },
+  {
+   "k": "zucman",
+   "t": "Créer un impôt minimum de 2 % sur les patrimoines de plus de 100 millions d'euros (« taxe Zucman »)",
+   "axis": "economie",
+   "lean": "gauche"
+  },
+  {
+   "k": "heritages",
+   "t": "Taxer davantage les très gros héritages",
+   "axis": "economie",
+   "lean": "gauche"
+  },
+  {
+   "k": "niches",
+   "t": "Réduire les niches fiscales et les aides publiques aux entreprises",
+   "axis": "economie",
+   "lean": "gauche"
+  },
+  {
+   "k": "aideamourir",
+   "t": "Soutenir le droit à l'aide à mourir (loi adoptée en juillet 2026)",
+   "axis": "",
+   "lean": "gauche et centre"
+  },
+  {
+   "k": "cannabis",
+   "t": "Légaliser le cannabis à usage récréatif",
+   "axis": "securite",
+   "lean": "gauche"
+  },
+  {
+   "k": "proportionnelle",
+   "t": "Élire les députés à la proportionnelle",
+   "axis": "",
+   "lean": "gauche (et RN)"
+  },
+  {
+   "k": "ric",
+   "t": "Instaurer le référendum d'initiative citoyenne (RIC)",
+   "axis": "",
+   "lean": "LFI et RN"
+  },
+  {
+   "k": "isf",
+   "t": "Rétablir un impôt sur la fortune (ISF)",
+   "axis": "economie",
+   "lean": "gauche"
+  },
+  {
+   "k": "otan",
+   "t": "Quitter le commandement intégré de l'OTAN",
+   "axis": "",
+   "lean": "transpartisan (souverainistes)"
+  },
+  {
+   "k": "enseignants",
+   "t": "Augmenter nettement le salaire des enseignants (au moins 10 à 15 %)",
+   "axis": "",
+   "lean": "transpartisan"
+  },
+  {
+   "k": "economies",
+   "t": "Réaliser plus de 100 milliards d'euros d'économies sur la dépense publique pendant le quinquennat",
+   "axis": "budget",
+   "lean": "droite et centre"
+  },
+  {
+   "k": "reglor",
+   "t": "Inscrire une « règle d'or » d'équilibre budgétaire dans la Constitution",
+   "axis": "budget",
+   "lean": "droite et centre"
+  },
+  {
+   "k": "impotsprod",
+   "t": "Supprimer les impôts de production",
+   "axis": "economie",
+   "lean": "droite"
+  },
+  {
+   "k": "droitdusol",
+   "t": "Supprimer le droit du sol",
+   "axis": "immigration",
+   "lean": "droite"
+  },
+  {
+   "k": "immlegale",
+   "t": "Réduire fortement l'immigration légale (plafonds, division par deux…)",
+   "axis": "immigration",
+   "lean": "droite et centre"
+  },
+  {
+   "k": "regroupement",
+   "t": "Suspendre ou supprimer le regroupement familial",
+   "axis": "immigration",
+   "lean": "droite"
+  },
+  {
+   "k": "nucleaire",
+   "t": "Construire de nouveaux réacteurs nucléaires (EPR2)",
+   "axis": "ecologie",
+   "lean": "droite et centre"
+  },
+  {
+   "k": "planchers",
+   "t": "Instaurer des peines minimales obligatoires (« peines planchers ») pour certains crimes et délits",
+   "axis": "securite",
+   "lean": "droite"
+  },
+  {
+   "k": "agents",
+   "t": "Réduire le nombre d'agents publics (non-remplacement de départs, départs volontaires)",
+   "axis": "simplification",
+   "lean": "droite"
+  }
+ ],
+ "positions": {
+  "lepen": {
+   "retraite62": {
+    "p": "pour",
+    "q": "« Revenir à 62 ans et 40 à 42 annuités » ; a voté pour l'annulation des dernières réformes des retraites (scrutin n° 217).",
+    "s": [
+     "fi_retraites",
+     "an_217"
+    ]
+   },
+   "zucman": {
+    "p": "contre",
+    "q": "Juge la taxe Zucman « inefficace, injuste et dangereuse puisqu'elle entraverait le développement de nos entreprises » (entretien à Sud Ouest, septembre 2025).",
+    "s": [
+     "wiki_zucman"
+    ]
+   },
+   "aideamourir": {
+    "p": "contre",
+    "q": "Contre « à titre personnel » (texte « assorti d'insuffisamment de garde-fous »), sans promettre d'abroger la loi ; a voté contre (scrutin n° 5729).",
+    "s": [
+     "fi_findevie",
+     "an_5729"
+    ]
+   },
+   "proportionnelle": {
+    "p": "pour",
+    "q": "Juge la proportionnelle intégrale par département « un moindre mal par rapport à un système majoritaire ».",
+    "s": [
+     "fi_proportionnelle"
+    ]
+   },
+   "ric": {
+    "p": "pour",
+    "q": "Programme 2022 : « entend instaurer un référendum d'initiative citoyenne ».",
+    "s": [
+     "ps_ric"
+    ]
+   },
+   "otan": {
+    "p": "nuance",
+    "q": "Programme 2022 : sortie du commandement intégré, mais pas pendant la guerre en Ukraine : « On ne va pas le faire alors qu'il y a une guerre dans un pays européen ».",
+    "s": [
+     "ps_otan"
+    ]
+   },
+   "economies": {
+    "p": "pour",
+    "q": "Plan de 140 milliards d'euros d'économies d'ici 2032.",
+    "s": [
+     "ps_lepen_eco"
+    ]
+   },
+   "reglor": {
+    "p": "pour",
+    "q": "Propose d'inscrire une « règle d'or » dans la Constitution par référendum, « dans les douze mois » suivant l'élection.",
+    "s": [
+     "ps_lepen_eco"
+    ]
+   },
+   "droitdusol": {
+    "p": "pour",
+    "q": "Promet une consultation nationale pour modifier la Constitution, notamment pour mettre fin au droit du sol.",
+    "s": [
+     "fi_lepen_constit"
+    ]
+   },
+   "regroupement": {
+    "p": "pour",
+    "q": "Veut supprimer le regroupement familial.",
+    "s": [
+     "fi_lepen_constit"
+    ]
+   }
+  },
+  "melenchon": {
+   "retraite62": {
+    "p": "pour",
+    "q": "« Un retour à la retraite à 60 ans après 40 annuités », 62 ans « dans un premier temps » ; le contre-budget chiffre le retour à 62 ans à 9 milliards.",
+    "s": [
+     "fi_retraites",
+     "ps_melenchon"
+    ]
+   },
+   "zucman": {
+    "p": "pour",
+    "q": "Contre-budget : taxe Zucman sur les patrimoines de plus de 100 millions d'euros, rendement estimé à 15 milliards.",
+    "s": [
+     "ps_melenchon"
+    ]
+   },
+   "heritages": {
+    "p": "pour",
+    "q": "Contre-budget : taxe sur les héritages évaluée à 20 milliards.",
+    "s": [
+     "ps_melenchon"
+    ]
+   },
+   "niches": {
+    "p": "pour",
+    "q": "Contre-budget : 22 milliards sur les niches fiscales, en « rabotant » notamment le pacte Dutreil et le crédit d'impôt recherche.",
+    "s": [
+     "ps_melenchon"
+    ]
+   },
+   "aideamourir": {
+    "p": "pour",
+    "q": "« Félicite de tout cœur » les députés qui ont fait adopter le texte sur l'aide à mourir.",
+    "s": [
+     "jdd_melenchon_fdv"
+    ]
+   },
+   "cannabis": {
+    "p": "pour",
+    "q": "Programme 2022 : « légaliser et d'encadrer par un monopole d'État » le cannabis.",
+    "s": [
+     "vih_melenchon"
+    ]
+   },
+   "ric": {
+    "p": "pour",
+    "q": "Programme 2022 : « un référendum d'initiative citoyenne », avec possibilité de révoquer des élus.",
+    "s": [
+     "ps_ric"
+    ]
+   },
+   "isf": {
+    "p": "pour",
+    "q": "Contre-budget : « ISF climatique » de 10 milliards.",
+    "s": [
+     "ps_melenchon"
+    ]
+   },
+   "otan": {
+    "p": "pour",
+    "q": "Programme 2022 : retrait immédiat du commandement intégré, puis de l'organisation par étapes.",
+    "s": [
+     "ps_otan"
+    ]
+   },
+   "economies": {
+    "p": "contre",
+    "q": "Contre-budget : 81,7 milliards de dépenses nouvelles, financées par 106,4 milliards de recettes supplémentaires.",
+    "s": [
+     "ps_melenchon"
+    ]
+   },
+   "nucleaire": {
+    "p": "contre",
+    "q": "Sa représentante Aurélie Trouvé (« pour Jean-Luc Mélenchon ») défend une « sortie du nucléaire » à terme.",
+    "s": [
+     "sfen_ufe"
+    ]
+   }
+  },
+  "glucksmann": {
+   "retraite62": {
+    "p": "nuance",
+    "q": "« Retour au principe des 62 ans » selon franceinfo, mais « évitant de fixer un âge légal de départ » selon LCP ; ceux qui ont une espérance de vie en bonne santé plus longue « doivent partir plus tard ».",
+    "s": [
+     "fi_retraites",
+     "lcp_retraites",
+     "ps_glucksmann"
+    ]
+   },
+   "heritages": {
+    "p": "pour",
+    "q": "Veut « taxer les méga-héritages » (environ le 1 % des plus gros).",
+    "s": [
+     "lcp_heritages"
+    ]
+   },
+   "niches": {
+    "p": "pour",
+    "q": "Veut réduire et réorienter les aides aux entreprises : « Il y a par exemple 211 milliards de cadeaux fiscaux ou d'exonération pour les entreprises ».",
+    "s": [
+     "fi_dette"
+    ]
+   },
+   "proportionnelle": {
+    "p": "pour",
+    "q": "Favorable à une proportionnelle « régionale ».",
+    "s": [
+     "fi_proportionnelle"
+    ]
+   },
+   "enseignants": {
+    "p": "pour",
+    "q": "Hausse de 10 à 25 % des salaires des enseignants (six milliards d'euros).",
+    "s": [
+     "ps_ecole"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "Se prononce pour de nouveaux EPR, tout en reconnaissant que « la question des nouveaux réacteurs nucléaires » reste à discuter avec Yannick Jadot.",
+    "s": [
+     "lcp_glucksmann_eco"
+    ]
+   }
+  },
+  "philippe": {
+   "retraite62": {
+    "p": "contre",
+    "q": "Projet « portant à 65 ans l'âge légal de départ et 45 annuités ».",
+    "s": [
+     "fi_retraites"
+    ]
+   },
+   "heritages": {
+    "p": "contre",
+    "q": "« En désaccord frontal » avec une hausse ; préfère relever fortement les plafonds de donation.",
+    "s": [
+     "lcp_heritages"
+    ]
+   },
+   "proportionnelle": {
+    "p": "contre",
+    "q": "Estime que la proportionnelle conduirait à « une absence de majorité ».",
+    "s": [
+     "fi_proportionnelle"
+    ]
+   },
+   "enseignants": {
+    "p": "pour",
+    "q": "Hausse de 20 % des salaires des enseignants sur le quinquennat.",
+    "s": [
+     "ps_ecole"
+    ]
+   },
+   "reglor": {
+    "p": "pour",
+    "q": "Propose une règle d'or sur le déficit.",
+    "s": [
+     "e1_philippe_regle"
+    ]
+   },
+   "immlegale": {
+    "p": "pour",
+    "q": "Veut « diviser par deux l'immigration légale » et « réduire très sensiblement le nombre de titres de séjour », sans la ramener « à zéro ».",
+    "s": [
+     "lcp_philippe_imm"
+    ]
+   },
+   "regroupement": {
+    "p": "pour",
+    "q": "Propose « un moratoire » sur le regroupement familial pendant le quinquennat.",
+    "s": [
+     "lcp_philippe_imm"
+    ]
+   }
+  },
+  "attal": {
+   "retraite62": {
+    "p": "contre",
+    "q": "Propose de « supprimer purement et simplement l'âge légal » au profit de la durée de cotisation ; a voté contre l'annulation des dernières réformes (scrutin n° 217).",
+    "s": [
+     "lcp_retraites",
+     "an_217"
+    ]
+   },
+   "zucman": {
+    "p": "contre",
+    "q": "A voté contre l'impôt plancher de 2 % sur les très hauts patrimoines (scrutin n° 881).",
+    "s": [
+     "an_881"
+    ]
+   },
+   "heritages": {
+    "p": "contre",
+    "q": "Souhaite que la transmission « soit moins taxé[e] ».",
+    "s": [
+     "lcp_heritages"
+    ]
+   },
+   "aideamourir": {
+    "p": "pour",
+    "q": "A voté pour la proposition de loi sur l'aide à mourir (scrutin n° 5729).",
+    "s": [
+     "an_5729"
+    ]
+   },
+   "proportionnelle": {
+    "p": "contre",
+    "q": "Juge le scrutin majoritaire actuel « le moins pire des scrutins ».",
+    "s": [
+     "fi_proportionnelle"
+    ]
+   },
+   "economies": {
+    "p": "pour",
+    "q": "Plan d'économies de 150 milliards d'euros sur cinq ans.",
+    "s": [
+     "fi_dette"
+    ]
+   },
+   "immlegale": {
+    "p": "nuance",
+    "q": "Veut accueillir « moins, mais mieux », avec le travail comme premier motif, mais rejette le moratoire sur l'immigration légale (« ni possible, ni souhaitable »).",
+    "s": [
+     "fi_bloc_central"
+    ]
+   },
+   "agents": {
+    "p": "pour",
+    "q": "Prévoit « un plan de départs volontaires dans nos administrations ».",
+    "s": [
+     "fi_dette"
+    ]
+   }
+  },
+  "retailleau": {
+   "retraite62": {
+    "p": "contre",
+    "q": "« Pour la majorité des salariés, pas de retraite avant 63 ans ».",
+    "s": [
+     "fi_retraites"
+    ]
+   },
+   "zucman": {
+    "p": "contre",
+    "q": "Affirme que Les Républicains ne participeront à aucun gouvernement incluant la taxe Zucman dans son programme.",
+    "s": [
+     "wiki_zucman"
+    ]
+   },
+   "heritages": {
+    "p": "contre",
+    "q": "« Je ne serai pas le président qui augmentera les droits de succession mais celui qui les baissera. »",
+    "s": [
+     "lcp_heritages"
+    ]
+   },
+   "aideamourir": {
+    "p": "contre",
+    "q": "Contre le texte (vote au Sénat) ; envisage, après un bilan d'un an, de demander aux Français « de trancher par eux-mêmes ».",
+    "s": [
+     "fi_findevie"
+    ]
+   },
+   "cannabis": {
+    "p": "contre",
+    "q": "« Nous sommes opposés à la légalisation du cannabis » ; « la légalisation conduirait à une double défaite » (réponse en séance, alors ministre de l'Intérieur).",
+    "s": [
+     "an_qag418"
+    ]
+   },
+   "proportionnelle": {
+    "p": "contre",
+    "q": "« La proportionnelle, c'est le plus sûr moyen de ne pas donner à la France une majorité. »",
+    "s": [
+     "fi_proportionnelle"
+    ]
+   },
+   "economies": {
+    "p": "pour",
+    "q": "Plan de 197 milliards d'euros d'économies sur cinq ans.",
+    "s": [
+     "ps_retailleau_eco"
+    ]
+   },
+   "reglor": {
+    "p": "pour",
+    "q": "Soumettrait à référendum l'inscription d'une règle d'équilibre des finances publiques dans la Constitution.",
+    "s": [
+     "ps_retailleau_eco"
+    ]
+   },
+   "impotsprod": {
+    "p": "pour",
+    "q": "Prévoit la suppression des impôts de production pour les entreprises.",
+    "s": [
+     "ps_retailleau_eco"
+    ]
+   },
+   "droitdusol": {
+    "p": "pour",
+    "q": "Annonce qu'en cas d'élection, il abrogera le droit du sol.",
+    "s": [
+     "e1_retailleau_sol"
+    ]
+   },
+   "immlegale": {
+    "p": "pour",
+    "q": "Veut instaurer des « plafonds migratoires » par une révision de la Constitution soumise à référendum.",
+    "s": [
+     "ps_retailleau_constit"
+    ]
+   },
+   "regroupement": {
+    "p": "nuance",
+    "q": "Prévoit de réduire le regroupement familial (et le nombre d'étudiants étrangers), sans le supprimer explicitement.",
+    "s": [
+     "ps_retailleau_eco"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "« Je poursuis le programme EPR2, déjà avec la première tranche de 6 réacteurs. »",
+    "s": [
+     "sfen_ufe"
+    ]
+   },
+   "planchers": {
+    "p": "pour",
+    "q": "Propose des peines minimales pour certains crimes et délits graves, inscrites dans une « Charte de l'ordre républicain ».",
+    "s": [
+     "ps_retailleau_constit"
+    ]
+   },
+   "agents": {
+    "p": "pour",
+    "q": "Ne pas remplacer 400 000 agents publics partant à la retraite.",
+    "s": [
+     "ps_retailleau_eco"
+    ]
+   }
+  },
+  "zemmour": {
+   "retraite62": {
+    "p": "contre",
+    "q": "Programme 2022 : porter l'âge de départ à 64 ans.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "aideamourir": {
+    "p": "contre",
+    "q": "« J'abrogerai cette loi qui met fin à tous les garde-fous pour investir dans le soin et le progrès médical. »",
+    "s": [
+     "fi_findevie"
+    ]
+   },
+   "ric": {
+    "p": "nuance",
+    "q": "Programme 2022 : ne défend pas le RIC et privilégie le référendum proposé par le président, tout en ayant dit qu'« il faut envisager des référendums d'initiative citoyenne ».",
+    "s": [
+     "ps_ric"
+    ]
+   },
+   "otan": {
+    "p": "pour",
+    "q": "Programme 2022 : sortir du commandement intégré (« perte d'autonomie stratégique »).",
+    "s": [
+     "ps_otan",
+     "f24_zemmour"
+    ]
+   },
+   "impotsprod": {
+    "p": "nuance",
+    "q": "Programme 2022 : baisser les impôts de production (pas de suppression annoncée).",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "droitdusol": {
+    "p": "pour",
+    "q": "Programme 2022 : supprimer le droit du sol.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "regroupement": {
+    "p": "pour",
+    "q": "Programme 2022 : supprimer le droit au regroupement familial.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "Programme 2022 : 14 nouveaux EPR à l'horizon 2050.",
+    "s": [
+     "f24_zemmour"
+    ]
+   }
+  },
+  "tondelier": {
+   "retraite62": {
+    "p": "pour",
+    "q": "Veut abroger la dernière réforme : « On revient mécaniquement à 62 ans en un trait de plume », puis viser 60 ans en priorité pour les carrières longues et pénibles.",
+    "s": [
+     "fi_retraites_0930",
+     "lcp_retraites"
+    ]
+   },
+   "niches": {
+    "p": "pour",
+    "q": "Pour financer les retraites, propose de revenir sur une partie des exonérations de cotisations des entreprises (« 10 % des 77 milliards » d'exonérations).",
+    "s": [
+     "fi_retraites_0930"
+    ]
+   },
+   "zucman": {
+    "p": "pour",
+    "q": "« Nous allons demander la taxe Zucman » ; « une taxe qui propose 25 milliards par an ».",
+    "s": [
+     "fi_tondelier_zucman"
+    ]
+   },
+   "isf": {
+    "p": "pour",
+    "q": "« On porte depuis très longtemps un ISF climatique », pour faire payer les plus fortunés selon leur contribution au changement climatique.",
+    "s": [
+     "fi_tondelier_isf"
+    ]
+   },
+   "heritages": {
+    "p": "pour",
+    "q": "« La “grande transmission” doit financer la “grande transition” » : contribution de 10 % sur les héritages de plus de 4 millions d'euros, et 10 % de plus au-delà de 13 millions.",
+    "s": [
+     "lcp_heritages"
+    ]
+   },
+   "aideamourir": {
+    "p": "pour",
+    "q": "Après le vote des députés en mai 2025 : « Je suis très émue, c'est enfin une bonne nouvelle », pour « partir dans la dignité ».",
+    "s": [
+     "fi_tondelier_fdv"
+    ]
+   },
+   "enseignants": {
+    "p": "pour",
+    "q": "« Augmenter les salaires des enseignants de 15 % en cinq ans, en plus de l'inflation ».",
+    "s": [
+     "ps_ecole",
+     "f24_tondelier"
+    ]
+   },
+   "nucleaire": {
+    "p": "contre",
+    "q": "« Pour nous, le nucléaire n'est pas une option viable, ni une alternative crédible » ; les EPR2 « ne seront pas livrés avant 2040 ou 2050 ».",
+    "s": [
+     "sfen_ufe"
+    ]
+   }
+  },
+  "roussel": {
+   "retraite62": {
+    "p": "pour",
+    "q": "Programme 2022 : « le rétablissement de la retraite à 60 ans » (son programme 2027 sur les retraites n'est pas encore dévoilé).",
+    "s": [
+     "ps_roussel_2022",
+     "lcp_retraites"
+    ]
+   },
+   "isf": {
+    "p": "pour",
+    "q": "Programme 2022 : restauration de l'ISF, dont il propose de « tripler » le montant.",
+    "s": [
+     "ps_roussel_2022"
+    ]
+   },
+   "ric": {
+    "p": "pour",
+    "q": "Programme 2022 : un référendum déclenché par « un million de citoyens répartis sur l'ensemble du territoire ».",
+    "s": [
+     "ps_roussel_2022"
+    ]
+   },
+   "otan": {
+    "p": "pour",
+    "q": "Programme 2022 : « le départ de la France de l'Otan ».",
+    "s": [
+     "ps_roussel_2022"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "Programme 2022 : « six nouveaux EPR » au minimum ; en juin 2026, veut travailler sur « les EPR de nouvelles générations ».",
+    "s": [
+     "ps_roussel_2022",
+     "sfen_ufe"
+    ]
+   },
+   "agents": {
+    "p": "contre",
+    "q": "Programme 2022 : création de « 500 000 emplois dans les services publics ».",
+    "s": [
+     "ps_roussel_2022"
+    ]
+   }
+  },
+  "lisnard": {
+   "retraite62": {
+    "p": "contre",
+    "q": "« La norme de l'âge légal de 65 ans est un impératif national urgent pour des raisons d'équilibre financier. »",
+    "s": [
+     "ne_ambition"
+    ]
+   },
+   "ric": {
+    "p": "pour",
+    "q": "Veut « un véritable référendum d'initiative populaire », sur le modèle suisse.",
+    "s": [
+     "ne_q_referendums"
+    ]
+   },
+   "enseignants": {
+    "p": "pour",
+    "q": "« Une augmentation de 20 % des rémunérations en cinq ans », conditionnée à une réorganisation (présence renforcée, formation, évaluation).",
+    "s": [
+     "ne_education"
+    ]
+   },
+   "economies": {
+    "p": "pour",
+    "q": "200 milliards d'euros d'économies : « quatre-vingt milliards la première année », puis « en rythme de croisière à deux cent milliards ».",
+    "s": [
+     "ne_q_economies"
+    ]
+   },
+   "reglor": {
+    "p": "pour",
+    "q": "« Une règle institutionnelle de limitation des déficits publics » qui « s'appliquerait aux dépenses de fonctionnement mais pas à l'investissement ».",
+    "s": [
+     "ne_destin"
+    ]
+   },
+   "impotsprod": {
+    "p": "nuance",
+    "q": "« Une diminution de moitié des impôts de production, de 2 % à 1 % du PIB » (suppression de la C3S, voire de la CVAE) : baisse, pas suppression totale.",
+    "s": [
+     "ne_ambition"
+    ]
+   },
+   "droitdusol": {
+    "p": "nuance",
+    "q": "« Mettre fin à l'automaticité du droit du sol » : restriction plutôt que suppression.",
+    "s": [
+     "ne_immigration"
+    ]
+   },
+   "immlegale": {
+    "p": "pour",
+    "q": "« Diviser par huit la délivrance de titres de séjour ».",
+    "s": [
+     "ne_immigration"
+    ]
+   },
+   "regroupement": {
+    "p": "nuance",
+    "q": "« Conditionner le regroupement familial à des critères de ressources et des tests d'intégration » : encadrement, pas suppression.",
+    "s": [
+     "ne_immigration"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "« Engager une première série de construction de six EPR » (tribune de 2021 reprise dans le programme).",
+    "s": [
+     "ne_q_nucleaire"
+    ]
+   },
+   "planchers": {
+    "p": "pour",
+    "q": "« Rétablir les peines planchers pour les récidivistes ».",
+    "s": [
+     "ne_securite"
+    ]
+   },
+   "agents": {
+    "p": "pour",
+    "q": "Ne plus remplacer « l'ensemble des cinq cent mille départs annuels » de fonctionnaires, en commençant par les fonctions administratives.",
+    "s": [
+     "ne_q_fonctionnaires",
+     "ne_civique"
+    ]
+   }
+  },
+  "dupontaignan": {
+   "retraite62": {
+    "p": "nuance",
+    "q": "« Maintenir l'âge minimum de départ à la retraite et la durée de cotisations aux niveaux actuels » : ni hausse ni retour à 62 ans.",
+    "s": [
+     "dlf_retraites"
+    ]
+   },
+   "ric": {
+    "p": "pour",
+    "q": "Référendum sur une loi ou la Constitution « dès qu'un million d'inscrits sur les listes électorales soutiendra leur pétition ».",
+    "s": [
+     "dlf_democratie"
+    ]
+   },
+   "otan": {
+    "p": "pour",
+    "q": "« Sortir du commandement intégré de l'OTAN pour regagner notre indépendance militaire et stratégique ».",
+    "s": [
+     "dlf_defense"
+    ]
+   },
+   "droitdusol": {
+    "p": "pour",
+    "q": "« Supprimer le droit du sol via un référendum, tout en maintenant la possibilité de devenir Français par naturalisation. »",
+    "s": [
+     "dlf_immigration"
+    ]
+   },
+   "regroupement": {
+    "p": "nuance",
+    "q": "« Limiter strictement le regroupement familial et supprimer le régime d'exception accordé aux Algériens. »",
+    "s": [
+     "dlf_immigration"
+    ]
+   },
+   "planchers": {
+    "p": "pour",
+    "q": "« Réinstaurer et élargir les peines planchers » pour les agressions contre policiers, gendarmes, pompiers, enseignants et soignants.",
+    "s": [
+     "dlf_justice"
+    ]
+   }
+  }
+ }
 }
