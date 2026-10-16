@@ -354,10 +354,112 @@ for i, d in enumerate(deps):
     d["closeOut"] = [[k, round(r, 3)] for r, k, _ in other[:3]]
     d["far"] = [[k, round(r, 3)] for r, k, _ in best[-3:][::-1]]
 
+# ---------- Origine des textes (projet du Gouvernement / proposition d'un groupe / du Sénat) ----------
+import unicodedata  # noqa: E402
+
+
+def _norm(t):
+    t = unicodedata.normalize("NFD", t.lower().replace("’", "'"))
+    return re.sub(r"[^a-z0-9]+", " ", "".join(c for c in t if not unicodedata.combining(c))).strip()
+
+
+_dossiers = []
+for f in glob.glob(os.path.join(RAW, "dossiers", "json", "dossierParlementaire", "DLR5L1[67]*.json")):
+    dp = load_json(f)["dossierParlementaire"]
+    nt = _norm((dp.get("titreDossier") or {}).get("titre") or "")
+    if len(nt) > 12:
+        _dossiers.append((nt, set(nt.split()), dp))
+SUFFIX = re.compile(r"\s*\((texte de la commission mixte paritaire|seconde délibération|première lecture|[^()]*lecture)\)|\)$", re.I)
+
+
+_docs = {}  # titre normalisé du texte déposé -> (dossier, premier auteur)
+for f in glob.glob(os.path.join(RAW, "dossiers", "json", "document", "*L1[67]*.json")):
+    doc = load_json(f)["document"]
+    nt = _norm((doc.get("titres") or {}).get("titrePrincipal") or "")
+    auth = as_list((doc.get("auteurs") or {}).get("auteur"))
+    act = next((x["acteur"]["acteurRef"] for x in auth if isinstance(x, dict) and x.get("acteur")), None)
+    if nt and nt not in _docs:
+        _docs[nt] = (doc.get("dossierRef"), act)
+
+
+def author_of(text):
+    nt = _norm(SUFFIX.sub("", text))
+    if nt in _docs:
+        return _docs[nt]
+    hits = [(len(n), v) for n, v in _docs.items() if len(n) > 30 and (n in nt or nt in n)]
+    return max(hits, key=lambda x: x[0])[1] if hits else (None, None)
+
+
+def dossier_of(text):
+    nt = _norm(SUFFIX.sub("", text))
+    hits = [(len(n), dp) for n, _, dp in _dossiers if n in nt]
+    if hits:
+        return max(hits, key=lambda x: x[0])[1]
+    words = set(nt.split())
+    best = max(((len(w & words) / len(w | words), dp) for _, w, dp in _dossiers), key=lambda x: x[0], default=(0, None))
+    return best[1] if best[0] >= .6 else None
+
+
+def group_at(acteur, date):
+    path = os.path.join(RAW, "amo", "json", "acteur", acteur + ".json")
+    if not os.path.exists(path):
+        return None, False
+    ms = as_list(load_json(path)["acteur"].get("mandats", {}).get("mandat"))
+    deputy = any(m.get("typeOrgane") == "ASSEMBLEE" and m.get("legislature") in ("16", "17") for m in ms)
+    for m in ms:
+        if m.get("typeOrgane") == "GP" and (m.get("dateDebut") or "") <= date <= (m.get("dateFin") or "9999"):
+            g = group_of(m["organes"]["organeRef"])
+            if g is not None:
+                return g, True
+    return None, deputy
+
+
+first_date = {}
+for j, s in enumerate(raw_scrutins):
+    first_date.setdefault(S["tx"][j], s["dateScrutin"])
+text_origin = []  # par texte : [type, groupe de l'auteur, uid du dossier] ; type : g = Gouvernement, a = député, s = Sénat
+for t_i, text in enumerate(texts):
+    dref, author = author_of(text)
+    dp = dossier_of(text)
+    uid = dref or (dp["uid"] if dp else "")
+    if re.match(r"projet de loi", text, re.I):
+        text_origin.append(["g", None, uid]); continue
+    if re.search(r"adoptée par le Sénat", text, re.I):
+        text_origin.append(["s", None, uid]); continue
+    kind, g = "?", None
+    if not author and dp:
+        acts = as_list(((dp.get("initiateur") or {}).get("acteurs") or {}).get("acteur"))
+        author = acts[0]["acteurRef"] if acts else None
+    if author:
+        g, deputy = group_at(author, first_date.get(t_i, "2025-01-01"))
+        kind = "a" if deputy else "s"
+    if re.match(r"motions de censure|déclarations? du gouvernement", text, re.I):
+        kind = "x"
+    text_origin.append([kind, g, uid])
+print("  origine des textes : " + ", ".join(f"{k} {n}" for k, n in Counter(o[0] for o in text_origin).items()))
+
+# Position du bloc gouvernemental sur chaque scrutin : majorité des votants EPR + Démocrates + Horizons
+BLOC = [GKEY["EPR"], GKEY["DEM"], GKEY["HOR"]]
+CENSURE = {i for i, t in enumerate(texts) if re.match(r"motions de censure", t, re.I)}
+S["gv"] = []
+for j in range(NS):
+    c4 = S["g"][j]
+    p = sum(c4[g * 4] for g in BLOC); c = sum(c4[g * 4 + 1] for g in BLOC); a = sum(c4[g * 4 + 2] for g in BLOC)
+    gv = 1 if p > c and p > a else -1 if c > p and c > a else 0
+    S["gv"].append(0 if S["tx"][j] in CENSURE else gv)
+# Proximité de chaque député avec le bloc : même vote = 1, abstention = ½, vote opposé = 0
+for d in deps:
+    num = den = 0
+    for j, (v, _) in d["votes"].items():
+        gv = S["gv"][j]
+        if gv:
+            den += 1; num += 1 if v == gv else .5 if v == 0 else 0
+    d["gov"] = round(num / den, 3) if den >= 30 else None
+
 # ---------- Les 7 scores orientés (axes.py) ----------
 import axes as AX  # noqa: E402
 
-SAME = re.compile(r"^(L'ensemble|L'article (premier|unique|1er)\b|La proposition de (loi|résolution)|Le projet de loi)", re.I)
+SAME = re.compile(r"^(L['’]ensemble|L['’]article (premier|unique|1er)\b|La proposition de (loi|résolution)|Le projet de loi)", re.I)
 REJECT = re.compile(r"^La motion de (rejet|renvoi)", re.I)
 SUPPR = re.compile(r"amendements? de suppression", re.I)
 dep_index = {d["ref"]: i for i, d in enumerate(deps)}
@@ -397,7 +499,25 @@ for ax in AX.AXES:
                 dsum[i] += sg * v; dn[i] += 1
     ax_scores = [[round(50 * (1 + gsum[g] / gn[g]), 1), len(gscr[g])] if gn[g] else None for g in range(NG)]
     dep_scores = [[round(50 * (1 + dsum[i] / dn[i]), 1), dn[i]] if dn[i] >= 3 else None for i in range(len(deps))]
-    axes_out.append({"k": ax["k"], "n": ax["n"], "def": ax["def"], "refs": refs, "groups": ax_scores, "deps": dep_scores,
+    # Part des textes du Gouvernement et lien avec le soutien au bloc gouvernemental
+    ref_tx = [S["tx"][j] for j, _, _ in refs]
+    gov_refs = sum(text_origin[t][0] == "g" for t in ref_tx)
+    bloc_refs = sum(text_origin[t][0] == "a" and text_origin[t][1] in BLOC for t in ref_tx)
+    tset = set(ref_tx)
+    voted = [(sg, S["gv"][j]) for j, sg, _ in refs if S["gv"][j]]
+    pairs = [(dep_scores[i][0], deps[i]["gov"]) for i in range(len(deps)) if dep_scores[i] and deps[i]["gov"] is not None]
+    r = None
+    if len(pairs) > 20:
+        mx = sum(a for a, _ in pairs) / len(pairs); my = sum(b for _, b in pairs) / len(pairs)
+        sxy = sum((a - mx) * (b - my) for a, b in pairs); sxx = sum((a - mx) ** 2 for a, _ in pairs); syy = sum((b - my) ** 2 for _, b in pairs)
+        r = round(sxy / math.sqrt(sxx * syy), 2) if sxx and syy else None
+    gstat = {"refs": len(refs), "govRefs": gov_refs, "blocRefs": bloc_refs, "texts": len(tset),
+             "govTexts": sum(text_origin[t][0] == "g" for t in tset),
+             "blocPlus": round(sum(sg * gv > 0 for sg, gv in voted) / len(voted), 2) if voted else None, "r": r}
+    print(f"    {ax['k']} : {gov_refs}/{len(refs)} scrutins sur des textes du Gouvernement ({gstat['govTexts']}/{len(tset)} textes), "
+          f"bloc côté « {ax.get('plus', '+')} » {gstat['blocPlus']}, r(proximité gouvernement) = {r}")
+    axes_out.append({"k": ax["k"], "n": ax["n"], "def": ax["def"], "refs": refs, "groups": ax_scores, "deps": dep_scores, "gstat": gstat,
+                     "plus": ax.get("plus", ""), "minus": ax.get("minus", ""), "side": ax.get("side", "right"),
                      "texts": len(used)})
     print(f"  axe {ax['n']} : {len(refs)} scrutins sur {len(used)} textes "
           f"({sum(r[2] == 't' for r in refs)} textes, {sum(r[2] == 'm' for r in refs)} motions, {sum(r[2] == 's' for r in refs)} suppressions)")
@@ -437,10 +557,11 @@ data = {
     "groups": [{"k": k, "n": n, "c": c, "seats": seats[i]} for i, (k, n, c) in enumerate(GROUPS)],
     "themes": [{"k": k, "n": l} for k, l in T.labels()],
     "texts": texts,
+    "textOrigin": text_origin,
     "S": S,
     "deputies": [{
         "n": d["name"], "f": 1 if d["civ"].startswith("Mme") else 0, "g": d["group"], "dep": d["dept"], "c": d["circo"],
-        "nv": len(d["votes"]), "part": d["part"], "loyal": d["loyal"], "ga": d["gagree"],
+        "nv": len(d["votes"]), "part": d["part"], "loyal": d["loyal"], "ga": d["gagree"], "gov": d["gov"],
         "close": d["close"], "closeOut": d["closeOut"], "far": d["far"], "active": 0 if d["end"] else 1,
     } for d in deps],
     "maps": maps,

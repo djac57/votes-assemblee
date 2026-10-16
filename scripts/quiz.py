@@ -34,7 +34,7 @@ QUIZ = [
          {"t": "Public Sénat — L'Assemblée nationale valide la suspension de la réforme des retraites", "u": "https://www.publicsenat.fr/actualites/politique/lassemblee-nationale-valide-la-suspension-de-la-reforme-des-retraites", "d": "2025-11-12"},
          {"t": "LCP — Les principales mesures du budget de la Sécu, définitivement adopté", "u": "https://lcp.fr/actualites/les-principales-mesures-du-budget-de-la-secu-definitivement-adopte-par-l-assemblee", "d": "2025-12-16"},
      ]},
-    {"n": 2272, "sens": +1, "axes": {"social": +1}, "dossier": "DLR5L17N51979",
+    {"n": 2272, "sens": +1, "axes": {"social": +1, "budget": -1}, "dossier": "DLR5L17N51979",
      "q": "Faut-il verser les allocations familiales dès le premier enfant ?",
      "contenu": [
          "Aujourd'hui, les allocations familiales ne sont versées qu'à partir du deuxième enfant (dès le premier dans les Outre-mer).",
@@ -45,7 +45,7 @@ QUIZ = [
                 "Charles Sitzenstuhl (EPR) : « Nous n'avons pas les moyens budgétaires de payer cette réforme »."],
      "suite": ["Adopté en première lecture, le texte a été transmis au Sénat."],
      "sources": [{"t": "LCP — L'Assemblée dit oui au versement des allocations familiales dès le premier enfant", "u": "https://lcp.fr/actualites/l-assemblee-dit-oui-au-versement-des-allocations-familiales-des-le-premier-enfant-380181", "d": "2025-06-05"}]},
-    {"n": 606, "sens": +1, "axes": {"social": +1}, "dossier": "DLR5L17N50778",
+    {"n": 606, "sens": +1, "axes": {"social": +1, "budget": -1}, "dossier": "DLR5L17N50778",
      "q": "Faut-il ouvrir le repas à 1 euro au restaurant universitaire à tous les étudiants, et non plus aux seuls boursiers et étudiants précaires ?",
      "contenu": [
          "Le repas à 1 euro, généralisé pendant le Covid, est aujourd'hui réservé aux boursiers et aux étudiants précaires ; les autres paient 3,30 euros.",
@@ -57,7 +57,7 @@ QUIZ = [
                 "Vincent Jeanbrun (DR) critique un tarif unique, coûteux, pour des étudiants aux moyens très différents."],
      "suite": ["Adopté en première lecture, le texte doit être examiné par le Sénat, majoritairement à droite et au centre."],
      "sources": [{"t": "LCP — Repas à 1 euro pour tous les étudiants : une proposition de loi des députés socialistes adoptée en première lecture", "u": "https://lcp.fr/actualites/repas-a-1-euro-pour-tous-les-etudiants-une-proposition-de-loi-des-deputes-socialistes", "d": "2025-01-23"}]},
-    {"n": 4758, "sens": +1, "axes": {"budget": +1}, "dossier": "DLR5L17N52922",
+    {"n": 4758, "sens": +1, "axes": {}, "dossier": "DLR5L17N52922",
      "q": "Faut-il adopter le budget de la Sécurité sociale pour 2026 ?",
      "contenu": [
          "Suspension de la réforme des retraites jusqu'en janvier 2028.",

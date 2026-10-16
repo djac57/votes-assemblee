@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="data.js?v=254011cb32"></script>
+<script src="data.js?v=08b0bfa80e"></script>
 <style>
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
 :root {
@@ -18,6 +18,7 @@
   --rule: #dccbab; --gold: #a07a32; --gold-ink: #7a5a1f; --velvet: #8a1c26; --velvet-2: #a3262f; --velvet-deep: #5c0f17; --velvet-ink: #f7ecd6;
   --wood: #5b2f1f; --blue: #1f3a6b;
   --seq-0: #f6efe2; --seq-1: #e3cf9e; --seq-2: #c58f4a; --seq-3: #9b3b2c; --seq-4: #5c0f17;
+  --pole-l: #4d6680; --pole-r: #8a6a3c; --pole-0: #ece6da;
   --vein: rgba(120, 100, 80, .06);
 }
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
     --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
     --wood: #3a1d13; --blue: #8fa9d6;
     --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+    --pole-l: #8fa6c0; --pole-r: #c9a46e; --pole-0: #3a2e2a;
     --vein: rgba(201, 164, 90, .035);
   }
 }
@@ -36,6 +38,7 @@
   --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
   --wood: #3a1d13; --blue: #8fa9d6;
   --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
+  --pole-l: #8fa6c0; --pole-r: #c9a46e; --pole-0: #3a2e2a;
   --vein: rgba(201, 164, 90, .035);
 }
 * { box-sizing: border-box; }
@@ -156,15 +159,30 @@ main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
 .def { font: italic 500 20px/1.35 "Cormorant Garamond", serif; color: var(--ink); margin: 0 0 4px; }
 .gauge { display: grid; grid-template-columns: 74px 1fr 56px; gap: 10px; align-items: center; margin: 7px 0; font-size: 13px; cursor: default; }
 .gauge .n { font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.gauge .track { position: relative; height: 14px; background: var(--paper-2); border: 1px solid var(--rule);
-  background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), color-mix(in srgb, var(--gold) 45%, transparent) calc(10% - 1px) 10%); }
-.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; }
-.gauge .fill::after { content: ""; position: absolute; right: -1px; top: -3px; bottom: -3px; width: 2px; background: var(--gold); }
+.gauge .track { position: relative; height: 14px; background: linear-gradient(var(--rule), var(--rule)) center / 100% 2px no-repeat; }
+.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; background: none !important; }
+.gauge .fill::after { content: ""; position: absolute; right: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: currentColor; border: 1.5px solid var(--paper); box-shadow: 0 0 0 1px var(--ink-2); }
 .gauge .v { font: 700 22px/1 "Cormorant Garamond", serif; color: var(--gold-ink); text-align: right; }
 .gauge .v small { font: 400 10.5px "Public Sans"; color: var(--muted); display: block; }
-.radars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; }
-.radar { text-align: center; min-width: 0; }
-.radar .t { font: 700 17px/1.1 "Cormorant Garamond", serif; margin-top: -2px; }
+.poles { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 600; color: var(--ink-2); margin: 4px 0 2px; }
+.poles span:last-child { text-align: right; }
+.poles .pl::before { content: "← "; color: var(--pole-l); } .poles .pr::after { content: " →"; color: var(--pole-r); }
+.dp { display: grid; grid-template-columns: 70px minmax(0, 1fr) 150px; gap: 10px; align-items: center; margin: 5px 0; font-size: 13px; }
+.dp .n { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.dp .lab { font-size: 12px; color: var(--ink-2); line-height: 1.25; }
+.slider { position: relative; height: 16px; }
+.slider::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--rule); }
+.slider::after { content: ""; position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: var(--muted); }
+.slider i { position: absolute; top: 2px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; border: 1.5px solid var(--paper); box-shadow: 0 0 0 1px var(--ink-2); z-index: 1; }
+.slider i.me { border-radius: 0; transform: rotate(45deg); background: var(--ink); box-shadow: 0 0 0 1.5px var(--gold); }
+.slider i.grp { border-radius: 0; width: 4px; margin-left: -2px; height: 16px; top: 0; box-shadow: none; border: none; }
+.portraits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 22px; }
+.portrait .t { font: 700 17px/1.1 "Cormorant Garamond", serif; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.portrait .mini { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 6px; align-items: center; font-size: 11px; color: var(--muted); margin: 1px 0; }
+.govbox { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--gold); font-size: 13px; color: var(--ink-2); }
+.govbox b { color: var(--ink); }
+.orig { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 6px; border: 1px solid var(--rule); color: var(--ink-2); margin-right: 6px; white-space: nowrap; }
+.orig.g { border-color: var(--ink-2); }
 details.refs { margin-top: 18px; border-top: 1px solid var(--rule); padding-top: 10px; }
 details.refs summary { cursor: pointer; font: 600 18px "Cormorant Garamond", serif; color: var(--velvet); }
 :root[data-theme="dark"] details.refs summary { color: var(--gold-ink); }
@@ -245,7 +263,7 @@ footer b { color: var(--ink-2); }
   .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fig:nth-child(3) { border-left: none; }
   .fig:nth-child(n+3) { border-top: 1px solid var(--rule); }
-  .radars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .portraits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
   .drape { padding: 30px 16px 42px; }
@@ -254,7 +272,8 @@ footer b { color: var(--ink-2); }
   .ledger-in { padding: 8px 16px; }
   .panel { padding: 16px; }
   .fig .v { font-size: 30px; }
-  .radars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .portraits { grid-template-columns: minmax(0, 1fr); }
+  .dp { grid-template-columns: 60px minmax(0, 1fr); } .dp .lab { grid-column: 2; margin-top: -4px; }
   .gauge { grid-template-columns: 62px 1fr 48px; }
 }
 </style>
@@ -266,7 +285,7 @@ footer b { color: var(--ink-2); }
       <div class="tricolore" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="eyebrow">Assemblée nationale · XVII<sup>e</sup> législature</div>
       <h1>Qui vote <em>avec qui&nbsp;?</em></h1>
-      <p class="lede">Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — écologie, social, budget, économie, simplification, immigration, sécurité —, leurs alliances de vote et la place de chaque député dans l'hémicycle.</p>
+      <p class="lede">Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — sept échelles à deux pôles&nbsp;: environnement, protection sociale, finances publiques, marché, normes, immigration, sécurité et libertés —, leur proximité avec le Gouvernement, leurs alliances de vote et la place de chaque député dans l'hémicycle.</p>
       <div class="meta">Source&nbsp;: données publiques <a href="https://data.assemblee-nationale.fr" target="_blank" rel="noopener">Assemblée nationale</a> · <span id="asof"></span></div>
       <div class="indep">Site indépendant, non affilié à l'Assemblée nationale</div>
       <button class="play-btn" id="playBtn">✦ Jouer&nbsp;: tu votes comme qui&nbsp;?</button>
@@ -325,9 +344,9 @@ footer b { color: var(--ink-2); }
     <div class="ch-head">
       <div class="ornament"><span>II</span></div>
       <h2>Les sept boussoles</h2>
-      <p>Un score de 0 à 100 par groupe, calculé sur une liste publique de scrutins de référence dont le sens a été codé à la main.</p>
+      <p>Sept échelles à deux pôles, aussi légitimes l'un que l'autre. Chaque groupe y est placé d'après ses votes sur une liste publique de scrutins de référence dont le sens a été codé à la main.</p>
     </div>
-    <p class="warning"><b>Avertissement&nbsp;:</b> ces scores reposent sur des choix éditoriaux — quels textes retenir, dans quel sens les lire. Ils résument des votes, pas des convictions, et ne disent pas ce qui est «&nbsp;bien&nbsp;». Chaque scrutin retenu est listé ci-dessous pour pouvoir être discuté.</p>
+    <p class="warning"><b>Avertissement&nbsp;:</b> ces positions reposent sur des choix éditoriaux — quels textes retenir, dans quel sens les lire. Elles résument des votes, pas des convictions. Être d'un côté ou de l'autre n'est ni un bon ni un mauvais point, et l'ordre gauche/droite des pôles n'est qu'une convention de lecture. Une partie des textes vient du Gouvernement ou de sa majorité&nbsp;: voter pour ou contre traduit aussi un soutien ou une opposition au Gouvernement. Cette part est indiquée pour chaque axe, et la proximité avec le Gouvernement est mesurée à part, plus bas. Chaque scrutin retenu est listé, avec l'origine du texte, pour pouvoir être discuté.</p>
     <div class="axis-tabs tabs" id="axisTabs"></div>
     <div class="cols">
       <div class="panel">
@@ -337,15 +356,20 @@ footer b { color: var(--ink-2); }
       </div>
       <div class="panel">
         <h3>Portraits des groupes</h3>
-        <p class="note">Les sept scores de chaque groupe · survolez un portrait</p>
-        <div class="radars" id="radars" style="margin-top:10px"></div>
+        <p class="note">Les sept positions de chaque groupe, sur les mêmes échelles (trait vertical : le centre) · survolez un curseur</p>
+        <div class="portraits" id="radars" style="margin-top:10px"></div>
       </div>
+    </div>
+    <div class="panel" style="margin-top:22px">
+      <h3>Proximité avec le gouvernement</h3>
+      <p class="note" id="govNote"></p>
+      <div id="govPlot" style="margin-top:12px"></div>
     </div>
     <div class="panel" style="margin-top:22px">
       <details class="refs" id="refsBox" open>
         <summary id="refsTitle"></summary>
-        <p class="note" style="margin:8px 0">«&nbsp;Pour → +&nbsp;»&nbsp;: voter pour va dans le sens de l'axe. Les motions de rejet et les amendements de suppression comptent en sens inverse du texte.</p>
-        <div class="scroll-x" style="max-height:560px;overflow-y:auto"><table id="refsTable"><thead><tr><th>Date</th><th>Scrutin</th><th>Sens retenu</th><th>Position des groupes</th></tr></thead><tbody></tbody></table></div>
+        <p class="note" style="margin:8px 0">«&nbsp;Pour → …&nbsp;»&nbsp;: le pôle vers lequel un vote « pour » fait pencher. Les motions de rejet et les amendements de suppression comptent en sens inverse du texte. Origine&nbsp;: auteur du texte d'après l'open data (projet du Gouvernement, proposition d'un député et son groupe au moment du dépôt, ou proposition sénatoriale).</p>
+        <div class="scroll-x" style="max-height:560px;overflow-y:auto"><table id="refsTable"><thead><tr><th>Date</th><th>Scrutin et origine du texte</th><th>Sens retenu</th><th>Position des groupes</th></tr></thead><tbody></tbody></table></div>
       </details>
     </div>
   </section>
@@ -409,7 +433,7 @@ footer b { color: var(--ink-2); }
 
 <footer>
   <b>Site indépendant</b>, réalisé à partir de l'open data de l'Assemblée nationale (data.assemblee-nationale.fr, 17<sup>e</sup> législature&nbsp;: scrutins publics et référentiel des acteurs, mandats et organes)&nbsp;; il n'est ni affilié ni validé par l'Assemblée.
-  <b>Boussoles</b>&nbsp;: pour chaque axe, une liste de textes dont l'intitulé indique clairement le sens (fichier <code>scripts/axes.py</code>)&nbsp;; sont retenus les votes sur l'ensemble, l'article premier ou unique (même sens que le texte), les motions de rejet et, dans les textes courts, les amendements de suppression (sens inverse). Score = moyenne de sens × vote (pour +1, contre −1, abstention 0, absents ignorés) ramenée sur 0–100. Les scores des groupes suivent la session choisie&nbsp;; ceux des députés portent sur toute la législature.
+  <b>Boussoles</b>&nbsp;: pour chaque axe, une liste de textes dont l'intitulé indique clairement le sens (fichier <code>scripts/axes.py</code>)&nbsp;; sont retenus les votes sur l'ensemble, l'article premier ou unique (même sens que le texte), les motions de rejet et, dans les textes courts, les amendements de suppression (sens inverse). Position = moyenne de sens × vote (pour +1, contre −1, abstention 0, absents ignorés), affichée comme un écart au centre entre deux pôles nommés (au centre, légèrement, plutôt, nettement d'un côté). Les budgets ne servent pas de référence. Pour chaque axe sont publiées la part des textes du Gouvernement et la corrélation avec la proximité au Gouvernement. <b>Proximité avec le gouvernement</b>&nbsp;: part des votes identiques à la position majoritaire du bloc EPR + Démocrates + Horizons (abstention = ½, motions de censure exclues). Les positions des groupes suivent la session choisie&nbsp;; celles des députés portent sur toute la législature.
   <b>Accord</b>&nbsp;: positions majoritaires identiques. <b>Carte et constellation</b>&nbsp;: axes de clivage tirés des votes des groupes (décomposition en valeurs singulières), chaque député placé d'après ses propres votes. <b>Loyauté</b>&nbsp;: votes conformes à la majorité de son groupe.
   <b>Thèmes</b>&nbsp;: classement automatique des scrutins par mots-clés sur le titre du texte (<code>scripts/themes.py</code>).
 </footer>
@@ -423,7 +447,21 @@ const fmtDate = j => dateOf(j).toLocaleDateString("fr-FR", { day: "numeric", mon
 const THEMES = D.themes;
 const TSHORT = { immigration: "Immigration", sante: "Santé & fin de vie", budget: "Budget", social: "Social", agriculture: "Agriculture", ecologie: "Écologie",
   securite: "Sécurité", economie: "Économie", societe: "Société", international: "International", institutions: "Institutions", autres: "Autres" };
-const ASHORT = { ecologie: "Écologie", social: "Social", budget: "Budget", economie: "Économie", simplification: "Simplif.", immigration: "Restr. migr.", securite: "Sécurité" };
+const ASHORT = { ecologie: "Environnement", social: "Protection sociale", budget: "Finances publ.", economie: "Marché/régul.", simplification: "Normes", immigration: "Immigration", securite: "Sécurité/libertés" };
+// Axes bipolaires : s ∈ [0, 100] (100 = pôle « plus ») ; xOf : position dessinée (0 = bord gauche) ; lean : écart au centre en mots
+const xOf = (ax, s) => ax.side === "right" ? s : 100 - s;
+const poleL = ax => ax.side === "right" ? ax.minus : ax.plus, poleR = ax => ax.side === "right" ? ax.plus : ax.minus;
+function lean(ax, s) {
+  const d = (s - 50) / 50, a = Math.abs(d), p = d > 0 ? ax.plus : ax.minus;
+  return a < .15 ? "au centre" : `${a < .4 ? "légèrement" : a < .7 ? "plutôt" : "nettement"} côté « ${p.toLowerCase()} »`;
+}
+const polesRow = ax => { const r = el("div", "poles"); r.append(el("span", "pl", poleL(ax)), el("span", "pr", poleR(ax))); return r; };
+function slider(marks) { // marks : [{x, c, cls, tip}]
+  const s = el("div", "slider");
+  marks.forEach(m => { const i = el("i", m.cls || ""); i.style.left = m.x + "%"; if (m.c) i.style.background = m.c; if (m.tip) { i.onpointermove = e => showTip(e, m.tip); i.onpointerleave = hideTip; } s.append(i); });
+  return s;
+}
+const ORIG = o => !o ? "" : o[0] === "g" ? "Projet du Gouvernement" : o[0] === "s" ? "Proposition sénatoriale" : o[0] === "a" ? (o[1] != null ? `Proposition ${G[o[1]].k}` : "Proposition de député") : o[0] === "x" ? "" : "Proposition (auteur non identifié)";
 const fmtPct = v => v == null || isNaN(v) ? "—" : Math.round(v * 100) + " %";
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -462,7 +500,7 @@ function tabs(hostId, items, get, set, after = update) {
 const syncPeriods = tabs("periods", PERIODS, () => state.period, v => state.period = v);
 const syncThemes = tabs("themes", [["all", "Tous"], ...THEMES.filter(t => t.k !== "autres").map(t => [t.k, TSHORT[t.k]])], () => state.theme, v => state.theme = v);
 const syncAxes = tabs("axisTabs", AXES.map(a => [a.k, a.n]), () => state.axis, v => state.axis = v, () => { syncAxes(); renderAxis(); });
-const syncModes = tabs("hemiModes", [["group", "Groupes"], ["quiz", "Accord avec toi"], ...AXES.map(a => [a.k, ASHORT[a.k]]), ["loyal", "Loyauté"]], () => state.hemiMode, v => state.hemiMode = v, () => { syncModes(); renderHemi(); });
+const syncModes = tabs("hemiModes", [["group", "Groupes"], ["quiz", "Accord avec toi"], ...AXES.map(a => [a.k, ASHORT[a.k]]), ["gov", "Proximité gouv."], ["loyal", "Loyauté"]], () => state.hemiMode, v => state.hemiMode = v, () => { syncModes(); renderHemi(); });
 const syncFrond = tabs("frondTabs", G.filter(g => g.k !== "NI").map(g => [gi(g.k), g.k]), () => state.frond, v => state.frond = +v, () => { syncFrond(); renderFrond(); });
 const themeIdx = k => THEMES.findIndex(t => t.k === k);
 const periodRange = () => { const p = PERIODS.find(p => p[0] === state.period); return [p[2], p[3]]; };
@@ -604,8 +642,9 @@ function seatColor(o) {
   const seq = d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([0, 100]);
   if (state.hemiMode === "quiz") { const a = quizResult()?.dep[o.dep]; return a && a.n >= 3 ? seq(a.a * 100) : css("--paper-2"); }
   if (state.hemiMode === "loyal") return d.loyal == null ? css("--paper-2") : d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([.7, 1])(Math.max(.7, d.loyal));
-  const sc = AXES.find(a => a.k === state.hemiMode).deps[o.dep];
-  return sc ? seq(sc[0]) : css("--paper-2");
+  if (state.hemiMode === "gov") return d.gov == null ? css("--paper-2") : seq(d.gov * 100);
+  const ax = AXES.find(a => a.k === state.hemiMode), sc = ax.deps[o.dep];
+  return sc ? d3.scaleLinear().domain([0, 50, 100]).range([css("--pole-l"), css("--pole-0"), css("--pole-r")]).interpolate(d3.interpolateRgb)(xOf(ax, sc[0])) : css("--paper-2");
 }
 function renderHemi() {
   const host = document.getElementById("hemi"); host.replaceChildren();
@@ -628,7 +667,8 @@ function renderHemi() {
       tt.append(el("div", "t", `${G[d.g].k} · ${d.dep || ""}`)); tt.append(el("div", "big", d.n));
       if (state.hemiMode === "quiz") { const a = quizResult()?.dep[s.dep]; tipRow(tt, "Accord avec toi", a && a.n ? `${fmtPct(a.a)} sur ${a.n} questions` : "—"); }
       else if (state.hemiMode === "group" || state.hemiMode === "loyal") tipRow(tt, "Loyauté au groupe", fmtPct(d.loyal));
-      else { const ax = AXES.find(a => a.k === state.hemiMode), sc = ax.deps[s.dep]; tipRow(tt, ax.n, sc ? `${Math.round(sc[0])} / 100` : "—"); }
+      else if (state.hemiMode === "gov") tipRow(tt, "Proximité avec le gouvernement", fmtPct(d.gov));
+      else { const ax = AXES.find(a => a.k === state.hemiMode), sc = ax.deps[s.dep]; tt.append(el("div", "t", ax.n)); tt.append(el("div", null, sc ? lean(ax, sc[0]) : "pas assez de votes de référence")); }
     }))
     .on("pointerleave", hideTip).on("click", (e, s) => { if (s.dep != null) selectDep(s.dep); });
   // effectifs aux extrémités
@@ -647,8 +687,12 @@ function renderHemi() {
       else { const b = el("button", "link", "Joue d'abord au jeu « Tu votes comme qui ? » pour colorer l'hémicycle selon tes réponses"); b.onclick = () => startGame(true); sc.append(b); }
       leg.append(sc); return;
     }
-    sc.append(el("span", null, state.hemiMode === "loyal" ? "70 %" : "0"), bar, el("span", null, state.hemiMode === "loyal" ? "100 % de loyauté" : `100 · ${ax.n}`),
-      el("span", null, state.hemiMode === "loyal" ? "" : "· scores individuels, toute la législature (au moins 3 votes de référence)"));
+    if (state.hemiMode === "loyal" || state.hemiMode === "gov") {
+      sc.append(el("span", null, state.hemiMode === "loyal" ? "70 %" : "0 %"), bar, el("span", null, state.hemiMode === "loyal" ? "100 % de loyauté" : "100 % des votes comme le bloc gouvernemental (toute la législature)"));
+    } else {
+      bar.style.background = `linear-gradient(90deg, ${css("--pole-l")}, ${css("--pole-0")}, ${css("--pole-r")})`;
+      sc.append(el("span", null, poleL(ax)), bar, el("span", null, poleR(ax)), el("span", null, "· positions individuelles, toute la législature (au moins 3 votes de référence) ; teinte claire : au centre"));
+    }
     leg.append(sc);
   }
 }
@@ -669,28 +713,22 @@ function renderFiche() {
   [[d.nv.toLocaleString("fr-FR"), "votes"], [fmtPct(d.part), "participation"], [fmtPct(d.loyal), rank >= 0 ? `loyauté · ${rank + 1}e frondeur sur ${same.length}` : "loyauté"]]
     .forEach(([v, k]) => { const c = el("div"); c.append(el("div", "v", v), el("div", "k", k)); st.append(c); });
   host.append(st);
-  // Les 7 boussoles du député face à son groupe
+  // Les 7 boussoles du député face à son groupe (curseurs bipolaires)
   host.append(el("div", "sm-h", "Ses sept boussoles"));
-  const W = host.clientWidth || 320, rh = 26, lw = 92, rw = 34, svg = d3.select(host).append("svg").attr("width", W).attr("height", AXES.length * rh + 18);
-  const x = d3.scaleLinear().domain([0, 100]).range([lw, W - rw]);
-  const all = AXES.map(a => { const s = axisScores(a); return s; });
-  [0, 50, 100].forEach(v => svg.append("text").attr("x", x(v)).attr("y", AXES.length * rh + 14).attr("text-anchor", "middle").style("font-size", "10px").style("fill", css("--muted")).text(v));
+  const all = AXES.map(a => axisScores(a));
   AXES.forEach((a, r) => {
-    const y = r * rh + rh / 2, sc = a.deps[state.dep], gs = all[r][d.g];
-    svg.append("text").attr("x", 0).attr("y", y).attr("dy", ".35em").style("font-size", "12px").style("fill", css("--ink-2")).text(ASHORT[a.k]);
-    svg.append("line").attr("x1", x(0)).attr("x2", x(100)).attr("y1", y).attr("y2", y).attr("stroke", css("--rule")).attr("stroke-width", 6);
-    if (gs) svg.append("rect").attr("x", x(gs.s) - 2).attr("y", y - 8).attr("width", 4).attr("height", 16).attr("fill", g.c);
-    if (sc) {
-      svg.append("path").attr("d", d3.symbol(d3.symbolDiamond, 90)()).attr("transform", `translate(${x(sc[0])},${y})`).attr("fill", css("--ink")).attr("stroke", css("--paper")).attr("stroke-width", 1.5);
-      svg.append("text").attr("x", W).attr("y", y).attr("dy", ".35em").attr("text-anchor", "end").style("font", "700 15px 'Cormorant Garamond'").style("fill", css("--gold-ink")).text(Math.round(sc[0]));
-    } else svg.append("text").attr("x", W).attr("y", y).attr("dy", ".35em").attr("text-anchor", "end").style("font-size", "11px").style("fill", css("--muted")).text("—");
-    svg.append("rect").attr("x", 0).attr("y", y - rh / 2).attr("width", W).attr("height", rh).attr("fill", "transparent")
-      .on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", a.n)); tt.append(el("div", "big", sc ? `${Math.round(sc[0])} / 100` : "pas assez de votes"));
-        if (sc) tipRow(tt, "votes de référence", sc[1]); if (gs) tipRow(tt, `moyenne ${g.k}`, Math.round(gs.s)); }))
-      .on("pointerleave", hideTip);
+    const sc = a.deps[state.dep], gs = all[r][d.g], marks = [];
+    if (gs) marks.push({ x: xOf(a, gs.s), c: g.c, cls: "grp" });
+    if (sc) marks.push({ x: xOf(a, sc[0]), cls: "me", tip: tt => { tt.append(el("div", "t", a.n)); tt.append(el("div", null, lean(a, sc[0]))); tipRow(tt, "votes de référence", sc[1]); if (gs) tipRow(tt, `groupe ${g.k}`, lean(a, gs.s)); } });
+    const box = el("div"); box.style.margin = "6px 0 8px";
+    const hd = el("div", "poles"); hd.style.fontWeight = 400; hd.append(el("span", "pl", poleL(a)), el("span", "pr", poleR(a)));
+    box.append(el("div", "lab", `${a.n} — ${sc ? lean(a, sc[0]) : "pas assez de votes de référence"}`), hd, slider(marks));
+    box.firstChild.style.cssText = "font-size:12.5px;font-weight:600;color:var(--ink)";
+    host.append(box);
   });
   const lg = el("div", "scale"); const dm = el("span", null, "◆ le député"); const gm = el("span"); const b = el("span"); b.style.cssText = `display:inline-block;width:4px;height:12px;background:${g.c};margin-right:5px;vertical-align:-1px`;
-  gm.append(b, document.createTextNode(`moyenne du groupe ${g.k} (session choisie)`)); lg.append(dm, gm); host.append(lg);
+  gm.append(b, document.createTextNode(`position moyenne du groupe ${g.k} (session choisie)`)); lg.append(dm, gm); host.append(lg);
+  host.append(el("p", "note", `Proximité avec le gouvernement (indicateur distinct) : ${d.gov == null ? "—" : fmtPct(d.gov) + " de ses votes comme le bloc EPR, Démocrates, Horizons"}.`));
   // Avec qui il vote
   host.append(el("div", "sm-h", "Vote comme…"));
   G.map((h, k) => [k, d.ga[k]]).filter(z => z[1] != null).sort((p, q) => q[1] - p[1]).slice(0, 6).forEach(([k, v]) => {
@@ -726,47 +764,62 @@ document.addEventListener("click", e => { if (!e.target.closest(".search")) sugg
 function renderAxis() {
   const ax = AXES.find(a => a.k === state.axis), sc = axisScores(ax), refs = refsInPeriod(ax);
   document.getElementById("axisDef").textContent = ax.def;
-  document.getElementById("axisNote").textContent = `${refs.length} scrutins de référence sur cette session (${ax.texts} textes) · 0 = toujours contre le sens de l'axe, 100 = toujours dans son sens`;
+  document.getElementById("axisNote").textContent = `${refs.length} scrutins de référence sur cette session (${ax.texts} textes) · chaque point : la position moyenne du groupe entre les deux pôles ; trait vertical : le centre`;
   const host = document.getElementById("gauges"); host.replaceChildren();
-  G.map((g, i) => ({ g, i, s: sc[i] })).filter(o => o.s).sort((a, b) => b.s.s - a.s.s).forEach(o => {
-    const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = o.g.c; n.append(sw, document.createTextNode(o.g.k));
-    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = o.s.s + "%"; fill.style.background = o.g.c; track.append(fill);
-    const v = el("div", "v", String(Math.round(o.s.s))); v.append(el("small", null, `${o.s.n} scrutins`));
-    row.append(n, track, v); row.title = o.g.n;
-    row.onpointermove = e => showTip(e, tt => { tt.append(el("div", "t", ax.n)); tt.append(el("div", "big", `${o.g.k} : ${Math.round(o.s.s)} / 100`)); tipRow(tt, "scrutins pris en compte", o.s.n); });
-    row.onpointerleave = hideTip;
-    host.append(row);
+  host.append(polesRow(ax));
+  G.map((g, i) => ({ g, i, s: sc[i] })).filter(o => o.s && o.g.k !== "NI").sort((a, b) => xOf(ax, a.s.s) - xOf(ax, b.s.s)).forEach(o => {
+    const row = el("div", "dp"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = o.g.c; n.append(sw, document.createTextNode(o.g.k));
+    const tipF = tt => { tt.append(el("div", "t", ax.n)); tt.append(el("div", "big", o.g.k)); tt.append(el("div", null, lean(ax, o.s.s))); tipRow(tt, "scrutins pris en compte", o.s.n); };
+    row.append(n, slider([{ x: xOf(ax, o.s.s), c: o.g.c, tip: tipF }]), el("span", "lab", lean(ax, o.s.s)));
+    row.title = o.g.n; host.append(row);
   });
-  if (!host.children.length) host.append(el("p", "note", "Aucun scrutin de référence sur cette session."));
+  if (host.children.length < 2) host.append(el("p", "note", "Aucun scrutin de référence sur cette session."));
+  // Part du Gouvernement dans les références (toute la législature)
+  const gs = ax.gstat, pct = (a, b) => b ? Math.round(100 * a / b) + " %" : "—";
+  const box = el("div", "govbox");
+  const rtxt = gs.r == null ? "" : ` Entre la position des députés sur cet axe et leur proximité avec le Gouvernement, la corrélation est ${Math.abs(gs.r) < .3 ? "faible" : Math.abs(gs.r) < .6 ? "moyenne" : "forte"} (r = ${gs.r.toLocaleString("fr-FR")}).`;
+  box.append(el("b", null, "Part du Gouvernement. "), document.createTextNode(
+    `Sur cet axe, ${pct(gs.govRefs, gs.refs)} des ${gs.refs} votes de référence portent sur des textes du Gouvernement (${gs.govTexts} textes sur ${gs.texts}), et ${pct(gs.blocRefs, gs.refs)} sur des propositions de députés des groupes du bloc gouvernemental (EPR, Démocrates, Horizons). ` +
+    `Le bloc gouvernemental a voté du côté « ${ax.plus.toLowerCase()} » dans ${gs.blocPlus == null ? "—" : Math.round(gs.blocPlus * 100) + " %"} de ces votes : la position d'un groupe reflète donc aussi, en partie, son soutien ou son opposition au Gouvernement.` + rtxt));
+  host.append(box);
   renderRefs(ax, refs);
   renderRadars();
+  renderGov();
 }
 function renderRadars() {
   const host = document.getElementById("radars"); host.replaceChildren();
   const scores = AXES.map(axisScores);
-  const size = Math.max(110, Math.min(170, (host.clientWidth - 30) / (innerWidth < 560 ? 2 : innerWidth < 900 ? 3 : 4)));
-  const labels = size >= 150, R = size / 2 - (labels ? 34 : 10), c = size / 2, ang = k => -Math.PI / 2 + 2 * Math.PI * k / AXES.length;
   G.forEach((g, gIdx) => {
     if (g.k === "NI") return;
-    const box = el("div", "radar"); host.append(box);
-    const svg = d3.select(box).append("svg").attr("width", size).attr("height", size);
-    [25, 50, 75, 100].forEach(v => svg.append("polygon").attr("points", AXES.map((_, k) => [c + Math.cos(ang(k)) * R * v / 100, c + Math.sin(ang(k)) * R * v / 100].join(",")).join(" "))
-      .attr("fill", "none").attr("stroke", css(v === 100 ? "--gold" : "--rule")).attr("stroke-width", v === 100 ? 1 : .8));
+    const box = el("div", "portrait"), t = el("div", "t"), sw = el("span", "sw"); sw.style.background = g.c; t.append(sw, document.createTextNode(g.k)); box.append(t);
     AXES.forEach((a, k) => {
-      svg.append("line").attr("x1", c).attr("y1", c).attr("x2", c + Math.cos(ang(k)) * R).attr("y2", c + Math.sin(ang(k)) * R).attr("stroke", css("--rule")).attr("stroke-width", .8);
-      if (!labels) return;
-      const lx = c + Math.cos(ang(k)) * (R + 6), ly = c + Math.sin(ang(k)) * (R + 6);
-      svg.append("text").attr("x", lx).attr("y", ly).attr("dy", ".35em").attr("text-anchor", Math.abs(Math.cos(ang(k))) < .2 ? "middle" : Math.cos(ang(k)) > 0 ? "start" : "end")
-        .style("font-size", "9.5px").style("fill", css(a.k === state.axis ? "--gold-ink" : "--muted")).style("font-weight", a.k === state.axis ? 700 : 400).text(ASHORT[a.k].slice(0, 9));
+      const sc = scores[k][gIdx], row = el("div", "mini"), lab = el("span", null, ASHORT[a.k]);
+      if (a.k === state.axis) { lab.style.color = css("--gold-ink"); lab.style.fontWeight = 700; }
+      row.append(lab, slider(sc ? [{ x: xOf(a, sc.s), c: g.c, tip: tt => { tt.append(el("div", "t", g.n)); tt.append(el("div", "big", a.n)); tt.append(el("div", null, lean(a, sc.s))); tt.append(el("div", "note", `${poleL(a)} ← → ${poleR(a)}`)); } }] : []));
+      box.append(row);
     });
-    const pts = AXES.map((a, k) => { const s = scores[k][gIdx]; const v = s ? s.s : 0; return [c + Math.cos(ang(k)) * R * v / 100, c + Math.sin(ang(k)) * R * v / 100]; });
-    svg.append("polygon").attr("points", pts.map(p => p.join(",")).join(" ")).attr("fill", g.c).attr("fill-opacity", .35).attr("stroke", g.c).attr("stroke-width", 1.8);
-    pts.forEach((p, k) => svg.append("circle").attr("cx", p[0]).attr("cy", p[1]).attr("r", AXES[k].k === state.axis ? 3.2 : 2).attr("fill", AXES[k].k === state.axis ? css("--gold") : g.c));
-    box.append(el("div", "t", g.k));
-    box.onpointermove = e => showTip(e, tt => { tt.append(el("div", "t", g.n)); AXES.forEach((a, k) => tipRow(tt, a.n, scores[k][gIdx] ? Math.round(scores[k][gIdx].s) : "—")); });
-    box.onpointerleave = hideTip;
+    host.append(box);
   });
-  if (!labels) { const n = el("p", "note", "Axes dans le sens des aiguilles d'une montre, depuis le haut : " + AXES.map(a => a.n).join(", ") + " · point doré : boussole sélectionnée."); n.style.gridColumn = "1 / -1"; host.append(n); }
+  const n = el("p", "note", "Chaque ligne va d'un pôle à l'autre, dans le même ordre que l'axe sélectionné : " + AXES.map(a => `${ASHORT[a.k]} (${poleL(a)} ↔ ${poleR(a)})`).join(" · ") + "."); n.style.gridColumn = "1 / -1"; host.append(n);
+}
+// Proximité avec le Gouvernement : part des votes identiques à la majorité du bloc EPR + Démocrates + Horizons (abstention = ½)
+function govScores() {
+  const [a, b] = periodRange(), num = new Float64Array(NG), den = new Float64Array(NG);
+  for (let j = a; j <= b; j++) { const gv = S.gv[j]; if (!gv) continue;
+    for (let g = 0; g < NG; g++) { const p = cnt(j, g, 0), c = cnt(j, g, 1), ab = cnt(j, g, 2), e = p + c + ab; if (!e) continue;
+      num[g] += (gv === 1 ? p : c) + ab / 2; den[g] += e; } }
+  return G.map((_, g) => den[g] ? num[g] / den[g] : null);
+}
+function renderGov() {
+  const gs = govScores(), [a, b] = periodRange(); let n = 0; for (let j = a; j <= b; j++) if (S.gv[j]) n++;
+  document.getElementById("govNote").textContent = `Indicateur distinct des sept boussoles. Pour chacun des ${n.toLocaleString("fr-FR")} scrutins de la session où le bloc gouvernemental (EPR, Démocrates, Horizons) a eu une position majoritaire claire, on regarde si les députés de chaque groupe ont voté comme lui (abstention = ½ ; motions de censure exclues). Les Républicains (groupe Droite républicaine) ont aussi participé aux gouvernements Barnier et Bayrou.`;
+  const host = document.getElementById("govPlot"); host.replaceChildren();
+  const pr = el("div", "poles"); pr.append(el("span", "pl", "Vote toujours à l'inverse du bloc"), el("span", "pr", "Vote toujours comme lui")); host.append(pr);
+  G.map((g, i) => ({ g, v: gs[i] })).filter(o => o.v != null && o.g.k !== "NI").sort((x, y) => x.v - y.v).forEach(o => {
+    const row = el("div", "dp"), nm = el("span", "n"), sw = el("span", "sw"); sw.style.background = o.g.c; nm.append(sw, document.createTextNode(o.g.k));
+    row.append(nm, slider([{ x: o.v * 100, c: o.g.c, tip: tt => { tt.append(el("div", "t", "Proximité avec le gouvernement")); tt.append(el("div", "big", `${o.g.k} : ${fmtPct(o.v)}`)); } }]), el("span", "lab", `${fmtPct(o.v)} des votes comme le bloc`));
+    host.append(row);
+  });
 }
 function groupSquares(j) {
   const box = el("div", "gv");
@@ -785,8 +838,11 @@ function renderRefs(ax, refs) {
   refs.slice().sort((a, b) => b[0] - a[0]).forEach(([j, sg, kind]) => {
     const tr = el("tr");
     const t = el("td"), tx = S.tx[j] >= 0 ? D.texts[S.tx[j]] : "";
-    const title = el("div", null, tx); title.style.fontWeight = 600; t.append(title, el("div", "sub", `${S.ti[j]} · n° ${S.n[j]} · ${S.r[j] ? "adopté" : "rejeté"}`));
-    const se = el("td"); se.append(el("span", "sens " + (sg > 0 ? "plus" : "minus"), sg > 0 ? "Pour → +" : "Pour → −")); se.append(el("div", "sub", KIND[kind]));
+    const title = el("div", null, tx); title.style.fontWeight = 600; t.append(title);
+    const o = S.tx[j] >= 0 ? D.textOrigin[S.tx[j]] : null, og = ORIG(o), sub = el("div", "sub");
+    if (og) sub.append(el("span", "orig" + (o[0] === "g" ? " g" : ""), og));
+    sub.append(document.createTextNode(`${S.ti[j]} · n° ${S.n[j]} · ${S.r[j] ? "adopté" : "rejeté"}`)); t.append(sub);
+    const se = el("td"); se.append(el("span", "sens " + (sg > 0 ? "plus" : "minus"), `Pour → ${(sg > 0 ? ax.plus : ax.minus).toLowerCase()}`)); se.append(el("div", "sub", KIND[kind]));
     const gv = el("td"); gv.append(groupSquares(j));
     tr.append(el("td", null, fmtDate(j)), t, se, gv);
     tb.append(tr);
@@ -902,7 +958,7 @@ function renderCohesion(st) {
   const min = Math.max(0, Math.floor((d3.min(rows, z => z[1]) - .05) * 20) / 20);
   rows.forEach(([i, v]) => {
     const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = G[i].c; n.append(sw, document.createTextNode(G[i].k));
-    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = Math.max(1, (v - min) / (1 - min) * 100) + "%"; fill.style.background = G[i].c; track.append(fill);
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = Math.max(1, (v - min) / (1 - min) * 100) + "%"; fill.style.color = G[i].c; track.append(fill);
     row.append(n, track, el("div", "v", fmtPct(v))); row.title = G[i].n; row.style.cursor = "pointer"; row.onclick = () => { state.frond = i; syncFrond(); renderFrond(); };
     host.append(row);
   });
@@ -1078,7 +1134,7 @@ function renderResults(host) {
   host.append(el("div", "sm-h", "Ton accord avec chaque groupe"));
   ranked.forEach(o => {
     const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = G[o.g].c; n.append(sw, document.createTextNode(G[o.g].k));
-    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = (o.a * 100) + "%"; fill.style.background = G[o.g].c; track.append(fill);
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = (o.a * 100) + "%"; fill.style.color = G[o.g].c; track.append(fill);
     const val = el("div", "v", fmtPct(o.a)); row.append(n, track, val); row.title = G[o.g].n; host.append(row);
   });
   const cols = el("div", "cols"); cols.style.marginTop = "16px";
@@ -1092,22 +1148,19 @@ function renderResults(host) {
   const seeHemi = el("button", "link", "Voir l'hémicycle coloré selon ton accord →"); seeHemi.style.marginTop = "8px";
   seeHemi.onclick = () => { state.hemiMode = "quiz"; syncModes(); renderHemi(); document.getElementById("ch-hemi").scrollIntoView({ behavior: "smooth", block: "start" }); };
   left.append(seeHemi);
-  // Boussoles couvertes : toi face aux groupes
+  // Boussoles couvertes : toi face aux groupes (mêmes curseurs bipolaires)
   const right = el("div"); right.append(el("div", "sm-h", "Tes boussoles face aux groupes"));
   if (R.axes.length) {
-    const W = Math.min(420, host.clientWidth > 700 ? host.clientWidth / 2 - 20 : host.clientWidth - 10), rh = 34, lw = 86;
-    const svg = d3.select(right).append("svg").attr("width", W).attr("height", R.axes.length * rh + 16);
-    const x = d3.scaleLinear().domain([0, 100]).range([lw, W - 10]);
-    R.axes.forEach((o, r) => {
-      const y = r * rh + rh / 2, gs = axisScores(o.ax);
-      svg.append("text").attr("x", 0).attr("y", y).attr("dy", ".35em").style("font-size", "12px").style("fill", css("--ink-2")).text(ASHORT[o.ax.k]);
-      svg.append("line").attr("x1", x(0)).attr("x2", x(100)).attr("y1", y).attr("y2", y).attr("stroke", css("--rule")).attr("stroke-width", 6);
-      gs.forEach((g, k) => { if (g && G[k].k !== "NI") svg.append("circle").attr("cx", x(g.s)).attr("cy", y).attr("r", 4).attr("fill", G[k].c).attr("opacity", .85)
-        .on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", o.ax.n)); tt.append(el("div", "big", `${G[k].k} : ${Math.round(g.s)}`)); })).on("pointerleave", hideTip); });
-      svg.append("path").attr("d", d3.symbol(d3.symbolDiamond, 150)()).attr("transform", `translate(${x(o.s)},${y})`).attr("fill", css("--ink")).attr("stroke", css("--gold")).attr("stroke-width", 1.5)
-        .on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", o.ax.n)); tt.append(el("div", "big", `Toi : ${Math.round(o.s)}`)); tipRow(tt, "questions", o.n); })).on("pointerleave", hideTip);
+    R.axes.forEach(o => {
+      const gs = axisScores(o.ax), marks = [];
+      gs.forEach((g, k) => { if (g && G[k].k !== "NI") marks.push({ x: xOf(o.ax, g.s), c: G[k].c, tip: tt => { tt.append(el("div", "t", o.ax.n)); tt.append(el("div", "big", G[k].k)); tt.append(el("div", null, lean(o.ax, g.s))); } }); });
+      marks.push({ x: xOf(o.ax, o.s), cls: "me", tip: tt => { tt.append(el("div", "t", o.ax.n)); tt.append(el("div", "big", "Toi")); tt.append(el("div", null, lean(o.ax, o.s))); tipRow(tt, "questions", o.n); } });
+      const box = el("div"); box.style.margin = "6px 0 10px";
+      const lab = el("div", null, `${o.ax.n} — toi : ${lean(o.ax, o.s)}`); lab.style.cssText = "font-size:12.5px;font-weight:600";
+      const hd = el("div", "poles"); hd.style.fontWeight = 400; hd.append(el("span", "pl", poleL(o.ax)), el("span", "pr", poleR(o.ax)));
+      box.append(lab, hd, slider(marks)); right.append(box);
     });
-    right.append(el("p", "note", "◆ toi (sur les seules questions du jeu) · points : scores des groupes sur tous les scrutins de référence. Indicatif : 1 à 4 questions par axe."));
+    right.append(el("p", "note", "◆ toi (sur les seules questions du jeu) · points : positions des groupes sur tous les scrutins de référence · trait vertical : le centre. Indicatif : 1 à 4 questions par axe."));
   } else right.append(el("p", "note", "Aucune question répondue ne porte sur une boussole."));
   cols.append(left, right); host.append(cols);
   // Détail question par question

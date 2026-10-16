@@ -155,10 +155,9 @@ main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
 .def { font: italic 500 20px/1.35 "Cormorant Garamond", serif; color: var(--ink); margin: 0 0 4px; }
 .gauge { display: grid; grid-template-columns: 74px 1fr 56px; gap: 10px; align-items: center; margin: 7px 0; font-size: 13px; cursor: default; }
 .gauge .n { font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.gauge .track { position: relative; height: 14px; background: var(--paper-2); border: 1px solid var(--rule);
-  background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), color-mix(in srgb, var(--gold) 45%, transparent) calc(10% - 1px) 10%); }
-.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; }
-.gauge .fill::after { content: ""; position: absolute; right: -1px; top: -3px; bottom: -3px; width: 2px; background: var(--gold); }
+.gauge .track { position: relative; height: 14px; background: linear-gradient(var(--rule), var(--rule)) center / 100% 2px no-repeat; }
+.gauge .fill { position: absolute; left: 0; top: 0; bottom: 0; background: none !important; }
+.gauge .fill::after { content: ""; position: absolute; right: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: currentColor; border: 1.5px solid var(--paper); box-shadow: 0 0 0 1px var(--ink-2); }
 .gauge .v { font: 700 22px/1 "Cormorant Garamond", serif; color: var(--gold-ink); text-align: right; }
 .gauge .v small { font: 400 10.5px "Public Sans"; color: var(--muted); display: block; }
 .radars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; }
@@ -445,7 +444,7 @@ function renderResults(host) {
   host.append(el("div", "sm-h", "Classement par accord"));
   R.forEach(r => {
     const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = r.c.c; n.append(sw, document.createTextNode(surname(r.c.n)));
-    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = (r.a * 100) + "%"; fill.style.background = r.c.c; track.append(fill);
+    const track = el("div", "track"), fill = el("div", "fill"); fill.style.width = (r.a * 100) + "%"; fill.style.color = r.c.c; track.append(fill);
     const val = el("div", "v", fmtPct(r.a)); val.append(el("small", null, `${r.n} prop. comparées`));
     row.append(n, track, val); row.title = `${r.c.n} — ${r.c.party}`; host.append(row);
   });
