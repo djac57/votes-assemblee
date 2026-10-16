@@ -405,7 +405,24 @@ for ax in AX.AXES:
     if missing:
         print("    sans scrutin exploitable :", missing)
 
+# ---------- Le jeu « Tu votes comme qui ? » (quiz.py) ----------
+import quiz as QZ  # noqa: E402
+
+num_to_j = {n: j for j, n in enumerate(S["n"])}
+CODE = {1: "P", -1: "C", 0: "A"}
+quiz_out = []
+for q in QZ.QUIZ:
+    j = num_to_j.get(q["n"])
+    if j is None:
+        print(f"  quiz : scrutin {q['n']} introuvable, question ignorée", file=sys.stderr)
+        continue
+    # Vote de chaque député (même ordre que la liste des députés) : P pour, C contre, A abstention, . absent
+    votes = "".join(CODE[d["votes"][j][0]] if j in d["votes"] else "." for d in deps)
+    quiz_out.append({"j": j, "q": q["q"], "note": q["note"], "sens": q["sens"], "axes": q["axes"], "v": votes})
+print(f"  quiz : {len(quiz_out)} questions")
+
 data = {
+    "quiz": quiz_out,
     "axes": axes_out,
     "epoch": EPOCH.isoformat(),
     "groups": [{"k": k, "n": n, "c": c, "seats": seats[i]} for i, (k, n, c) in enumerate(GROUPS)],

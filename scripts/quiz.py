@@ -1,0 +1,73 @@
+"""Le jeu « Tu votes comme qui ? » : 20 vrais scrutins de la 17e législature.
+
+Chaque question reprend, en langage courant et de façon neutre, ce qui a été voté.
+- `n`     : numéro du scrutin à l'Assemblée (vote sur l'ensemble d'un texte ou article unique) ;
+- `sens`  : +1 si répondre OUI revient à voter « pour », -1 si la question est formulée à l'envers ;
+- `axes`  : boussoles concernées et sens (OUI va dans le sens de l'axe : +1, contre : -1) ;
+- `note`  : contexte bref, affiché après la réponse (le texte, la date et le résultat sont ajoutés
+            automatiquement depuis les données).
+Les motions de censure sont écartées : leur décompte ne relève que les voix « pour ».
+"""
+
+QUIZ = [
+    {"n": 217, "sens": +1, "axes": {"social": +1},
+     "q": "Faut-il annuler les dernières réformes des retraites (âge légal de départ porté à 64 ans, durée de cotisation allongée) ?",
+     "note": "Proposition de loi du groupe RN examinée lors de sa journée réservée."},
+    {"n": 2272, "sens": +1, "axes": {"social": +1},
+     "q": "Faut-il verser les allocations familiales dès le premier enfant ?",
+     "note": "Aujourd'hui, elles ne sont versées qu'à partir du deuxième enfant."},
+    {"n": 606, "sens": +1, "axes": {"social": +1},
+     "q": "Faut-il ouvrir le repas à 1 euro au restaurant universitaire à tous les étudiants, et non plus aux seuls boursiers ?",
+     "note": ""},
+    {"n": 4758, "sens": +1, "axes": {"budget": +1},
+     "q": "Faut-il adopter le budget de la Sécurité sociale pour 2026 ?",
+     "note": "Vote sur l'ensemble du projet de loi de financement de la sécurité sociale, en nouvelle lecture."},
+    {"n": 852, "sens": +1, "axes": {"ecologie": +1},
+     "q": "Faut-il restreindre l'usage des « polluants éternels » (PFAS) pour protéger la population ?",
+     "note": ""},
+    {"n": 2957, "sens": +1, "axes": {"ecologie": -1, "economie": +1, "simplification": +1},
+     "q": "Faut-il adopter la loi « Duplomb » qui lève des contraintes pesant sur les agriculteurs, dont la possibilité de réautoriser par dérogation un pesticide néonicotinoïde ?",
+     "note": "Vote sur le texte issu de la commission mixte paritaire ; en première lecture, une motion de rejet avait écourté les débats."},
+    {"n": 881, "sens": +1, "axes": {"economie": -1},
+     "q": "Faut-il créer un impôt minimum de 2 % sur le patrimoine des plus grandes fortunes (dite « taxe Zucman ») ?",
+     "note": "Visait les patrimoines de plus de 100 millions d'euros."},
+    {"n": 4438, "sens": +1, "axes": {"economie": -1},
+     "q": "Faut-il nationaliser ArcelorMittal France pour préserver la production d'acier ?",
+     "note": ""},
+    {"n": 2458, "sens": +1, "axes": {"economie": +1, "simplification": +1},
+     "q": "Faut-il adopter la loi de « simplification de la vie économique » ?",
+     "note": "Texte large : allègement de procédures pour les entreprises, mais aussi des articles ajoutés en séance (par exemple sur les zones à faibles émissions)."},
+    {"n": 738, "sens": +1, "axes": {"immigration": +1},
+     "q": "Faut-il durcir, à Mayotte, les conditions d'accès à la nationalité française des enfants nés de parents étrangers ?",
+     "note": "Restriction du droit du sol propre à Mayotte."},
+    {"n": 2958, "sens": +1, "axes": {"immigration": +1},
+     "q": "Faut-il faciliter le maintien en rétention administrative des étrangers condamnés pour des faits graves et présentant un risque de récidive ?",
+     "note": ""},
+    {"n": 1194, "sens": +1, "axes": {"securite": +1},
+     "q": "Faut-il adopter la loi « narcotrafic » (parquet national, nouveaux moyens d'enquête et régime carcéral renforcé) ?",
+     "note": ""},
+    {"n": 7987, "sens": +1, "axes": {"securite": +1},
+     "q": "Faut-il instaurer une présomption de légitime défense pour les policiers et gendarmes dans l'exercice de leurs fonctions ?",
+     "note": ""},
+    {"n": 5729, "sens": +1, "axes": {},
+     "q": "Faut-il créer un droit à l'aide à mourir pour certains malades atteints d'une affection grave et incurable ?",
+     "note": "Vote sur l'ensemble du texte ; la proposition de loi a fait l'objet de plusieurs lectures."},
+    {"n": 1202, "sens": +1, "axes": {},
+     "q": "Faut-il définir dans la loi le viol et les agressions sexuelles par l'absence de consentement ?",
+     "note": ""},
+    {"n": 5192, "sens": +1, "axes": {},
+     "q": "Faut-il encadrer plus strictement l'accès des mineurs aux réseaux sociaux ?",
+     "note": ""},
+    {"n": 988, "sens": +1, "axes": {},
+     "q": "Faut-il appeler l'Union européenne à renforcer son soutien à l'Ukraine ?",
+     "note": "Proposition de résolution européenne (texte non contraignant)."},
+    {"n": 691, "sens": +1, "axes": {},
+     "q": "Faut-il demander que la France refuse l'accord de libre-échange entre l'Union européenne et le Mercosur ?",
+     "note": "Proposition de résolution européenne (texte non contraignant)."},
+    {"n": 7454, "sens": +1, "axes": {},
+     "q": "Faut-il inscrire dans la Constitution une autonomie de la Corse au sein de la République ?",
+     "note": "Projet de loi constitutionnelle, qui doit encore suivre la procédure de révision."},
+    {"n": 6736, "sens": +1, "axes": {},
+     "q": "Faut-il adopter l'actualisation de la loi de programmation militaire 2024-2030 (moyens supplémentaires pour les armées) ?",
+     "note": ""},
+]
