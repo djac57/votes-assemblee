@@ -187,7 +187,6 @@ AXES = [
             (+1, r"personnes ciblées par les réseaux de criminalité organisée"),
             (+1, r"homicide routier"),
             (-1, r"droit de visite des parlementaires et des bâtonniers"),
-            (-1, r"droit de vote par correspondance des personnes détenues"),
         ],
     },
 ]

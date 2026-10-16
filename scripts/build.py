@@ -545,7 +545,10 @@ for q in QZ.QUIZ:
                      "titre": re.sub(r"\s+", " ", raw["titre"]).strip(),
                      "date": raw["dateScrutin"], "sort": raw["sort"]["code"],
                      "dc": [int(dc.get("pour") or 0), int(dc.get("contre") or 0), int(dc.get("abstentions") or 0)],
-                     "dossier": q.get("dossier") or "",
+                     "dossier": "" if q.get("dossier") == "none" else q.get("dossier") or (text_origin[S["tx"][j]][2] if S["tx"][j] >= 0 else ""),
+                     # origine du texte (g Gouvernement, a député, s Sénat) et groupe de l'auteur, pour le tirage équilibré
+                     "o": text_origin[S["tx"][j]][:2] if S["tx"][j] >= 0 else ["?", None],
+                     "topic": q.get("topic") or (text_origin[S["tx"][j]][2] if S["tx"][j] >= 0 else str(q["n"])),
                      "contenu": q["contenu"], "pour": q["pour"], "contre": q["contre"], "suite": q["suite"],
                      "sources": q["sources"], "consulte": QZ.CONSULTED})
 print(f"  quiz : {len(quiz_out)} questions")

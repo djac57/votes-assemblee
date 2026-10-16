@@ -301,6 +301,66 @@
    "o": "Debout la France — projet (livret d'avril 2025)",
    "d": "consulté le 2026-10-16",
    "ty": "programme du parti présidé par le candidat"
+  },
+  "fi_melenchon_urgence": {
+   "u": "https://www.franceinfo.fr/elections/presidentielle/en-quoi-consiste-l-etat-d-urgence-sociale-que-souhaite-declencher-jean-luc-melenchon_8190866.html",
+   "o": "franceinfo",
+   "d": "2026-09-17",
+   "ty": "presse"
+  },
+  "f24_medef": {
+   "u": "https://www.france24.com/fr/france/20260827-premier-d%C3%A9bat-de-la-pr%C3%A9sidentielle-2027-les-principales-propositions-des-candidats",
+   "o": "France 24",
+   "d": "2026-08-27",
+   "ty": "presse (débat devant le Medef)"
+  },
+  "lcp_medef": {
+   "u": "https://lcp.fr/actualites/presidentielle-2027-ce-qu-il-faut-retenir-du-premier-debat-entre-les-candidats-440670",
+   "o": "LCP",
+   "d": "2026-08-27",
+   "ty": "presse (débat devant le Medef)"
+  },
+  "fi_philippe_hdv": {
+   "u": "https://www.franceinfo.fr/politique/edouard-philippe/immigration-retraites-allocations-familiales-parcoursup-ce-qu-il-faut-retenir-de-l-interview-d-edouard-philippe-dans-l-emission-l-heure-de-verite_8228416.html",
+   "o": "franceinfo",
+   "d": "consulté le 2026-10-16",
+   "ty": "entretien (France 2, octobre 2026)"
+  },
+  "f3_lepen_ferrand": {
+   "u": "https://france3-regions.franceinfo.fr/bretagne/finistere/brest/il-a-rompu-avec-la-neutralite-marine-le-pen-exige-la-demission-de-richard-ferrand-apres-son-veto-sur-le-referendum-constitutionnel-3433743.html",
+   "o": "France 3",
+   "d": "2026-10-15",
+   "ty": "presse"
+  },
+  "lcp_europe": {
+   "u": "https://lcp.fr/actualites/presidentielle-2027-pourquoi-l-election-francaise-inquiete-deja-les-europeens-441539",
+   "o": "LCP",
+   "d": "2026-09-12",
+   "ty": "presse"
+  },
+  "ps_retailleau_ref": {
+   "u": "https://www.publicsenat.fr/actualites/politique/referendum-sur-limmigration-primaute-du-droit-national-le-projet-de-bruno-retailleau-est-il-faisable",
+   "o": "Public Sénat",
+   "d": "2026-02-13",
+   "ty": "presse"
+  },
+  "fi_retailleau_ame": {
+   "u": "https://www.franceinfo.fr/sante/suppression-de-l-aide-medicale-d-etat-la-proposition-de-bruno-retailleau-divise-jusqu-au-sein-de-la-majorite-gouvernementale_6799522.html",
+   "o": "franceinfo",
+   "d": "2024-09-24",
+   "ty": "presse (déclaration comme ministre de l'Intérieur)"
+  },
+  "ps_marche_elec": {
+   "u": "https://www.publicsenat.fr/actualites/politique/marche-europeen-de-lelectricite-sortie-ou-reforme-les-paradoxes-de-la-normalisation-du-rn",
+   "o": "Public Sénat",
+   "d": "2026-04-23",
+   "ty": "presse"
+  },
+  "ps_imm_2022": {
+   "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-que-proposent-les-candidats-sur-l-immigration-201088",
+   "o": "Public Sénat",
+   "d": "2022-04-01",
+   "ty": "presse (programmes présidentiels 2022)"
   }
  },
  "candidates": [
@@ -433,121 +493,197 @@
    "k": "retraite62",
    "t": "Ramener l'âge légal de départ à la retraite à 62 ans, voire moins",
    "axis": "social",
-   "lean": "gauche (et RN)"
+   "lean": "gauche (et RN)",
+   "side": "g"
   },
   {
    "k": "zucman",
    "t": "Créer un impôt minimum de 2 % sur les patrimoines de plus de 100 millions d'euros (« taxe Zucman »)",
    "axis": "economie",
-   "lean": "gauche"
+   "lean": "gauche",
+   "side": "g"
   },
   {
    "k": "heritages",
    "t": "Taxer davantage les très gros héritages",
    "axis": "economie",
-   "lean": "gauche"
+   "lean": "gauche",
+   "side": "g"
   },
   {
    "k": "niches",
    "t": "Réduire les niches fiscales et les aides publiques aux entreprises",
    "axis": "economie",
-   "lean": "gauche"
+   "lean": "gauche",
+   "side": "g"
   },
   {
    "k": "aideamourir",
    "t": "Soutenir le droit à l'aide à mourir (loi adoptée en juillet 2026)",
    "axis": "",
-   "lean": "gauche et centre"
+   "lean": "gauche et centre",
+   "side": "g"
   },
   {
    "k": "cannabis",
    "t": "Légaliser le cannabis à usage récréatif",
    "axis": "securite",
-   "lean": "gauche"
+   "lean": "gauche",
+   "side": "g"
   },
   {
    "k": "proportionnelle",
    "t": "Élire les députés à la proportionnelle",
    "axis": "",
-   "lean": "gauche (et RN)"
+   "lean": "gauche (et RN)",
+   "side": "g"
   },
   {
    "k": "ric",
    "t": "Instaurer le référendum d'initiative citoyenne (RIC)",
    "axis": "",
-   "lean": "LFI et RN"
+   "lean": "LFI et RN",
+   "side": "g"
   },
   {
    "k": "isf",
    "t": "Rétablir un impôt sur la fortune (ISF)",
    "axis": "economie",
-   "lean": "gauche"
+   "lean": "gauche",
+   "side": "g"
   },
   {
    "k": "otan",
    "t": "Quitter le commandement intégré de l'OTAN",
    "axis": "",
-   "lean": "transpartisan (souverainistes)"
+   "lean": "transpartisan (souverainistes)",
+   "side": "t"
   },
   {
    "k": "enseignants",
    "t": "Augmenter nettement le salaire des enseignants (au moins 10 à 15 %)",
    "axis": "",
-   "lean": "transpartisan"
+   "lean": "transpartisan",
+   "side": "t"
   },
   {
    "k": "economies",
    "t": "Réaliser plus de 100 milliards d'euros d'économies sur la dépense publique pendant le quinquennat",
    "axis": "budget",
-   "lean": "droite et centre"
+   "lean": "droite et centre",
+   "side": "d"
   },
   {
    "k": "reglor",
    "t": "Inscrire une « règle d'or » d'équilibre budgétaire dans la Constitution",
    "axis": "budget",
-   "lean": "droite et centre"
+   "lean": "droite et centre",
+   "side": "d"
   },
   {
    "k": "impotsprod",
    "t": "Supprimer les impôts de production",
    "axis": "economie",
-   "lean": "droite"
+   "lean": "droite",
+   "side": "d"
   },
   {
    "k": "droitdusol",
    "t": "Supprimer le droit du sol",
    "axis": "immigration",
-   "lean": "droite"
+   "lean": "droite",
+   "side": "d"
   },
   {
    "k": "immlegale",
    "t": "Réduire fortement l'immigration légale (plafonds, division par deux…)",
    "axis": "immigration",
-   "lean": "droite et centre"
+   "lean": "droite et centre",
+   "side": "d"
   },
   {
    "k": "regroupement",
    "t": "Suspendre ou supprimer le regroupement familial",
    "axis": "immigration",
-   "lean": "droite"
+   "lean": "droite",
+   "side": "d"
   },
   {
    "k": "nucleaire",
    "t": "Construire de nouveaux réacteurs nucléaires (EPR2)",
    "axis": "ecologie",
-   "lean": "droite et centre"
+   "lean": "droite et centre",
+   "side": "d"
   },
   {
    "k": "planchers",
    "t": "Instaurer des peines minimales obligatoires (« peines planchers ») pour certains crimes et délits",
    "axis": "securite",
-   "lean": "droite"
+   "lean": "droite",
+   "side": "d"
   },
   {
    "k": "agents",
    "t": "Réduire le nombre d'agents publics (non-remplacement de départs, départs volontaires)",
    "axis": "simplification",
-   "lean": "droite"
+   "lean": "droite",
+   "side": "d"
+  },
+  {
+   "k": "smic",
+   "t": "Augmenter fortement le Smic (de l'ordre de 2 000 euros brut par mois ou plus)",
+   "axis": "social",
+   "lean": "gauche",
+   "side": "g"
+  },
+  {
+   "k": "detteBCE",
+   "t": "Geler ou annuler la part de la dette publique détenue par la Banque centrale européenne",
+   "axis": "budget",
+   "lean": "gauche (LFI)",
+   "side": "g"
+  },
+  {
+   "k": "regularisation",
+   "t": "Régulariser les travailleurs sans papiers qui ont un emploi",
+   "axis": "immigration",
+   "lean": "gauche",
+   "side": "g"
+  },
+  {
+   "k": "capitalisation",
+   "t": "Introduire une part de retraite par capitalisation",
+   "axis": "social",
+   "lean": "droite et centre",
+   "side": "d"
+  },
+  {
+   "k": "refimmigration",
+   "t": "Organiser un référendum sur l'immigration, quitte à réviser la Constitution",
+   "axis": "immigration",
+   "lean": "droite",
+   "side": "d"
+  },
+  {
+   "k": "ame",
+   "t": "Supprimer l'aide médicale d'État (AME) et la remplacer par une aide limitée aux soins urgents",
+   "axis": "immigration",
+   "lean": "droite",
+   "side": "d"
+  },
+  {
+   "k": "primaute",
+   "t": "Faire primer le droit national sur le droit européen",
+   "axis": "",
+   "lean": "transpartisan (souverainistes)",
+   "side": "t"
+  },
+  {
+   "k": "marcheelec",
+   "t": "Sortir du marché européen de l'électricité pour fixer les prix en France",
+   "axis": "economie",
+   "lean": "transpartisan (PCF, RN)",
+   "side": "t"
   }
  ],
  "positions": {
@@ -622,6 +758,27 @@
     "q": "Veut supprimer le regroupement familial.",
     "s": [
      "fi_lepen_constit"
+    ]
+   },
+   "regularisation": {
+    "p": "contre",
+    "q": "Programme 2022 : « mettre fin aux régularisations des étrangers en situation irrégulière », sauf cas « exceptionnels ».",
+    "s": [
+     "ps_imm_2022"
+    ]
+   },
+   "refimmigration": {
+    "p": "pour",
+    "q": "Convoquerait dès son élection un référendum pour réviser la Constitution afin d'instaurer la « préférence nationale » et sa politique migratoire.",
+    "s": [
+     "f3_lepen_ferrand"
+    ]
+   },
+   "primaute": {
+    "p": "pour",
+    "q": "« L'affirmation de la supériorité du droit français sur le droit européen est un marqueur de son programme politique » (LCP).",
+    "s": [
+     "lcp_europe"
     ]
    }
   },
@@ -702,6 +859,36 @@
     "q": "Sa représentante Aurélie Trouvé (« pour Jean-Luc Mélenchon ») défend une « sortie du nucléaire » à terme.",
     "s": [
      "sfen_ufe"
+    ]
+   },
+   "smic": {
+    "p": "pour",
+    "q": "Hausse du Smic « à 1 700 euros net », mesure centrale de son « état d'urgence sociale », avec une échelle mobile des salaires.",
+    "s": [
+     "fi_melenchon_urgence"
+    ]
+   },
+   "detteBCE": {
+    "p": "pour",
+    "q": "Veut que la BCE « mette au congélateur » les dettes des États : geler la dette française qu'elle détient (environ 600 milliards d'euros).",
+    "s": [
+     "fi_dette",
+     "lcp_europe"
+    ]
+   },
+   "regularisation": {
+    "p": "pour",
+    "q": "Programme 2022 : « milite en faveur d'une régularisation des travailleurs sans-papiers ».",
+    "s": [
+     "ps_imm_2022"
+    ]
+   },
+   "primaute": {
+    "p": "nuance",
+    "q": "Ne parle pas de primauté juridique mais veut « désobéir » aux décisions européennes contraires au vote français et « modifier le traité ».",
+    "s": [
+     "lcp_medef",
+     "f24_medef"
     ]
    }
   },
@@ -800,6 +987,27 @@
     "s": [
      "lcp_philippe_imm"
     ]
+   },
+   "detteBCE": {
+    "p": "contre",
+    "q": "Opposé à l'idée de « brûler la dette » : la France doit « remettre en ordre ses comptes ».",
+    "s": [
+     "lcp_medef"
+    ]
+   },
+   "capitalisation": {
+    "p": "pour",
+    "q": "Veut relever l'âge et la durée de cotisation « en mettant en place un système de capitalisation ».",
+    "s": [
+     "fi_philippe_hdv"
+    ]
+   },
+   "refimmigration": {
+    "p": "nuance",
+    "q": "N'exclut pas totalement un référendum : « S'il faut modifier la Constitution, le peuple peut [le faire] », sans en faire un engagement.",
+    "s": [
+     "fi_philippe_hdv"
+    ]
    }
   },
   "attal": {
@@ -858,6 +1066,20 @@
     "q": "Prévoit « un plan de départs volontaires dans nos administrations ».",
     "s": [
      "fi_dette"
+    ]
+   },
+   "detteBCE": {
+    "p": "contre",
+    "q": "« S'il suffisait d'annuler la dette d'abord, pourquoi ça n'a pas été fait avant ? »",
+    "s": [
+     "f24_medef"
+    ]
+   },
+   "capitalisation": {
+    "p": "pour",
+    "q": "Propose qu'« un compte de capitalisation soit ouvert pour chaque bébé », abondé de 1 000 euros par l'État.",
+    "s": [
+     "fi_retraites"
     ]
    }
   },
@@ -965,6 +1187,34 @@
     "q": "Ne pas remplacer 400 000 agents publics partant à la retraite.",
     "s": [
      "ps_retailleau_eco"
+    ]
+   },
+   "refimmigration": {
+    "p": "pour",
+    "q": "« Je veux changer la Constitution pour redonner la parole au peuple » : référendums pour « réduire drastiquement l'immigration » et « redonner la primauté à notre droit national ».",
+    "s": [
+     "ps_retailleau_ref"
+    ]
+   },
+   "ame": {
+    "p": "pour",
+    "q": "Comme ministre de l'Intérieur, voulait « supprimer l'Aide médicale d'État pour la remplacer par une aide d'urgence pour les étrangers ».",
+    "s": [
+     "fi_retailleau_ame"
+    ]
+   },
+   "primaute": {
+    "p": "pour",
+    "q": "Veut des référendums pour « redonner la primauté à notre droit national » sur les normes internationales.",
+    "s": [
+     "ps_retailleau_ref"
+    ]
+   },
+   "marcheelec": {
+    "p": "contre",
+    "q": "Juge que la sortie du marché européen de l'électricité proposée par Jordan Bardella est une « fausse piste ».",
+    "s": [
+     "ps_marche_elec"
     ]
    }
   },
@@ -1085,6 +1335,21 @@
     "s": [
      "sfen_ufe"
     ]
+   },
+   "smic": {
+    "p": "pour",
+    "q": "« Les Écologistes porteront un SMIC à 2 000 euros brut », avec un plan d'aide pour les TPE et PME.",
+    "s": [
+     "f24_medef",
+     "lcp_medef"
+    ]
+   },
+   "regularisation": {
+    "p": "pour",
+    "q": "Propose la régularisation des travailleurs sans papiers.",
+    "s": [
+     "f24_tondelier"
+    ]
    }
   },
   "roussel": {
@@ -1130,6 +1395,20 @@
     "q": "Programme 2022 : création de « 500 000 emplois dans les services publics ».",
     "s": [
      "ps_roussel_2022"
+    ]
+   },
+   "regularisation": {
+    "p": "pour",
+    "q": "Programme 2022 : « régularisation de tous les sans-papiers qui travaillent ».",
+    "s": [
+     "ps_imm_2022"
+    ]
+   },
+   "marcheelec": {
+    "p": "pour",
+    "q": "Le PCF veut sortir du « marché spéculatif de l'électricité pour retrouver la possibilité de fixer des prix » et baisser la facture de 30 à 40 %.",
+    "s": [
+     "sfen_ufe"
     ]
    }
   },
@@ -1218,6 +1497,34 @@
      "ne_q_fonctionnaires",
      "ne_civique"
     ]
+   },
+   "capitalisation": {
+    "p": "pour",
+    "q": "Garder un socle de pension par répartition et « faire évoluer tous les autres régimes vers la capitalisation ».",
+    "s": [
+     "ne_ambition"
+    ]
+   },
+   "refimmigration": {
+    "p": "pour",
+    "q": "Veut « un véritable référendum d'initiative populaire » et voit dans le référendum un moyen de lever les obstacles juridiques en matière d'immigration.",
+    "s": [
+     "ne_q_referendums"
+    ]
+   },
+   "ame": {
+    "p": "pour",
+    "q": "« Supprimer l'Aide Médicale d'État (AME) et la remplacer par une aide d'urgence : 700 millions d'euros d'économies ».",
+    "s": [
+     "ne_immigration"
+    ]
+   },
+   "primaute": {
+    "p": "nuance",
+    "q": "En cas de blocage par des règles supranationales, « il devra être possible […] de demander aux citoyens d'arbitrer par référendum ».",
+    "s": [
+     "ne_destin"
+    ]
    }
   },
   "dupontaignan": {
@@ -1261,6 +1568,21 @@
     "q": "« Réinstaurer et élargir les peines planchers » pour les agressions contre policiers, gendarmes, pompiers, enseignants et soignants.",
     "s": [
      "dlf_justice"
+    ]
+   },
+   "refimmigration": {
+    "p": "pour",
+    "q": "« Supprimer le droit du sol via un référendum » ; en 2022, un référendum « dans les 100 premiers jours » sur le regroupement familial et le droit du sol.",
+    "s": [
+     "dlf_immigration",
+     "ps_imm_2022"
+    ]
+   },
+   "ame": {
+    "p": "pour",
+    "q": "Programme 2022 : « suppression de l'Aide médicale d'État ».",
+    "s": [
+     "ps_imm_2022"
     ]
    }
   }

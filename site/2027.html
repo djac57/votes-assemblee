@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="data2027.js?v=8f944acd40"></script>
+<script src="data2027.js?v=58f278d4b8"></script>
 <style>
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
 :root {
@@ -266,6 +266,8 @@ footer b { color: var(--ink-2); }
 .srcs a { color: var(--gold-ink); }
 .method p { margin: 0 0 10px; color: var(--ink-2); }
 .method b { color: var(--ink); }
+.replay { text-align: center; margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; align-items: center; }
+.replay .note { flex-basis: 100%; }
 .game .gauge { grid-template-columns: 96px 1fr 60px; }
 @media (max-width: 640px) {
   .game .gauge { grid-template-columns: 86px 1fr 56px; font-size: 12.5px; }
@@ -281,7 +283,7 @@ footer b { color: var(--ink-2); }
       <div class="tricolore" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="eyebrow">Présidentielle 2027 · premier tour le 18 avril 2027</div>
       <h1>De quel candidat êtes-vous <em>le plus proche&nbsp;?</em></h1>
-      <p class="lede">Vingt propositions concrètes, une par écran. Répondez OUI, NON ou «&nbsp;sans avis&nbsp;», et comparez vos réponses aux positions publiques des candidats — chacune avec sa source.</p>
+      <p class="lede">Vingt propositions concrètes tirées au hasard à chaque partie, une par écran. Répondez OUI, NON ou «&nbsp;sans avis&nbsp;», et comparez vos réponses aux positions publiques des candidats — chacune avec sa source.</p>
       <div class="meta">Positions relevées le <span id="collected"></span>, susceptibles d'évoluer · <a href="index.html">← Qui vote avec qui à l'Assemblée</a></div>
       <div class="indep">Jeu indicatif, non affilié, pas une consigne de vote</div>
     </div>
@@ -300,12 +302,12 @@ footer b { color: var(--ink-2); }
     <div class="ch-head">
       <div class="ornament"><span>✦</span></div>
       <h2>Les candidats comparés</h2>
-      <p>Ordre alphabétique. Sont retenus les candidats dont au moins 6 des 20 positions sont documentées par une source.</p>
+      <p>Ordre alphabétique. Sont retenus les candidats dont au moins 6 positions sont documentées par une source.</p>
     </div>
     <div class="cards" id="cards"></div>
     <div class="panel" style="margin-top:18px">
       <h3>Positions insuffisamment documentées</h3>
-      <p class="note">Candidats déclarés ou pressentis pour lesquels moins de 6 positions sourcées ont été trouvées sur ces 20 propositions : ils ne sont pas classés, faute de matière.</p>
+      <p class="note">Candidats déclarés ou pressentis pour lesquels moins de 6 positions sourcées ont été trouvées sur les 20 propositions initiales (les propositions ajoutées ensuite n'ont été recherchées que pour les candidats retenus) : ils ne sont pas classés, faute de matière.</p>
       <ul class="plist" id="others" style="margin-top:8px"></ul>
     </div>
   </section>
@@ -316,7 +318,7 @@ footer b { color: var(--ink-2); }
       <h2>Méthode</h2>
     </div>
     <div class="panel method">
-      <p><b>Propositions.</b> Vingt mesures concrètes, formulées de façon neutre, réparties entre mesures portées plutôt à gauche (9), plutôt à droite (9) et transversales (2), et couvrant les sept boussoles du site. Elles sont présentées dans un ordre aléatoire.</p>
+      <p><b>Propositions.</b> Une réserve de 28 mesures concrètes, formulées de façon neutre : 12 portées plutôt à gauche, 12 plutôt à droite, 4 transversales, couvrant les sept boussoles du site. Chaque partie en tire 20 au hasard (9 de chaque bord et 2 transversales, tous les thèmes représentés), en privilégiant celles où le plus de candidats ont une position connue ; l'ordre est aléatoire. Le « mode complet » propose toute la réserve, et le lien d'un tirage permet de rejouer exactement les mêmes propositions.</p>
       <p><b>Positions.</b> Pour chaque couple candidat × proposition : pour, contre, nuancé, ou inconnue. Chaque position renvoie à une source lue (programme, déclaration ou interview rapportée par la presse, vote du candidat s'il est député). Une position n'est jamais déduite de la seule étiquette du parti : une déclaration de parti ou de porte-parole n'est retenue que si la source la présente au nom du candidat ; seule exception, le programme officiel du mouvement que le candidat préside (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan). Les programmes de 2022 sont signalés comme tels. Si rien n'a été trouvé : « inconnue », exclue du calcul pour ce candidat.</p>
       <p><b>Calcul.</b> Pour chaque proposition où vous avez répondu et où la position du candidat est connue : accord = 1 si vous êtes du même avis, 0 si vous êtes d'avis contraire, ½ si sa position est nuancée. Une proposition marquée « importante » compte double. Score = moyenne pondérée, avec le nombre de propositions comparées. Un candidat comparé sur peu de propositions a un score moins fiable.</p>
       <p><b>Limites.</b> Les campagnes ne font que commencer : beaucoup de programmes ne sont pas encore publiés, et plusieurs positions viennent de déclarations ou de programmes antérieurs. Les réponses restent dans votre navigateur ; rien n'est envoyé.</p>
@@ -330,12 +332,13 @@ footer b { color: var(--ink-2); }
 <div class="tip" id="tip" role="tooltip"></div>
 
 <script>
-const Q = window.DATA27, C = Q.candidates, P = Q.props, NP = P.length, SRC = Q.sources;
+const Q = window.DATA27, C = Q.candidates, POOL = Q.props, NPOOL = POOL.length, SRC = Q.sources;
+let P = POOL, NP = NPOOL; // P : propositions de la partie en cours (tirage), NP : leur nombre
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const fmtPct = v => v == null || isNaN(v) ? "—" : Math.round(v * 100) + " %";
 const fmtD = d => /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + "T00:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : d.replace("consulté le ", "consulté le ").replace(/(\d{4})-(\d{2})-(\d{2})/, (m, y, mo, da) => new Date(`${y}-${mo}-${da}T00:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }));
 document.getElementById("collected").textContent = document.getElementById("collected2").textContent = fmtD(Q.collected);
-const AXN = { ecologie: "Écologie", social: "Social", budget: "Responsabilité budgétaire", economie: "Dynamisme économique", simplification: "Simplification", immigration: "Restriction migratoire", securite: "Sécurité" };
+const AXN = { ecologie: "Environnement", social: "Protection sociale", budget: "Finances publiques", economie: "Marché ou régulation", simplification: "Normes", immigration: "Immigration", securite: "Sécurité et libertés" };
 const POS = { pour: { v: 1, l: "Pour" }, contre: { v: -1, l: "Contre" }, nuance: { v: 0, l: "Nuancé" } };
 const initials = n => n.split(/[\s-]+/).filter(w => /^\p{Lu}/u.test(w)).map(w => w[0]).slice(0, 2).join("");
 const surname = n => n.split(" ").slice(1).join(" ");
@@ -350,27 +353,71 @@ function renderCards() {
   ALPHA.forEach(c => {
     const card = el("div", "card27"), pill = el("div", "pastille", initials(c.n)); pill.style.background = c.c;
     const t = el("div"); t.append(el("div", "cn", c.n), el("div", "cp", c.party));
-    const cov = el("div", "cov"), bar = el("div"); bar.style.width = (100 * c.known / NP) + "%"; cov.append(bar);
-    card.append(pill, t, cov, el("div", "note", `${c.known} positions documentées sur ${NP}`));
+    const cov = el("div", "cov"), bar = el("div"); bar.style.width = (100 * c.known / NPOOL) + "%"; cov.append(bar);
+    card.append(pill, t, cov, el("div", "note", `${c.known} positions documentées sur les ${NPOOL} propositions`));
     host.append(card);
   });
   const ul = document.getElementById("others"); ul.replaceChildren();
   Q.others.slice().sort((a, b) => surname(a.n).localeCompare(surname(b.n), "fr")).forEach(o => {
-    const li = el("li"); li.style.cursor = "default"; li.append(el("span", null, o.n + (o.party ? ` (${o.party})` : "")), el("span", "m", `${o.known} / ${NP} positions trouvées`)); ul.append(li);
+    const li = el("li"); li.style.cursor = "default"; li.append(el("span", null, o.n + (o.party ? ` (${o.party})` : "")), el("span", "m", `${o.known} position${o.known > 1 ? "s" : ""} trouvée${o.known > 1 ? "s" : ""}`)); ul.append(li);
   });
 }
 
 /* ---------- Le jeu ---------- */
-const KEY = "va-2027-v1";
-const game = { order: null, i: 0, ans: {}, imp: {}, started: false, done: false, ctx: false };
-try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.order) && s.order.length === NP) Object.assign(game, s, { ctx: false }); } catch (e) {}
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ order: game.order, i: game.i, ans: game.ans, imp: game.imp, done: game.done })); } catch (e) {} };
-function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-if (!game.order) game.order = shuffle(P.map(p => p.k));
-const propOf = k => P.find(p => p.k === k);
+const KEY = "va-2027-v2", NPICK = 20;
+// Tirage : 20 propositions sur la réserve, graine partageable (?q=…) ; « tout » = mode complet.
+// Règles : autant de propositions portées plutôt à gauche que plutôt à droite (9 + 9) et 2 transversales ; chaque thème de la réserve représenté ;
+// tirage pondéré par le nombre de candidats dont la position est connue (au carré), pour garder un classement comparable.
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const shuffleR = (arr, r) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const knownCount = k => C.filter(c => Q.positions[c.k]?.[k]).length;
+function drawProps(seed) {
+  const r = rng(seed), QUOTA = { g: 9, d: 9, t: 2 }, axes = new Set(POOL.map(p => p.axis));
+  const wpick = (list, n) => { const pool = list.slice(), out = []; while (out.length < n && pool.length) { const w = pool.map(p => knownCount(p.k) ** 2 + 1), tot = w.reduce((x, y) => x + y, 0); let u = r() * tot, i = 0; while ((u -= w[i]) > 0) i++; out.push(pool.splice(Math.min(i, pool.length - 1), 1)[0]); } return out; };
+  let best = null;
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const pick = Object.entries(QUOTA).flatMap(([side, n]) => wpick(POOL.filter(p => p.side === side), n));
+    if (new Set(pick.map(p => p.axis)).size === axes.size) { best = pick; break; }
+    best = best || pick;
+  }
+  return shuffleR(best, r).map(p => p.k);
+}
+const game = { seed: 0, full: false, order: [], i: 0, ans: {}, imp: {}, started: false, done: false, ctx: false };
+const newSeed = () => Math.floor(Math.random() * 2176782335) + 1;
+function setDraw(seed, full) {
+  Object.assign(game, { seed, full, order: full ? shuffleR(POOL.map(p => p.k), rng(seed)) : drawProps(seed), i: 0, ans: {}, imp: {}, done: false });
+  P = game.order.map(k => POOL.find(p => p.k === k)); NP = P.length;
+}
+const seedCode = () => game.full ? "tout" : game.seed.toString(36);
+function syncURL() { try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); history.replaceState(null, "", u); } catch (e) {} }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ seed: game.seed, full: game.full, i: game.i, ans: game.ans, imp: game.imp, done: game.done })); } catch (e) {} };
+(() => {
+  let saved = null, q = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
+  try { q = new URLSearchParams(location.search).get("q"); } catch (e) {}
+  const want = q === "tout" ? { seed: saved?.seed || 1, full: true } : q && parseInt(q, 36) > 0 ? { seed: parseInt(q, 36), full: false } : null;
+  if (want && !(saved && saved.seed === want.seed && !!saved.full === want.full)) { setDraw(want.seed, want.full); return; }
+  if (saved && saved.seed) { setDraw(saved.seed, !!saved.full); Object.assign(game, { i: Math.min(saved.i || 0, NP - 1), ans: saved.ans || {}, imp: saved.imp || {}, done: !!saved.done }); return; }
+  setDraw(newSeed(), false);
+})();
+const propOf = k => POOL.find(p => p.k === k);
 function start() {
-  if (game.done) { game.done = false; game.ans = {}; game.imp = {}; game.i = 0; game.order = shuffle(P.map(p => p.k)); }
-  game.started = true; save(); render();
+  if (game.done) setDraw(game.seed, game.full);
+  game.started = true; syncURL(); save(); render();
+}
+function restart(kind) {
+  if (kind === "new") setDraw(newSeed(), false); else if (kind === "full") setDraw(game.seed, true); else setDraw(game.seed, game.full);
+  game.started = true; syncURL(); save(); render(); document.getElementById("game").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function replayBar() {
+  const w = el("div", "replay"), mk = (t, k, cls) => { const b = el("button", cls, t); b.onclick = () => restart(k); return b; };
+  w.append(mk("Rejouer avec d'autres propositions", "new", "ans yes"), mk("Rejouer les mêmes", "same", "ans no"));
+  if (!game.full) w.append(mk(`Mode complet (${NPOOL} propositions)`, "full", "ans skip"));
+  const share = el("p", "note"); share.style.marginTop = "8px";
+  let url = ""; try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); url = u.href; } catch (e) {}
+  share.append(document.createTextNode(game.full ? "Mode complet : toutes les propositions de la réserve. " : `Tirage « ${seedCode()} ». `));
+  if (url) { const a = el("a", null, "Lien vers exactement ces propositions"); a.href = url; share.append(a); }
+  w.append(share); return w;
 }
 function answer(v) {
   if (!game.started || game.done) return;
@@ -395,9 +442,10 @@ function render(animate) {
   if (game.done) return renderResults(host);
   if (!game.started) {
     const w = el("div"); w.style.textAlign = "center";
-    w.append(el("p", "qtext", "Retraites, impôts, immigration, nucléaire, fin de vie, institutions… Et vous, que pensez-vous de ces vingt propositions ?"));
+    w.append(el("p", "qtext", `Retraites, impôts, immigration, nucléaire, fin de vie, institutions… Et vous, que pensez-vous de ces ${NP} propositions ?`));
     const b = el("button", "ans yes", Object.keys(game.ans).length ? "Reprendre" : "Commencer"); b.onclick = start;
-    w.append(b, el("p", "kbd", "OUI, NON ou « sans avis » · marquez une proposition comme importante pour qu'elle compte double · environ 3 minutes"));
+    const full = el("button", "ans skip", game.full ? "Revenir à un tirage de 20 propositions" : `ou toute la réserve : ${NPOOL} propositions`); full.onclick = () => game.full ? restart("new") : restart("full");
+    w.append(b, full, el("p", "kbd", `${game.full ? `Toutes les ${NPOOL} propositions` : `${NP} propositions tirées au hasard parmi ${NPOOL}, à chaque partie`} · OUI, NON ou « sans avis » · marquez une proposition comme importante pour qu'elle compte double`));
     host.append(w, honest()); return;
   }
   const k = game.order[game.i], p = propOf(k);
@@ -438,7 +486,7 @@ function srcLinks(cell) {
 function renderResults(host) {
   const R = scores().filter(r => r.n > 0).sort((a, b) => b.a - a.a || b.n - a.n);
   const nAns = Object.values(game.ans).filter(v => v).length;
-  if (!R.length) { host.append(el("p", "qtext", "Vous n'avez donné aucun avis tranché !")); const b = el("button", "ans yes", "Rejouer"); b.onclick = start; const w = el("div"); w.style.textAlign = "center"; w.append(b); host.append(w, honest()); return; }
+  if (!R.length) { host.append(el("p", "qtext", "Vous n'avez donné aucun avis tranché !"), replayBar(), honest()); return; }
   const v = el("div", "verdict"); v.append(el("div", "k", "Sur ces propositions, vous êtes le plus proche de"), el("div", "v", R[0].c.n), el("div", "d", `${fmtPct(R[0].a)} d'accord sur ${R[0].n} proposition${R[0].n > 1 ? "s" : ""} comparée${R[0].n > 1 ? "s" : ""} · ${nAns} réponse${nAns > 1 ? "s" : ""} tranchée${nAns > 1 ? "s" : ""}`));
   host.append(v);
   host.append(el("div", "sm-h", "Classement par accord"));
@@ -448,7 +496,8 @@ function renderResults(host) {
     const val = el("div", "v", fmtPct(r.a)); val.append(el("small", null, `${r.n} prop. comparées`));
     row.append(n, track, val); row.title = `${r.c.n} — ${r.c.party}`; host.append(row);
   });
-  host.append(el("p", "note", "Un score calculé sur peu de propositions est moins fiable : regardez le nombre de propositions comparées."));
+  const none = scores().filter(r => r.n === 0).map(r => surname(r.c.n));
+  host.append(el("p", "note", `Propositions comparées dans ce tirage : celles où vous avez donné un avis et où la position du candidat est connue. Un score calculé sur peu de propositions est moins fiable.${none.length ? ` Aucune proposition comparable pour : ${none.join(", ")}.` : ""}`));
   // Détail proposition par proposition
   const det = el("details", "refs"); det.open = true; det.append(el("summary", null, "Le détail, proposition par proposition (avec les sources)"));
   P.forEach(p => {
@@ -469,9 +518,7 @@ function renderResults(host) {
     blk.append(ul); det.append(blk);
   });
   host.append(det);
-  const again = el("div"); again.style.cssText = "text-align:center;margin-top:18px";
-  const b = el("button", "ans yes", "Rejouer"); b.onclick = start; again.append(b);
-  host.append(again, honest());
+  host.append(replayBar(), honest());
 }
 
 /* ---------- Thème ---------- */

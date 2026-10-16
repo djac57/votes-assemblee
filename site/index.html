@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="data.js?v=c4e49d320f"></script>
+<script src="data.js?v=3e23a92f59"></script>
 <style>
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
 :root {
@@ -248,6 +248,8 @@ svg text { fill: var(--ink); }
 .ctx .wait { margin-top: 10px; font-size: 12px; color: var(--muted); font-style: italic; }
 .qdet summary { cursor: pointer; font-size: 12px; color: var(--gold-ink); font-weight: 600; margin-top: 4px; }
 @media (max-width: 640px) { .ctx .args { grid-template-columns: minmax(0, 1fr); } }
+.replay { text-align: center; margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; align-items: center; }
+.replay .note { flex-basis: 100%; }
 .ctx { margin-top: 12px; padding: 10px 14px; background: var(--paper-2); border-left: 3px solid var(--gold); font-size: 13px; color: var(--ink-2); }
 .verdict { text-align: center; margin: 6px 0 18px; }
 .verdict .k { font: 600 12px "Public Sans"; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
@@ -311,7 +313,7 @@ footer b { color: var(--ink-2); }
     <div class="ch-head">
       <div class="ornament"><span>✦</span></div>
       <h2>Tu votes comme qui&nbsp;?</h2>
-      <p>Vingt vrais scrutins de la législature. Réponds OUI ou NON, et découvre de quels groupes et de quels députés tes votes se rapprochent.</p>
+      <p>Vingt questions tirées au hasard parmi des dizaines de vrais scrutins de la législature, textes du Gouvernement comme propositions de tous les groupes. Réponds OUI ou NON, et découvre de quels groupes et de quels députés tes votes se rapprochent.</p>
       <p style="margin-top:6px;font-size:14px">Les questions sont reformulées en langage courant&nbsp;; l'intitulé officiel du scrutin est affiché sous chacune.</p>
       <p style="margin-top:6px"><a href="2027.html" style="color:var(--gold-ink);font-weight:600">Nouveau : le jeu de la présidentielle 2027 — 20 propositions, les positions sourcées des candidats →</a></p>
     </div>
@@ -995,10 +997,38 @@ document.getElementById("moreVotes").onclick = () => { state.voteLimit += 20; re
 /* ---------- Le jeu « Tu votes comme qui ? » ---------- */
 // Règle : par question, accord = 1 si le député a voté comme toi, 0 s'il a voté l'inverse, ½ s'il s'est abstenu ;
 // absents ignorés. Pour un groupe : même règle appliquée à chacun de ses votants, puis moyenne.
-const QUIZ = D.quiz, NQ = QUIZ.length, QKEY = "va-quiz-v1";
-const game = { i: 0, ans: new Array(NQ).fill(null), done: false, ctx: false };
-try { const saved = JSON.parse(localStorage.getItem(QKEY) || "null"); if (saved && saved.ans?.length === NQ) Object.assign(game, saved, { ctx: false }); } catch (e) {}
-const saveGame = () => { try { localStorage.setItem(QKEY, JSON.stringify({ i: game.i, ans: game.ans, done: game.done })); } catch (e) {} };
+// Réserve de questions ; chaque partie en tire 20 (tirage stratifié, graine partageable dans l'URL : ?q=…), ou toutes en mode complet (?q=tout)
+const POOL = D.quiz, NPICK = 20, QKEY = "va-quiz-v2";
+const LEFT = new Set(["LFI-NFP", "GDR", "ECOS", "SOC"]), RIGHT = new Set(["DR", "UDR", "RN"]);
+const originOf = q => q.o[0] === "g" ? "gouv" : q.o[0] === "s" ? "senat" : q.o[1] == null ? "autre" : LEFT.has(G[q.o[1]].k) ? "gauche" : RIGHT.has(G[q.o[1]].k) ? "droite" : "centre";
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const shuffleR = (arr, r) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+// Règles : au moins 2 questions par boussole ; 3 à 6 textes du Gouvernement ; au moins 3 d'initiative de gauche, 2 de droite, 2 du centre, 1 sénatoriale ;
+// jamais deux questions sur le même texte ou le même sujet ; ordre aléatoire.
+function drawQuiz(seed) {
+  const r = rng(seed), MIN = { gouv: 3, gauche: 3, droite: 2, centre: 2, senat: 1 }, MAXGOV = 6;
+  for (let attempt = 0; attempt < 400; attempt++) {
+    const idx = shuffleR(POOL.map((_, k) => k), r), pick = [], topics = new Set(), cnt = {};
+    const ok = k => !pick.includes(k) && !topics.has(POOL[k].topic) && !(originOf(POOL[k]) === "gouv" && (cnt.gouv || 0) >= MAXGOV);
+    const add = k => { pick.push(k); topics.add(POOL[k].topic); const o = originOf(POOL[k]); cnt[o] = (cnt[o] || 0) + 1; };
+    for (const ax of shuffleR(AXES.map(a => a.k), r)) for (const k of idx) { if (pick.filter(p => POOL[p].axes[ax]).length >= 2) break; if (POOL[k].axes[ax] && ok(k)) add(k); }
+    for (const [o, m] of Object.entries(MIN)) for (const k of idx) { if ((cnt[o] || 0) >= m || pick.length >= NPICK) break; if (originOf(POOL[k]) === o && ok(k)) add(k); }
+    for (const k of idx) { if (pick.length >= NPICK) break; if (ok(k)) add(k); }
+    const axOk = AXES.every(a => pick.filter(p => POOL[p].axes[a.k]).length >= 2), orOk = Object.entries(MIN).every(([o, m]) => (cnt[o] || 0) >= m);
+    if (pick.length === NPICK && axOk && orOk) return shuffleR(pick, r);
+  }
+  return shuffleR(POOL.map((_, k) => k), r).slice(0, NPICK);
+}
+const game = { seed: 0, full: false, order: [], i: 0, ans: [], done: false, ctx: false };
+let QUIZ = [], NQ = 0;
+function setDraw(seed, full) {
+  game.seed = seed; game.full = full; game.order = full ? shuffleR(POOL.map((_, k) => k), rng(seed)) : drawQuiz(seed);
+  QUIZ = game.order.map(k => POOL[k]); NQ = QUIZ.length; game.ans = new Array(NQ).fill(null); game.i = 0; game.done = false; quizCache = null;
+}
+const seedCode = () => game.full ? "tout" : game.seed.toString(36);
+function syncURL() { try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); history.replaceState(null, "", u); } catch (e) {} }
+const saveGame = () => { try { localStorage.setItem(QKEY, JSON.stringify({ seed: game.seed, full: game.full, i: game.i, ans: game.ans, done: game.done })); } catch (e) {} };
+const newSeed = () => Math.floor(Math.random() * 2176782335) + 1;
 const VCODE = { P: 1, C: -1, A: 0 };
 let quizCache = null;
 function quizResult() {
@@ -1028,9 +1058,24 @@ function quizResult() {
   }).filter(Boolean);
   return quizCache = { answered, groups, dep, top, minCommon, axes };
 }
+// Au chargement : graine de l'URL, sinon partie sauvegardée, sinon nouveau tirage
+(() => {
+  let saved = null, q = null;
+  try { saved = JSON.parse(localStorage.getItem(QKEY) || "null"); } catch (e) {}
+  try { q = new URLSearchParams(location.search).get("q"); } catch (e) {}
+  const want = q === "tout" ? { seed: saved?.seed || 1, full: true } : q && parseInt(q, 36) > 0 ? { seed: parseInt(q, 36), full: false } : null;
+  if (want && !(saved && saved.seed === want.seed && !!saved.full === want.full)) { setDraw(want.seed, want.full); return; }
+  if (saved && saved.seed) { setDraw(saved.seed, !!saved.full); if (saved.ans?.length === NQ) Object.assign(game, { i: saved.i || 0, ans: saved.ans, done: !!saved.done }); return; }
+  setDraw(newSeed(), false);
+})();
+function restart(kind) { // "same" : mêmes questions ; "new" : nouveau tirage ; "full" : toute la réserve
+  if (kind === "new") setDraw(newSeed(), false); else if (kind === "full") setDraw(game.seed, true); else setDraw(game.seed, game.full);
+  game.started = true; syncURL(); saveGame(); state.hemiMode = state.hemiMode === "quiz" ? "group" : state.hemiMode; syncModes(); renderHemi(); renderGame();
+  document.getElementById("ch-jeu").scrollIntoView({ behavior: "smooth", block: "start" });
+}
 function startGame(scroll) {
-  if (game.done) { game.done = false; game.ans.fill(null); game.i = 0; quizCache = null; }
-  game.started = true; renderGame(); saveGame();
+  if (game.done) setDraw(game.seed, game.full);
+  game.started = true; syncURL(); renderGame(); saveGame();
   if (scroll) document.getElementById("ch-jeu").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 document.getElementById("playBtn").onclick = () => startGame(true);
@@ -1053,7 +1098,17 @@ addEventListener("keydown", e => {
   else if (e.key === " ") { e.preventDefault(); answer(0); }
   else if (e.key === "ArrowLeft" || e.key === "Backspace") { e.preventDefault(); back(); }
 });
-const honest = () => el("p", "honest", "Jeu indicatif, fondé sur 20 votes réels de l'Assemblée — pas une consigne de vote. Tes réponses restent dans ton navigateur.");
+const honest = () => el("p", "honest", `Jeu indicatif, fondé sur ${NQ} votes réels de l'Assemblée${game.full ? "" : `, tirés au hasard parmi ${POOL.length}`} — pas une consigne de vote. Tes réponses restent dans ton navigateur.`);
+function replayBar() {
+  const w = el("div", "replay"), mk = (t, k, cls) => { const b = el("button", cls, t); b.onclick = () => restart(k); return b; };
+  w.append(mk("Rejouer avec d'autres questions", "new", "ans yes"), mk("Rejouer les mêmes", "same", "ans no"));
+  if (!game.full) w.append(mk(`Mode complet (${POOL.length} questions)`, "full", "ans skip"));
+  const share = el("p", "note"); share.style.marginTop = "8px";
+  let url = ""; try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); u.hash = "ch-jeu"; url = u.href; } catch (e) {}
+  share.append(document.createTextNode(game.full ? "Mode complet : toutes les questions de la réserve. " : `Tirage « ${seedCode()} ». `));
+  if (url) { const a = linkA(url, "Lien vers exactement ces questions"); a.target = "_self"; share.append(a); }
+  w.append(share); return w;
+}
 const AN = "https://www.assemblee-nationale.fr/dyn/17/";
 const fmtIso = d => d.length === 4 ? d : new Date(d.length === 7 ? d + "-15" : d + "T12:00").toLocaleDateString("fr-FR", d.length === 7 ? { month: "long", year: "numeric" } : { day: "numeric", month: "long", year: "numeric" });
 const consulted = q => fmtIso(q.consulte);
@@ -1099,7 +1154,8 @@ function renderGame(animate) {
     const intro = el("div"); intro.style.textAlign = "center";
     intro.append(el("p", "qtext", "Retraites, immigration, écologie, budget, sécurité, fin de vie… Et toi, qu'aurais-tu voté ?"));
     const b = el("button", "ans yes", game.ans.some(a => a !== null) ? "Reprendre" : "Commencer"); b.onclick = () => startGame(false);
-    intro.append(b, el("p", "kbd", "Une question par écran · OUI, NON ou « je ne sais pas » · environ 3 minutes"));
+    const full = el("button", "ans skip", game.full ? "Revenir à un tirage de 20 questions" : `ou tout le jeu : ${POOL.length} questions`); full.onclick = () => game.full ? restart("new") : restart("full");
+    intro.append(b, full, el("p", "kbd", `${game.full ? `Toutes les ${POOL.length} questions de la réserve` : `${NQ} questions tirées au hasard parmi ${POOL.length}, à chaque partie`} · une par écran · OUI, NON ou « je ne sais pas »`));
     host.append(intro, honest()); return;
   }
   const q = QUIZ[game.i], j = q.j;
@@ -1124,7 +1180,7 @@ function renderResults(host) {
   const R = quizResult();
   if (!R) {
     host.append(el("p", "qtext", "Tu n'as répondu à aucune question !"));
-    const b = el("button", "ans yes", "Rejouer"); b.onclick = () => startGame(false); const w = el("div"); w.style.textAlign = "center"; w.append(b); host.append(w, honest()); return;
+    host.append(replayBar(), honest()); return;
   }
   const ranked = R.groups.filter(g => g.a != null && G[g.g].k !== "NI").sort((a, b) => b.a - a.a);
   const best = ranked[0];
@@ -1179,9 +1235,7 @@ function renderResults(host) {
   });
   table.append(tb); wrap.append(table); det.append(wrap, el("p", "note", "Carré plein : le groupe a voté pour · contour : contre · pointillés : abstention. OUI correspond à un vote « pour »."));
   host.append(det);
-  const again = el("div"); again.style.cssText = "text-align:center;margin-top:18px";
-  const b = el("button", "ans yes", "Rejouer"); b.onclick = () => startGame(false); again.append(b);
-  host.append(again, honest());
+  host.append(replayBar(), honest());
 }
 
 /* ---------- Thème ---------- */
