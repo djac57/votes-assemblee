@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="data2027.js?v=58f278d4b8"></script>
+<script src="data2027.js?v=b48d7d7a40"></script>
 <style>
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
 :root {
@@ -266,6 +266,9 @@ footer b { color: var(--ink-2); }
 .srcs a { color: var(--gold-ink); }
 .method p { margin: 0 0 10px; color: var(--ink-2); }
 .method b { color: var(--ink); }
+.concr { max-width: 680px; margin: -12px auto 16px; text-align: center; font-size: 14.5px; color: var(--ink-2); line-height: 1.45; }
+.concr b { color: var(--ink); }
+.ouimeans { text-align: center; font-size: 12px; color: var(--muted); margin: 8px 0 0; }
 .replay { text-align: center; margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; align-items: center; }
 .replay .note { flex-basis: 100%; }
 .game .gauge { grid-template-columns: 96px 1fr 60px; }
@@ -318,7 +321,7 @@ footer b { color: var(--ink-2); }
       <h2>Méthode</h2>
     </div>
     <div class="panel method">
-      <p><b>Propositions.</b> Une réserve de 28 mesures concrètes, formulées de façon neutre : 12 portées plutôt à gauche, 12 plutôt à droite, 4 transversales, couvrant les sept boussoles du site. Chaque partie en tire 20 au hasard (9 de chaque bord et 2 transversales, tous les thèmes représentés), en privilégiant celles où le plus de candidats ont une position connue ; l'ordre est aléatoire. Le « mode complet » propose toute la réserve, et le lien d'un tirage permet de rejouer exactement les mêmes propositions.</p>
+      <p><b>Propositions.</b> Une réserve de 36 mesures concrètes, formulées de façon neutre et accompagnées d'une ligne « Concrètement » : 13 portées plutôt à gauche, 17 plutôt à droite, 6 transversales, couvrant les sept boussoles du site. Une proposition n'est ajoutée que si au moins quatre candidats ont une position sourcée. Chaque partie en tire 20 au hasard (9 de chaque bord et 2 transversales, tous les thèmes représentés), en privilégiant celles où le plus de candidats ont une position connue ; l'ordre est aléatoire. Le « mode complet » propose toute la réserve, et le lien d'un tirage permet de rejouer exactement les mêmes propositions.</p>
       <p><b>Positions.</b> Pour chaque couple candidat × proposition : pour, contre, nuancé, ou inconnue. Chaque position renvoie à une source lue (programme, déclaration ou interview rapportée par la presse, vote du candidat s'il est député). Une position n'est jamais déduite de la seule étiquette du parti : une déclaration de parti ou de porte-parole n'est retenue que si la source la présente au nom du candidat ; seule exception, le programme officiel du mouvement que le candidat préside (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan). Les programmes de 2022 sont signalés comme tels. Si rien n'a été trouvé : « inconnue », exclue du calcul pour ce candidat.</p>
       <p><b>Calcul.</b> Pour chaque proposition où vous avez répondu et où la position du candidat est connue : accord = 1 si vous êtes du même avis, 0 si vous êtes d'avis contraire, ½ si sa position est nuancée. Une proposition marquée « importante » compte double. Score = moyenne pondérée, avec le nombre de propositions comparées. Un candidat comparé sur peu de propositions a un score moins fiable.</p>
       <p><b>Limites.</b> Les campagnes ne font que commencer : beaucoup de programmes ne sont pas encore publiés, et plusieurs positions viennent de déclarations ou de programmes antérieurs. Les réponses restent dans votre navigateur ; rien n'est envoyé.</p>
@@ -453,10 +456,11 @@ function render(animate) {
   const meta = el("div", "qmeta"); meta.append(el("span", null, `Proposition ${game.i + 1} sur ${NP}`), el("span", null, p.axis ? AXN[p.axis] : "Société et institutions"));
   const prog = el("div", "prog"), bar = el("div"); bar.style.width = (100 * game.i / NP) + "%"; prog.append(bar);
   card.append(meta, prog, el("div", "qtext", p.t));
+  if (p.c) { const conc = el("p", "concr"); conc.append(el("b", null, "Concrètement : "), document.createTextNode(p.c)); card.append(conc); }
   const row = el("div", "answers");
   [["OUI", 1, "yes"], ["NON", -1, "no"]].forEach(([l, v, c]) => { const b = el("button", "ans " + c + (game.ans[k] === v ? " chosen" : ""), l); b.onclick = () => answer(v); row.append(b); });
   const skip = el("button", "ans skip", "Sans avis"); skip.onclick = () => answer(0); row.append(skip);
-  card.append(row);
+  card.append(row, el("p", "ouimeans", "OUI = vous êtes favorable à cette proposition · NON = vous y êtes opposé"));
   const imp = el("label", "imp"); const cb = el("input"); cb.type = "checkbox"; cb.checked = !!game.imp[k]; cb.onchange = toggleImp;
   imp.append(cb, document.createTextNode(" Important pour moi (compte double)")); card.append(imp);
   const tools = el("div", "qtools");

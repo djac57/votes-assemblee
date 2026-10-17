@@ -1,6 +1,6 @@
 {
  "_lisez-moi": "Jeu « Présidentielle 2027 : de quel candidat êtes-vous le plus proche ? ». Chaque position (pour / contre / nuance) renvoie à une source lue (URL, date, type). Une case absente = position inconnue, exclue du calcul. Aucune position n'est déduite de l'étiquette du parti : les déclarations d'un parti ou d'un porte-parole ne sont retenues que si la source les présente explicitement au nom du candidat. Exception : le programme officiel du mouvement que préside le candidat (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan) est retenu comme le sien. Positions relevées le 16 octobre 2026, susceptibles d'évoluer.",
- "collected": "2026-10-16",
+ "collected": "2026-10-17",
  "sources": {
   "fi_retraites": {
    "u": "https://www.franceinfo.fr/economie/retraite/avancer-ou-reculer-l-age-legal-changer-la-duree-de-cotisation-capitalisation-ce-que-proposent-les-candidats-a-la-presidentielle-pour-les-retraites_8234524.html",
@@ -361,6 +361,84 @@
    "o": "Public Sénat",
    "d": "2022-04-01",
    "ty": "presse (programmes présidentiels 2022)"
+  },
+  "lcp_hlm_lepen": {
+   "u": "https://lcp.fr/actualites/reserver-les-logements-hlm-aux-francais-la-proposition-de-marine-le-pen-provoque-une",
+   "o": "LCP",
+   "d": "2026-09-14",
+   "ty": "presse"
+  },
+  "f3_lepen_rentree": {
+   "u": "https://france3-regions.franceinfo.fr/hauts-de-france/pas-calais/lens/marine-le-pen-fait-sa-rentree-politique-a-henin-beaumont-et-met-la-priorite-nationale-au-c-ur-de-son-programme-pour-la-presidentielle-de-2027-3416348.html",
+   "o": "France 3",
+   "d": "2026-09-13",
+   "ty": "presse"
+  },
+  "ps_attal_sru": {
+   "u": "https://www.publicsenat.fr/actualites/politique/logement-social-la-droite-salue-les-annonces-de-gabriel-attal-la-gauche-denonce-une-declaration-de-guerre-contre-la-loi-sru",
+   "o": "Public Sénat",
+   "d": "2024-01-31",
+   "ty": "presse (déclaration de politique générale, comme Premier ministre)"
+  },
+  "fi_carburants": {
+   "u": "https://www.franceinfo.fr/economie/automobile/essence/baisse-des-taxes-blocage-des-prix-hausse-des-aides-ciblees-face-a-la-nouvelle-flambee-des-carburants-que-proposent-les-candidats-a-la-presidentielle_8198603.html",
+   "o": "franceinfo",
+   "d": "2026-09-18",
+   "ty": "presse (comparatif des candidats)"
+  },
+  "fi_ukraine_rn": {
+   "u": "https://www.franceinfo.fr/elections/presidentielle/parti-de-la-soumission-a-la-russie-patriotes-de-pacotille-les-candidats-a-la-presidentielle-fustigent-la-position-du-rn-sur-l-aide-a-l-ukraine_8178707.html",
+   "o": "franceinfo",
+   "d": "2026-09-05",
+   "ty": "presse"
+  },
+  "f24_lepen_ukraine": {
+   "u": "https://www.france24.com/fr/france/20261015-pr%C3%A9sidentielle-2027-marine-le-pen-coupera-aide-ukraine-six-mois-si-%C3%A9lue",
+   "o": "France 24",
+   "d": "2026-10-15",
+   "ty": "presse"
+  },
+  "ps_retailleau_travail": {
+   "u": "https://www.publicsenat.fr/actualites/politique/la-fete-est-finie-bruno-retailleau-veut-supprimer-les-35-heures-inciter-a-la-reprise-dactivite-et-plafonner-les-aides-sociales-pour-relancer-lemploi",
+   "o": "Public Sénat",
+   "d": "2026-01-07",
+   "ty": "presse"
+  },
+  "f24_attal_travail": {
+   "u": "https://www.france24.com/fr/info-en-continu/20260430-attal-continue-de-d%C3%A9velopper-la-th%C3%A9matique-travail-en-vue-de-2027",
+   "o": "France 24 / AFP",
+   "d": "2026-04-30",
+   "ty": "presse (entretien au Figaro)"
+  },
+  "ps_emploi_2022": {
+   "u": "https://www.publicsenat.fr/actualites/politique/emploi-retrouvez-les-principales-propositions-des-candidats-a-la-presidentielle",
+   "o": "Public Sénat",
+   "d": "2022-03-22",
+   "ty": "presse (programmes présidentiels 2022)"
+  },
+  "fi_lepen_voile": {
+   "u": "https://www.franceinfo.fr/politique/marine-le-pen/marine-le-pen-souhaite-interdire-le-voile-islamique-de-maniere-progressive_8196287.html",
+   "o": "franceinfo",
+   "d": "2026-09-16",
+   "ty": "presse"
+  },
+  "fi_philippe_voile": {
+   "u": "https://www.franceinfo.fr/societe/religion/sanctionner-le-port-du-voile-edouard-philippe-juge-la-proposition-du-rn-inconstitutionnelle-et-scandaleuse_8173319.html",
+   "o": "franceinfo",
+   "d": "2026-09-02",
+   "ty": "presse (entretien sur France Inter)"
+  },
+  "fi_attal_voile": {
+   "u": "https://www.franceinfo.fr/politique/interdiction-du-voile-gabriel-attal-en-desaccord-avec-la-proposition-du-rn_8172710.html",
+   "o": "franceinfo",
+   "d": "2026-09-01",
+   "ty": "presse"
+  },
+  "lcp_melenchon_voile": {
+   "u": "https://lcp.fr/actualites/j-ai-change-d-avis-jean-luc-melenchon-regrette-aujourd-hui-ses-anciennes-positions-sur",
+   "o": "LCP",
+   "d": "2026-09-03",
+   "ty": "presse"
   }
  },
  "candidates": [
@@ -494,195 +572,287 @@
    "t": "Ramener l'âge légal de départ à la retraite à 62 ans, voire moins",
    "axis": "social",
    "lean": "gauche (et RN)",
-   "side": "g"
+   "side": "g",
+   "c": "La réforme de 2023 le portait progressivement à 64 ans ; ce relèvement est suspendu jusqu'en janvier 2028."
   },
   {
    "k": "zucman",
-   "t": "Créer un impôt minimum de 2 % sur les patrimoines de plus de 100 millions d'euros (« taxe Zucman »)",
+   "t": "Créer un impôt minimum de 2 % par an sur les patrimoines de plus de 100 millions d'euros (« taxe Zucman »)",
    "axis": "economie",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Un peu moins de 2 000 personnes seraient concernées ; l'Assemblée a adopté la mesure en février 2025, puis le Sénat l'a rejetée."
   },
   {
    "k": "heritages",
    "t": "Taxer davantage les très gros héritages",
    "axis": "economie",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Hausse des droits de succession sur les plus grosses transmissions, au-delà de plusieurs millions d'euros selon les projets."
   },
   {
    "k": "niches",
-   "t": "Réduire les niches fiscales et les aides publiques aux entreprises",
+   "t": "Réduire les avantages fiscaux et les aides publiques accordés aux entreprises",
    "axis": "economie",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Les « niches » sont des réductions d'impôt ou de cotisations accordées sous conditions ; plusieurs candidats veulent les raboter ou les réorienter."
   },
   {
    "k": "aideamourir",
-   "t": "Soutenir le droit à l'aide à mourir (loi adoptée en juillet 2026)",
+   "t": "Garder le droit à l'aide à mourir voté en 2026",
    "axis": "",
    "lean": "gauche et centre",
-   "side": "g"
+   "side": "g",
+   "c": "La loi adoptée en juillet 2026 permet à certains malades graves et incurables de demander une substance létale ; certains candidats veulent l'abroger."
   },
   {
    "k": "cannabis",
-   "t": "Légaliser le cannabis à usage récréatif",
+   "t": "Légaliser le cannabis pour un usage récréatif",
    "axis": "securite",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Aujourd'hui, consommer du cannabis est un délit en France, hors usage médical expérimental."
   },
   {
    "k": "proportionnelle",
    "t": "Élire les députés à la proportionnelle",
    "axis": "",
    "lean": "gauche (et RN)",
-   "side": "g"
+   "side": "g",
+   "c": "Les sièges seraient répartis selon le pourcentage de voix de chaque liste, au lieu du scrutin majoritaire par circonscription."
   },
   {
    "k": "ric",
-   "t": "Instaurer le référendum d'initiative citoyenne (RIC)",
+   "t": "Créer un référendum d'initiative citoyenne (RIC)",
    "axis": "",
    "lean": "LFI et RN",
-   "side": "g"
+   "side": "g",
+   "c": "Les citoyens pourraient déclencher eux-mêmes un référendum en réunissant un nombre de signatures fixé à l'avance (souvent un million dans les projets)."
   },
   {
    "k": "isf",
    "t": "Rétablir un impôt sur la fortune (ISF)",
    "axis": "economie",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "L'ISF a été remplacé en 2018 par un impôt sur la seule fortune immobilière (IFI)."
   },
   {
    "k": "otan",
-   "t": "Quitter le commandement intégré de l'OTAN",
+   "t": "Faire sortir la France du commandement militaire intégré de l'OTAN",
    "axis": "",
    "lean": "transpartisan (souverainistes)",
-   "side": "t"
+   "side": "t",
+   "c": "La France y est revenue en 2009 ; elle resterait membre de l'Alliance mais ne placerait plus ses forces dans la chaîne de commandement commune."
   },
   {
    "k": "enseignants",
-   "t": "Augmenter nettement le salaire des enseignants (au moins 10 à 15 %)",
+   "t": "Augmenter nettement le salaire des enseignants (au moins 10 % sur le quinquennat)",
    "axis": "",
    "lean": "transpartisan",
-   "side": "t"
+   "side": "t",
+   "c": "Les candidats concernés promettent entre 10 % et 25 % de hausse, parfois en échange de nouvelles obligations."
   },
   {
    "k": "economies",
-   "t": "Réaliser plus de 100 milliards d'euros d'économies sur la dépense publique pendant le quinquennat",
+   "t": "Faire plus de 100 milliards d'euros d'économies sur les dépenses publiques pendant le quinquennat",
    "axis": "budget",
    "lean": "droite et centre",
-   "side": "d"
+   "side": "d",
+   "c": "Les plans annoncés vont d'environ 125 à 200 milliards d'euros, sur cinq ans ou davantage."
   },
   {
    "k": "reglor",
-   "t": "Inscrire une « règle d'or » d'équilibre budgétaire dans la Constitution",
+   "t": "Inscrire dans la Constitution une « règle d'or » qui limite les déficits publics",
    "axis": "budget",
    "lean": "droite et centre",
-   "side": "d"
+   "side": "d",
+   "c": "Une règle constitutionnelle obligerait les budgets à respecter un équilibre ou un plafond de déficit."
   },
   {
    "k": "impotsprod",
-   "t": "Supprimer les impôts de production",
+   "t": "Supprimer les impôts de production payés par les entreprises",
    "axis": "economie",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "Ce sont des impôts dus indépendamment des bénéfices (comme la CVAE ou la C3S) ; certains candidats veulent seulement les baisser."
   },
   {
    "k": "droitdusol",
    "t": "Supprimer le droit du sol",
    "axis": "immigration",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "Aujourd'hui, un enfant né en France de parents étrangers peut devenir français, sous conditions, à sa majorité ou avant."
   },
   {
    "k": "immlegale",
-   "t": "Réduire fortement l'immigration légale (plafonds, division par deux…)",
+   "t": "Réduire fortement l'immigration légale (titres de séjour)",
    "axis": "immigration",
    "lean": "droite et centre",
-   "side": "d"
+   "side": "d",
+   "c": "Les propositions vont de la division par deux à la division par huit du nombre de titres de séjour délivrés, ou à des plafonds annuels."
   },
   {
    "k": "regroupement",
    "t": "Suspendre ou supprimer le regroupement familial",
    "axis": "immigration",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "Le regroupement familial permet à un étranger installé légalement de faire venir son conjoint et ses enfants mineurs, sous conditions de ressources et de logement."
   },
   {
    "k": "nucleaire",
    "t": "Construire de nouveaux réacteurs nucléaires (EPR2)",
    "axis": "ecologie",
    "lean": "droite et centre",
-   "side": "d"
+   "side": "d",
+   "c": "Un programme de six EPR2 a été lancé ; certains candidats veulent aller plus loin, d'autres sortir du nucléaire à terme."
   },
   {
    "k": "planchers",
-   "t": "Instaurer des peines minimales obligatoires (« peines planchers ») pour certains crimes et délits",
+   "t": "Instaurer des peines minimales obligatoires (« peines planchers ») pour certains délits et crimes",
    "axis": "securite",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "Le juge devrait prononcer au moins une peine fixée par la loi, sauf décision motivée ; ces peines avaient existé de 2007 à 2014."
   },
   {
    "k": "agents",
-   "t": "Réduire le nombre d'agents publics (non-remplacement de départs, départs volontaires)",
+   "t": "Réduire le nombre d'agents publics",
    "axis": "simplification",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "Par exemple en ne remplaçant pas une partie des départs à la retraite ou par des départs volontaires."
   },
   {
    "k": "smic",
-   "t": "Augmenter fortement le Smic (de l'ordre de 2 000 euros brut par mois ou plus)",
+   "t": "Augmenter fortement le Smic (de l'ordre de 10 % ou plus)",
    "axis": "social",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Propositions en présence : 2 000 euros brut par mois (Écologistes), 1 700 euros net (LFI)."
   },
   {
    "k": "detteBCE",
-   "t": "Geler ou annuler la part de la dette publique détenue par la Banque centrale européenne",
+   "t": "Geler ou annuler la part de la dette publique française détenue par la Banque centrale européenne",
    "axis": "budget",
    "lean": "gauche (LFI)",
-   "side": "g"
+   "side": "g",
+   "c": "La BCE détient environ 600 milliards d'euros de dette française selon LFI ; une annulation supposerait l'accord des autres pays de l'euro."
   },
   {
    "k": "regularisation",
    "t": "Régulariser les travailleurs sans papiers qui ont un emploi",
    "axis": "immigration",
    "lean": "gauche",
-   "side": "g"
+   "side": "g",
+   "c": "Ils obtiendraient un titre de séjour ; aujourd'hui, la régularisation se fait au cas par cas, sur décision du préfet."
   },
   {
    "k": "capitalisation",
    "t": "Introduire une part de retraite par capitalisation",
    "axis": "social",
    "lean": "droite et centre",
-   "side": "d"
+   "side": "d",
+   "c": "Une partie de la retraite reposerait sur une épargne placée et non plus seulement sur les cotisations des actifs (répartition)."
   },
   {
    "k": "refimmigration",
    "t": "Organiser un référendum sur l'immigration, quitte à réviser la Constitution",
    "axis": "immigration",
    "lean": "droite",
-   "side": "d"
+   "side": "d",
+   "c": "La Constitution ne permet pas aujourd'hui de soumettre directement la politique migratoire à référendum ; il faudrait d'abord la modifier."
   },
   {
    "k": "ame",
-   "t": "Supprimer l'aide médicale d'État (AME) et la remplacer par une aide limitée aux soins urgents",
+   "t": "Remplacer l'aide médicale d'État (AME) par une aide limitée aux soins urgents",
+   "axis": "immigration",
+   "lean": "droite",
+   "side": "d",
+   "c": "L'AME prend en charge les soins des étrangers en situation irrégulière ; elle serait supprimée ou restreinte."
+  },
+  {
+   "k": "primaute",
+   "t": "Faire primer le droit français sur le droit européen",
+   "axis": "",
+   "lean": "transpartisan (souverainistes)",
+   "side": "t",
+   "c": "Aujourd'hui, les traités et le droit européens priment sur les lois françaises ; plusieurs juristes estiment qu'un renversement poserait la question du maintien dans l'UE."
+  },
+  {
+   "k": "sru",
+   "t": "Abroger la loi SRU, qui impose aux grandes communes 20 à 25 % de logements sociaux",
+   "c": "Les communes concernées qui n'atteignent pas ce taux paient des pénalités ; certains candidats veulent l'abroger, d'autres l'assouplir ou la renforcer.",
+   "axis": "social",
+   "lean": "droite",
+   "side": "d"
+  },
+  {
+   "k": "aidesetrangers",
+   "t": "Réserver certaines aides sociales (logement, allocations familiales, RSA) aux Français, ou les conditionner à plusieurs années de résidence pour les étrangers",
+   "c": "Aujourd'hui, les étrangers en situation régulière y ont droit dans les mêmes conditions que les Français, à quelques exceptions près (cinq ans de résidence pour le RSA).",
    "axis": "immigration",
    "lean": "droite",
    "side": "d"
   },
   {
-   "k": "primaute",
-   "t": "Faire primer le droit national sur le droit européen",
+   "k": "trentecinqh",
+   "t": "Sortir des 35 heures pour travailler davantage",
+   "c": "La durée légale du travail est de 35 heures par semaine (1 607 heures par an) ; au-delà, les heures supplémentaires sont majorées.",
+   "axis": "economie",
+   "lean": "droite et centre",
+   "side": "d"
+  },
+  {
+   "k": "chomage",
+   "t": "Réduire la durée ou les conditions d'indemnisation du chômage",
+   "c": "Par exemple 12 mois d'indemnisation au maximum pour les moins de 50 ans (18 aujourd'hui), ou la fin de l'allocation après plusieurs refus d'offre.",
+   "axis": "social",
+   "lean": "droite et centre",
+   "side": "d"
+  },
+  {
+   "k": "voile",
+   "t": "Interdire progressivement le port du voile islamique dans l'espace public",
+   "c": "Aujourd'hui, le voile est interdit pour les élèves à l'école publique et le voile intégral dans tout l'espace public ; le projet RN commence par les universités, les sorties scolaires, le sport et les bâtiments publics.",
    "axis": "",
-   "lean": "transpartisan (souverainistes)",
+   "lean": "droite (RN)",
+   "side": "d"
+  },
+  {
+   "k": "superprofits",
+   "t": "Taxer les « superprofits » des compagnies pétrolières",
+   "c": "Il s'agit de taxer les bénéfices exceptionnels liés à la flambée des prix de l'énergie, ou de plafonner les marges du raffinage.",
+   "axis": "economie",
+   "lean": "gauche",
+   "side": "g"
+  },
+  {
+   "k": "tvaenergie",
+   "t": "Baisser la TVA sur les carburants et l'énergie de 20 % à 5,5 %",
+   "c": "Selon franceinfo, une TVA à 5,5 % sur les carburants contreviendrait au taux plancher européen de 15 %.",
+   "axis": "budget",
+   "lean": "transpartisan (RN, PCF)",
    "side": "t"
   },
   {
-   "k": "marcheelec",
-   "t": "Sortir du marché européen de l'électricité pour fixer les prix en France",
-   "axis": "economie",
-   "lean": "transpartisan (PCF, RN)",
+   "k": "aidesciblees",
+   "t": "Face à la hausse des carburants, aider surtout ceux qui en dépendent le plus (aides ciblées) plutôt que baisser les taxes pour tous",
+   "c": "Par exemple un chèque carburant selon les revenus ou pour ceux qui doivent prendre la voiture pour travailler.",
+   "axis": "",
+   "lean": "centre et gauche",
+   "side": "t"
+  },
+  {
+   "k": "ukraine",
+   "t": "Maintenir l'aide financière et militaire de la France à l'Ukraine pendant tout le quinquennat",
+   "c": "La France soutient l'Ukraine depuis l'invasion russe de 2022 ; le RN veut cesser l'aide financière six mois après son arrivée au pouvoir.",
+   "axis": "",
+   "lean": "centre et gauche (RN contre)",
    "side": "t"
   }
  ],
@@ -779,6 +949,43 @@
     "q": "« L'affirmation de la supériorité du droit français sur le droit européen est un marqueur de son programme politique » (LCP).",
     "s": [
      "lcp_europe"
+    ]
+   },
+   "sru": {
+    "p": "pour",
+    "q": "Veut abroger la loi SRU, qui impose aux communes concernées 20 à 25 % de logements sociaux.",
+    "s": [
+     "lcp_hlm_lepen",
+     "f3_lepen_rentree"
+    ]
+   },
+   "aidesetrangers": {
+    "p": "pour",
+    "q": "Veut « réserver » les aides au logement (APL) aux Français et leur donner la priorité dans le logement social (« priorité nationale »).",
+    "s": [
+     "f3_lepen_rentree",
+     "lcp_hlm_lepen"
+    ]
+   },
+   "voile": {
+    "p": "pour",
+    "q": "« L'objectif sera d'interdire le voile et nous le ferons si les Français nous en donnent mandat », d'abord par décret dans les universités, les sorties scolaires, le sport et les bâtiments publics.",
+    "s": [
+     "fi_lepen_voile"
+    ]
+   },
+   "tvaenergie": {
+    "p": "pour",
+    "q": "Baisse de la TVA de 20 % à 5,5 % sur les carburants, le fioul et le gaz.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "ukraine": {
+    "p": "contre",
+    "q": "« Durant six mois, nous maintiendrons les aides », puis « nous cesserons l'aide financière à l'Ukraine car nous n'avons plus les moyens de le faire ».",
+    "s": [
+     "f24_lepen_ukraine"
     ]
    }
   },
@@ -890,6 +1097,41 @@
      "lcp_medef",
      "f24_medef"
     ]
+   },
+   "sru": {
+    "p": "contre",
+    "q": "« Madame Le Pen a pour politique du logement le projet de faire des ghettos de riches. »",
+    "s": [
+     "lcp_hlm_lepen"
+    ]
+   },
+   "trentecinqh": {
+    "p": "contre",
+    "q": "Programme 2022 : sécuriser les 35 heures en majorant les heures supplémentaires, et passer à 32 heures « dans les métiers pénibles ou de nuit ».",
+    "s": [
+     "ps_emploi_2022"
+    ]
+   },
+   "chomage": {
+    "p": "contre",
+    "q": "Programme 2022 : abroger la dernière réforme de l'assurance chômage.",
+    "s": [
+     "ps_emploi_2022"
+    ]
+   },
+   "voile": {
+    "p": "contre",
+    "q": "Sur la proposition du RN de sanctionner le voile : « il y a le côté humiliant pour nous tous d'être le pays où un truc pareil a lieu ».",
+    "s": [
+     "lcp_melenchon_voile"
+    ]
+   },
+   "superprofits": {
+    "p": "nuance",
+    "q": "Propose plutôt de bloquer les marges des raffineurs, avec un plafond de profit sur le raffinage en France.",
+    "s": [
+     "fi_carburants"
+    ]
    }
   },
   "glucksmann": {
@@ -935,6 +1177,27 @@
     "q": "Se prononce pour de nouveaux EPR, tout en reconnaissant que « la question des nouveaux réacteurs nucléaires » reste à discuter avec Yannick Jadot.",
     "s": [
      "lcp_glucksmann_eco"
+    ]
+   },
+   "superprofits": {
+    "p": "pour",
+    "q": "Veut taxer les « superprofits » des compagnies pétrolières liés à la guerre (avril 2026, sur TF1).",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "aidesciblees": {
+    "p": "pour",
+    "q": "Favorable à des aides ciblées pour ceux qui souffrent le plus de la hausse des prix.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "ukraine": {
+    "p": "pour",
+    "q": "« Vous coupez l'aide à l'Ukraine, vous aurez la guerre dans les pays baltes ou en Pologne. »",
+    "s": [
+     "fi_ukraine_rn"
     ]
    }
   },
@@ -1008,6 +1271,42 @@
     "s": [
      "fi_philippe_hdv"
     ]
+   },
+   "trentecinqh": {
+    "p": "nuance",
+    "q": "Propose de travailler deux heures de plus par semaine, pour environ 1 000 euros de plus par an, sans parler de supprimer les 35 heures.",
+    "s": [
+     "fi_philippe_hdv"
+    ]
+   },
+   "chomage": {
+    "p": "pour",
+    "q": "« Douze mois d'indemnisation maximum pour les moins de 50 ans », contre 18 aujourd'hui.",
+    "s": [
+     "f24_medef",
+     "fi_philippe_hdv"
+    ]
+   },
+   "voile": {
+    "p": "contre",
+    "q": "« Je peux ne pas être à l'aise avec le port du voile, mais ça ne veut pas dire que je veux l'interdire. »",
+    "s": [
+     "fi_philippe_voile"
+    ]
+   },
+   "aidesciblees": {
+    "p": "pour",
+    "q": "Doubler les aides ciblées pour ceux qui dépendent de leur voiture, financées par des économies.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "ukraine": {
+    "p": "pour",
+    "q": "« Couper le robinet à l'Ukraine, c'est servir la Russie. »",
+    "s": [
+     "fi_ukraine_rn"
+    ]
    }
   },
   "attal": {
@@ -1080,6 +1379,41 @@
     "q": "Propose qu'« un compte de capitalisation soit ouvert pour chaque bébé », abondé de 1 000 euros par l'État.",
     "s": [
      "fi_retraites"
+    ]
+   },
+   "sru": {
+    "p": "nuance",
+    "q": "Comme Premier ministre, a proposé d'assouplir le calcul : « ajouter pour une part les logements intermédiaires, accessibles à la classe moyenne ».",
+    "s": [
+     "ps_attal_sru"
+    ]
+   },
+   "trentecinqh": {
+    "p": "nuance",
+    "q": "Ne parle pas des 35 heures mais demande « la suppression du plafond de 220 heures supplémentaires annuelles autorisées ».",
+    "s": [
+     "f24_attal_travail"
+    ]
+   },
+   "voile": {
+    "p": "contre",
+    "q": "Se dit en « désaccord de choix de société » avec la proposition du RN d'interdire le voile dans l'espace public.",
+    "s": [
+     "fi_attal_voile"
+    ]
+   },
+   "aidesciblees": {
+    "p": "pour",
+    "q": "Soutient des dispositifs ciblés, notamment pour les Français qui travaillent.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "ukraine": {
+    "p": "pour",
+    "q": "Juge « sidérante » la proposition du RN et l'accuse de vouloir « abandonner l'Ukraine au profit de la Russie ».",
+    "s": [
+     "fi_ukraine_rn"
     ]
    }
   },
@@ -1210,11 +1544,25 @@
      "ps_retailleau_ref"
     ]
    },
-   "marcheelec": {
-    "p": "contre",
-    "q": "Juge que la sortie du marché européen de l'électricité proposée par Jordan Bardella est une « fausse piste ».",
+   "trentecinqh": {
+    "p": "pour",
+    "q": "Veut sortir des 35 heures : de 1 607 à 1 623 heures par an, avec « zéro cotisation et zéro impôt » au-delà de 1 607 heures.",
     "s": [
-     "ps_marche_elec"
+     "ps_retailleau_travail"
+    ]
+   },
+   "chomage": {
+    "p": "pour",
+    "q": "Arrêt de l'allocation après un troisième refus d'offre d'emploi ; limiter la durée d'indemnisation après une rupture conventionnelle.",
+    "s": [
+     "ps_retailleau_travail"
+    ]
+   },
+   "tvaenergie": {
+    "p": "contre",
+    "q": "Propose de supprimer les certificats d'économies d'énergie (15 à 17 centimes par litre) « sans toucher à la TVA ».",
+    "s": [
+     "fi_carburants"
     ]
    }
   },
@@ -1272,6 +1620,76 @@
    "nucleaire": {
     "p": "pour",
     "q": "Programme 2022 : 14 nouveaux EPR à l'horizon 2050.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "aidesetrangers": {
+    "p": "pour",
+    "q": "Programme 2022 : priver de RSA, d'APL et d'allocations familiales les étrangers qui ne paient pas l'impôt sur le revenu.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "tvaenergie": {
+    "p": "nuance",
+    "q": "Propose plutôt de baisser d'un tiers l'accise sur les carburants (ex-TICPE), environ 12 milliards d'euros.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "aidesciblees": {
+    "p": "contre",
+    "q": "Opposé aux aides ciblées du gouvernement, qu'il juge trop complexes.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "smic": {
+    "p": "contre",
+    "q": "Programme 2022 : ne pas augmenter le Smic.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "isf": {
+    "p": "contre",
+    "q": "Programme 2022 : ne pas rétablir l'ISF et exonérer la résidence principale de l'impôt sur la fortune immobilière.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "regularisation": {
+    "p": "contre",
+    "q": "Programme 2022 : mettre fin aux régularisations de sans-papiers.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "refimmigration": {
+    "p": "pour",
+    "q": "Programme 2022 : un référendum sur l'immigration.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "ame": {
+    "p": "pour",
+    "q": "Programme 2022 : limiter l'aide médicale d'État aux soins urgents.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "primaute": {
+    "p": "pour",
+    "q": "Programme 2022 : réviser la Constitution pour que les lois votées après les traités européens priment sur le droit de l'UE.",
+    "s": [
+     "f24_zemmour"
+    ]
+   },
+   "heritages": {
+    "p": "contre",
+    "q": "Programme 2022 : supprimer les droits de succession sur la transmission des entreprises familiales.",
     "s": [
      "f24_zemmour"
     ]
@@ -1350,6 +1768,20 @@
     "s": [
      "f24_tondelier"
     ]
+   },
+   "superprofits": {
+    "p": "pour",
+    "q": "Veut taxer les « superprofits » des pétroliers, via une proposition de loi de son parti.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "aidesciblees": {
+    "p": "pour",
+    "q": "Favorable aux aides ciblées.",
+    "s": [
+     "fi_carburants"
+    ]
    }
   },
   "roussel": {
@@ -1404,11 +1836,32 @@
      "ps_imm_2022"
     ]
    },
-   "marcheelec": {
-    "p": "pour",
-    "q": "Le PCF veut sortir du « marché spéculatif de l'électricité pour retrouver la possibilité de fixer des prix » et baisser la facture de 30 à 40 %.",
+   "trentecinqh": {
+    "p": "contre",
+    "q": "Programme 2022 : « la semaine des 32 heures ».",
     "s": [
-     "sfen_ufe"
+     "ps_emploi_2022"
+    ]
+   },
+   "chomage": {
+    "p": "contre",
+    "q": "Programme 2022 : mettre fin à la réforme de l'assurance chômage.",
+    "s": [
+     "ps_emploi_2022"
+    ]
+   },
+   "superprofits": {
+    "p": "nuance",
+    "q": "Propose plutôt de bloquer les prix et les marges des pétroliers et raffineurs.",
+    "s": [
+     "fi_carburants"
+    ]
+   },
+   "tvaenergie": {
+    "p": "pour",
+    "q": "Baisse de la TVA et suppression des certificats d'économies d'énergie, pour 45 centimes de moins par litre.",
+    "s": [
+     "fi_carburants"
     ]
    }
   },
@@ -1525,6 +1978,20 @@
     "s": [
      "ne_destin"
     ]
+   },
+   "sru": {
+    "p": "pour",
+    "q": "Prévoit la « suppression de l'article 55 de la loi SRU » (quotas de « 20 % et bientôt 25 % de logements sociaux »).",
+    "s": [
+     "ne_ambition"
+    ]
+   },
+   "aidesetrangers": {
+    "p": "pour",
+    "q": "« Conditionner les prestations sociales non contributives aux étrangers » à cinq ans de résidence régulière.",
+    "s": [
+     "ne_immigration"
+    ]
    }
   },
   "dupontaignan": {
@@ -1580,9 +2047,23 @@
    },
    "ame": {
     "p": "pour",
-    "q": "Programme 2022 : « suppression de l'Aide médicale d'État ».",
+    "q": "« Supprimer l'Aide Médicale d'État (AME) et mettre en place dans chaque département un dispensaire d'urgence. »",
     "s": [
-     "ps_imm_2022"
+     "dlf_immigration"
+    ]
+   },
+   "aidesetrangers": {
+    "p": "pour",
+    "q": "« Supprimer les aides sociales non contributives pour les étrangers » (RSA, allocations familiales, aides au logement).",
+    "s": [
+     "dlf_immigration"
+    ]
+   },
+   "regularisation": {
+    "p": "contre",
+    "q": "« Supprimer la régularisation pour les étrangers en situation irrégulière. »",
+    "s": [
+     "dlf_immigration"
     ]
    }
   }

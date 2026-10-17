@@ -4,8 +4,10 @@
 
 - Scrutins.json.zip : un fichier JSON par scrutin public, avec le vote nominatif ;
 - AMO30 (historique acteurs/mandats/organes) : députés, groupes politiques, y compris
-  les députés partis en cours de législature.
-Les archives sont décompressées dans <dossier_brut>/scrutins et <dossier_brut>/amo.
+  les députés partis en cours de législature ;
+- Dossiers_Legislatifs.json.zip : dossiers et textes déposés, pour savoir qui est l'auteur
+  de chaque texte (Gouvernement, député et son groupe, Sénat).
+Les archives sont décompressées dans <dossier_brut>/scrutins, <dossier_brut>/amo et <dossier_brut>/dossiers.
 """
 import os
 import sys
@@ -16,6 +18,7 @@ BASE = "https://data.assemblee-nationale.fr/static/openData/repository/17"
 FILES = {
     "scrutins": BASE + "/loi/scrutins/Scrutins.json.zip",
     "amo": BASE + "/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip",
+    "dossiers": BASE + "/loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip",
 }
 
 

@@ -364,6 +364,8 @@ def _norm(t):
 
 
 _dossiers = []
+if not glob.glob(os.path.join(RAW, "dossiers", "json", "dossierParlementaire", "*.json")):
+    sys.exit("dossiers législatifs absents : relancer scripts/fetch.py (l'origine des textes ne peut pas être établie)")
 for f in glob.glob(os.path.join(RAW, "dossiers", "json", "dossierParlementaire", "DLR5L1[67]*.json")):
     dp = load_json(f)["dossierParlementaire"]
     nt = _norm((dp.get("titreDossier") or {}).get("titre") or "")
@@ -549,7 +551,7 @@ for q in QZ.QUIZ:
                      # origine du texte (g Gouvernement, a député, s Sénat) et groupe de l'auteur, pour le tirage équilibré
                      "o": text_origin[S["tx"][j]][:2] if S["tx"][j] >= 0 else ["?", None],
                      "topic": q.get("topic") or (text_origin[S["tx"][j]][2] if S["tx"][j] >= 0 else str(q["n"])),
-                     "contenu": q["contenu"], "pour": q["pour"], "contre": q["contre"], "suite": q["suite"],
+                     "c": q["c"], "contenu": q["contenu"], "pour": q["pour"], "contre": q["contre"], "suite": q["suite"],
                      "sources": q["sources"], "consulte": QZ.CONSULTED})
 print(f"  quiz : {len(quiz_out)} questions")
 
