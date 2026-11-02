@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Qui vote avec qui</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="vendor/d3.min.js"></script>
 <script src="data.js?v=12faec9a3f"></script>
 <style>
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
@@ -283,6 +280,7 @@ footer b { color: var(--ink-2); }
 }
 </style>
 <script data-goatcounter="https://ukraine-map.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <link rel="stylesheet" href="fonts.css">
 </head>
 <body>
 <header class="drape">
@@ -442,6 +440,7 @@ footer b { color: var(--ink-2); }
   <b>Boussoles</b>&nbsp;: pour chaque axe, une liste de textes dont l'intitulé indique clairement le sens (fichier <code>scripts/axes.py</code>)&nbsp;; sont retenus les votes sur l'ensemble, l'article premier ou unique (même sens que le texte), les motions de rejet et, dans les textes courts, les amendements de suppression (sens inverse). Position = moyenne de sens × vote (pour +1, contre −1, abstention 0, absents ignorés), affichée comme un écart au centre entre deux pôles nommés (au centre, légèrement, plutôt, nettement d'un côté). Les budgets ne servent pas de référence. Pour chaque axe sont publiées la part des textes du Gouvernement et la corrélation avec la proximité au Gouvernement. <b>Proximité avec le gouvernement</b>&nbsp;: part des votes identiques à la position majoritaire du bloc EPR + Démocrates + Horizons (abstention = ½, motions de censure exclues). Les positions des groupes suivent la session choisie&nbsp;; celles des députés portent sur toute la législature.
   <b>Accord</b>&nbsp;: positions majoritaires identiques. <b>Carte et constellation</b>&nbsp;: axes de clivage tirés des votes des groupes (décomposition en valeurs singulières), chaque député placé d'après ses propres votes. <b>Loyauté</b>&nbsp;: votes conformes à la majorité de son groupe.
   <b>Thèmes</b>&nbsp;: classement automatique des scrutins par mots-clés sur le titre du texte (<code>scripts/themes.py</code>).
+<p class="rgpd-note" style="font:400 12px/1.5 system-ui,-apple-system,sans-serif;opacity:.55;text-align:center;max-width:72ch;margin:1.25rem auto 0;padding:0 1rem">Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie.</p>
 </footer>
 <div class="tip" id="tip" role="tooltip"></div>
 
