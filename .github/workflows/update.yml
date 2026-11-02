@@ -27,9 +27,11 @@ jobs:
           python-version: "3.12"
 
       - name: Télécharger l'open data de l'Assemblée
+        continue-on-error: true   # source externe en panne : on garde les dernières données, le site se déploie quand même
         run: python scripts/fetch.py raw
 
       - name: Construire data.js
+        continue-on-error: true
         run: python scripts/build.py raw
 
       - name: Committer les nouvelles données
