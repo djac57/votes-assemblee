@@ -440,7 +440,7 @@ footer b { color: var(--ink-2); }
   <b>Boussoles</b>&nbsp;: pour chaque axe, une liste de textes dont l'intitulé indique clairement le sens (fichier <code>scripts/axes.py</code>)&nbsp;; sont retenus les votes sur l'ensemble, l'article premier ou unique (même sens que le texte), les motions de rejet et, dans les textes courts, les amendements de suppression (sens inverse). Position = moyenne de sens × vote (pour +1, contre −1, abstention 0, absents ignorés), affichée comme un écart au centre entre deux pôles nommés (au centre, légèrement, plutôt, nettement d'un côté). Les budgets ne servent pas de référence. Pour chaque axe sont publiées la part des textes du Gouvernement et la corrélation avec la proximité au Gouvernement. <b>Proximité avec le gouvernement</b>&nbsp;: part des votes identiques à la position majoritaire du bloc EPR + Démocrates + Horizons (abstention = ½, motions de censure exclues). Les positions des groupes suivent la session choisie&nbsp;; celles des députés portent sur toute la législature.
   <b>Accord</b>&nbsp;: positions majoritaires identiques. <b>Carte et constellation</b>&nbsp;: axes de clivage tirés des votes des groupes (décomposition en valeurs singulières), chaque député placé d'après ses propres votes. <b>Loyauté</b>&nbsp;: votes conformes à la majorité de son groupe.
   <b>Thèmes</b>&nbsp;: classement automatique des scrutins par mots-clés sur le titre du texte (<code>scripts/themes.py</code>).
-<p class="rgpd-note" style="font:400 12px/1.5 system-ui,-apple-system,sans-serif;opacity:.55;text-align:center;max-width:72ch;margin:1.25rem auto 0;padding:0 1rem">Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie.</p>
+<p class="rgpd-note" style="font:400 12px/1.5 system-ui,-apple-system,sans-serif;opacity:.55;text-align:center;max-width:72ch;margin:1.25rem auto 0;padding:0 1rem" data-fr="Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie." data-en="Anonymous analytics, no cookies (GoatCounter). Self-hosted fonts and d3 library. Hosted on GitHub Pages — no personal data collected, no cookies.">Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie.</p>
 </footer>
 <div class="tip" id="tip" role="tooltip"></div>
 
@@ -1264,5 +1264,6 @@ let rz, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rz);
 state.dep = DEPS.findIndex(d => /Attal/.test(d.n) && d.active); if (state.dep < 0) state.dep = 0;
 update();
 </script>
+<script id="rgpd-lang">document.querySelectorAll(".rgpd-note").forEach(function(n){try{var en=(navigator.language||navigator.userLanguage||"").slice(0,2).toLowerCase()==="en";var v=n.getAttribute(en?"data-en":"data-fr");if(v)n.textContent=v;}catch(e){}});</script>
 </body>
 </html>
