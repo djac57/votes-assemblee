@@ -387,7 +387,8 @@ footer b { color: var(--ink-2); }
     <div class="cols">
       <div class="panel">
         <h3>Taux d'accord entre groupes</h3>
-        <p class="note">Même position majoritaire (pour, contre ou abstention) · cliquez un groupe pour l'isoler</p>
+        <div class="modes tabs" id="matMode"><span class="lab">Mesure</span></div>
+        <p class="note">« Même position » mêle les votes pour et contre&nbsp;; <b>s'opposer ensemble au Gouvernement n'est pas soutenir ensemble un texte</b> — d'où les mesures « pour ensemble » et « contre ensemble ». Cliquez un groupe pour l'isoler.</p>
         <div class="scroll-x" style="margin-top:10px"><div id="matrix"></div></div>
         <div class="scale" id="matScale"></div>
       </div>
@@ -401,6 +402,20 @@ footer b { color: var(--ink-2); }
       <h3>La carte des votes</h3>
       <p class="note" id="mapSub"></p>
       <div id="map" style="margin-top:8px"></div>
+    </div>
+    <div class="panel" style="margin-top:22px" id="ch-conv">
+      <h3>Explorateur des convergences</h3>
+      <p class="note">Les scrutins où <b>deux groupes ont voté dans le même sens</b> — en séparant « pour ensemble » (soutenir un même texte) et « contre ensemble » (le refuser). Pour le <b>sujet</b>, utilisez le filtre <b>Thème</b> en haut de page (budget, immigration…)&nbsp;; la recherche ci-dessous porte sur l'<b>intitulé du texte</b> (ex.&nbsp;: <i>fiscal</i>, <i>retraite</i>, <i>nucléaire</i> — le contenu d'un amendement n'est pas dans l'open data). Hors amendements par défaut.</p>
+      <div class="convctl" style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0">
+        <label class="cvl">Groupe <select id="convA"></select></label>
+        <label class="cvl">et <select id="convB"></select></label>
+        <div class="modes tabs" id="convDir" style="margin:0"><span class="lab">Sens</span></div>
+        <label class="cvl"><input type="search" id="convSearch" placeholder="mot dans l'intitulé…" style="min-width:150px"></label>
+        <label class="cvl"><input type="checkbox" id="convAmend"> inclure les amendements</label>
+      </div>
+      <p class="note" id="convSum" style="min-height:1.2em"></p>
+      <div class="scroll-x"><table id="convTable"><thead><tr><th>Date</th><th>Scrutin</th><th>Issue</th><th>Groupes</th></tr></thead><tbody></tbody></table></div>
+      <button class="more" id="convMore">Afficher plus</button>
     </div>
   </section>
 
@@ -442,6 +457,12 @@ footer b { color: var(--ink-2); }
   <b>Thèmes</b>&nbsp;: classement automatique des scrutins par mots-clés sur le titre du texte (<code>scripts/themes.py</code>).
 <p class="rgpd-note" style="font:400 12px/1.5 system-ui,-apple-system,sans-serif;opacity:.55;text-align:center;max-width:72ch;margin:1.25rem auto 0;padding:0 1rem" data-fr="Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie." data-en="Anonymous analytics, no cookies (GoatCounter). Self-hosted fonts and d3 library. Hosted on GitHub Pages — no personal data collected, no cookies.">Analytics anonymes sans cookies (GoatCounter). Polices et bibliothèque d3 auto-hébergées. Hébergé sur GitHub Pages — aucune donnée personnelle collectée, aucun cookie.</p>
 </footer>
+<style>
+#ch-conv .cvl{font:500 13px/1.4 system-ui,-apple-system,sans-serif;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+#ch-conv select,#ch-conv input[type=search]{font:inherit;color:var(--ink);background:var(--paper-2);border:1px solid var(--rule);border-radius:6px;padding:4px 8px}
+#ch-conv input[type=checkbox]{accent-color:var(--gold)}
+#convTable td .orig.g{color:var(--ink);font-weight:600}
+</style>
 <div class="tip" id="tip" role="tooltip"></div>
 
 <script>
@@ -487,7 +508,8 @@ const hideTip = () => tip.style.opacity = 0;
 const tipRow = (t, a, b) => { const r = el("div", "r"); r.append(el("span", null, a), el("b", null, b)); t.append(r); };
 
 /* ---------- Filtres ---------- */
-const state = { period: "all", theme: "all", axis: "ecologie", hemiMode: "group", hlGroup: null, dep: null, voteLimit: 10, frond: gi("EPR") };
+const state = { period: "all", theme: "all", axis: "ecologie", hemiMode: "group", hlGroup: null, dep: null, voteLimit: 10, frond: gi("EPR"),
+  matMode: "same", convA: gi("RN"), convB: gi("LFI-NFP"), convDir: "pour", convAmend: false, convSearch: "", convLimit: 12 };
 const PERIODS = [["all", "Toute la législature", 0, NS - 1]];
 (() => {
   const y0 = dateOf(0).getFullYear(), y1 = dateOf(NS - 1).getFullYear();
@@ -507,6 +529,26 @@ const syncThemes = tabs("themes", [["all", "Tous"], ...THEMES.filter(t => t.k !=
 const syncAxes = tabs("axisTabs", AXES.map(a => [a.k, a.n]), () => state.axis, v => state.axis = v, () => { syncAxes(); renderAxis(); });
 const syncModes = tabs("hemiModes", [["group", "Groupes"], ["quiz", "Accord avec toi"], ...AXES.map(a => [a.k, ASHORT[a.k]]), ["gov", "Proximité gouv."], ["loyal", "Loyauté"]], () => state.hemiMode, v => state.hemiMode = v, () => { syncModes(); renderHemi(); });
 const syncFrond = tabs("frondTabs", G.filter(g => g.k !== "NI").map(g => [gi(g.k), g.k]), () => state.frond, v => state.frond = +v, () => { syncFrond(); renderFrond(); });
+const syncMatMode = tabs("matMode", [["same", "Même position"], ["P", "Pour ensemble"], ["C", "Contre ensemble"]], () => state.matMode, v => state.matMode = v, () => { syncMatMode(); renderMatrix(); });
+const DIRS = [["pour", "Pour ensemble"], ["contre", "Contre ensemble"], ["same", "Même position"], ["oppose", "Opposés"]];
+const syncConvDir = tabs("convDir", DIRS, () => state.convDir, v => state.convDir = v, () => { syncConvDir(); state.convLimit = 12; renderConv(); });
+(() => {
+  const selA = document.getElementById("convA"), selB = document.getElementById("convB");
+  G.forEach((g, i) => { for (const sel of [selA, selB]) { const o = el("option", null, g.k); o.value = i; o.title = g.n; sel.append(o); } });
+  selA.onchange = () => { state.convA = +selA.value; state.convLimit = 12; renderConv(); };
+  selB.onchange = () => { state.convB = +selB.value; state.convLimit = 12; renderConv(); };
+  const srch = document.getElementById("convSearch");
+  srch.oninput = () => { state.convSearch = srch.value; state.convLimit = 12; renderConv(); };
+  document.getElementById("convAmend").onchange = e => { state.convAmend = e.target.checked; state.convLimit = 12; renderConv(); };
+  document.getElementById("convMore").onclick = () => { state.convLimit += 15; renderConv(); };
+})();
+function syncConv() {
+  document.getElementById("convA").value = state.convA;
+  document.getElementById("convB").value = state.convB;
+  document.getElementById("convAmend").checked = state.convAmend;
+  document.getElementById("convSearch").value = state.convSearch;
+  syncConvDir();
+}
 const themeIdx = k => THEMES.findIndex(t => t.k === k);
 const periodRange = () => { const p = PERIODS.find(p => p[0] === state.period); return [p[2], p[3]]; };
 function scope({ theme = state.theme } = {}) {
@@ -543,6 +585,21 @@ function agreement(js) {
   }
   return G.map((_, a) => G.map((_, b) => { const c = a <= b ? M[a][b] : M[b][a]; return c[1] >= 5 ? c[0] / c[1] : null; }));
 }
+// Ventilation des accords entre groupes : n = scrutins comparés, same = même position, P = pour ensemble, C = contre ensemble
+function splitPairs(js) {
+  const M = G.map(() => G.map(() => ({ n: 0, same: 0, P: 0, C: 0 })));
+  for (const j of js) {
+    const pos = G.map((_, g) => majority(j, g));
+    for (let a = 0; a < NG; a++) { if (pos[a] === null) continue;
+      for (let b = a; b < NG; b++) { if (pos[b] === null) continue; const c = M[a][b]; c.n++;
+        if (pos[a] === pos[b]) { c.same++; if (pos[a] === 1) c.P++; else if (pos[a] === -1) c.C++; } } }
+  }
+  return M;
+}
+const pairCell = (a, b) => a <= b ? lastSplit[a][b] : lastSplit[b][a];
+function matValue(a, b) { const c = pairCell(a, b); if (!c || c.n < 5) return null; const m = state.matMode; return m === "P" ? c.P / c.n : m === "C" ? c.C / c.n : c.same / c.n; }
+const AMEND_RE = /^(l['’](sous-)?amendement|les amendements|sous-amendement)/i;
+const isAmendment = j => AMEND_RE.test(S.ti[j] || "");
 function jacobi(A) {
   const n = A.length, a = A.map(r => r.slice()), v = A.map((_, i) => A.map((_, k) => i === k ? 1 : 0));
   for (let it = 0; it < 80; it++) {
@@ -682,7 +739,7 @@ function renderHemi() {
     const box = el("div", "legend");
     G.forEach((g, i) => { const n = seated.filter(s => s.dep != null && DEPS[s.dep].g === i).length; if (!n) return;
       const b = el("button", state.hlGroup != null && state.hlGroup !== i ? "dim" : ""); const sw = el("span", "sw"); sw.style.background = g.c;
-      b.append(sw, document.createTextNode(`${g.k} ${n}`)); b.title = g.n; b.onclick = () => { state.hlGroup = state.hlGroup === i ? null : i; renderHemi(); renderMatrix(lastAgr); renderConstel(lastAgr, lastAxes); }; box.append(b); });
+      b.append(sw, document.createTextNode(`${g.k} ${n}`)); b.title = g.n; b.onclick = () => { state.hlGroup = state.hlGroup === i ? null : i; renderHemi(); renderMatrix(); renderConstel(lastAgr, lastAxes); }; box.append(b); });
     leg.append(box);
   } else {
     const sc = el("div", "scale"), bar = el("div", "gradbar"); bar.style.background = `linear-gradient(90deg, ${seqColors().join(",")})`;
@@ -855,12 +912,16 @@ function renderRefs(ax, refs) {
 }
 
 /* ---------- III. Complaisances ---------- */
-let lastAgr, lastAxes;
-function renderMatrix(agr) {
+let lastAgr, lastAxes, lastSplit;
+const MODE_SCALE = { same: "d'accord", P: "pour ensemble", C: "contre ensemble" };
+function renderMatrix() {
   const host = document.getElementById("matrix"); host.replaceChildren();
+  const mode = state.matMode;
   const W = host.parentElement.clientWidth, labelW = 64, cs = Math.max(22, Math.min(38, (W - labelW - 4) / NG)), head = 58;
   const svg = d3.select(host).append("svg").attr("width", labelW + cs * NG + 2).attr("height", head + cs * NG + 2);
-  const seq = d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain([.2, 1]);
+  let vmax = 0; for (let a = 0; a < NG; a++) for (let b = 0; b < NG; b++) if (a !== b) { const v = matValue(a, b); if (v != null && v > vmax) vmax = v; }
+  const dom = mode === "same" ? [.2, 1] : [0, Math.max(.1, vmax)], lo = dom[0], hi = dom[1], mid = lo + (hi - lo) * .62;
+  const seq = d3.scaleSequential(d3.interpolateRgbBasis(seqColors())).domain(dom);
   const light = css("--seq-0").startsWith("#f");
   G.forEach((g, i) => {
     svg.append("text").attr("x", labelW - 6).attr("y", head + i * cs + cs / 2).attr("dy", ".35em").attr("text-anchor", "end").style("font-size", "11px").style("fill", css("--ink-2")).text(g.k);
@@ -868,19 +929,26 @@ function renderMatrix(agr) {
     svg.append("text").attr("transform", `translate(${labelW + i * cs + cs / 2},${head - 6}) rotate(-50)`).style("font-size", "11px").style("fill", css("--ink-2")).text(g.k);
   });
   G.forEach((ga, a) => G.forEach((gb, b) => {
-    const v = agr[a][b];
+    const v = matValue(a, b);
     const c = svg.append("g").attr("class", "cell").attr("transform", `translate(${labelW + b * cs},${head + a * cs})`);
     c.append("rect").attr("x", 1).attr("y", 1).attr("width", cs - 2).attr("height", cs - 2)
-      .attr("fill", a === b ? css("--paper-2") : v == null ? "transparent" : seq(Math.max(.2, v)))
+      .attr("fill", a === b ? css("--paper-2") : v == null ? "transparent" : seq(Math.max(lo, v)))
       .attr("opacity", state.hlGroup != null && a !== state.hlGroup && b !== state.hlGroup ? .25 : 1);
     if (a !== b && v != null && cs >= 26) c.append("text").attr("x", cs / 2).attr("y", cs / 2).attr("dy", ".35em").attr("text-anchor", "middle")
-      .style("font-size", cs >= 34 ? "10.5px" : "9px").style("pointer-events", "none").style("fill", v > .62 ? (light ? "#fbf3e3" : "#1c1012") : css("--ink-2")).text(Math.round(v * 100));
-    c.on("pointermove", e => showTip(e, tt => { tt.append(el("div", "t", `${ga.k} et ${gb.k}`)); tt.append(el("div", "big", a === b ? "—" : fmtPct(v))); tt.append(el("div", null, "des scrutins avec la même position")); }))
-      .on("pointerleave", hideTip).on("click", () => { state.hlGroup = state.hlGroup === a ? null : a; renderMatrix(agr); renderConstel(lastAgr, lastAxes); renderHemi(); });
+      .style("font-size", cs >= 34 ? "10.5px" : "9px").style("pointer-events", "none").style("fill", v > mid ? (light ? "#fbf3e3" : "#1c1012") : css("--ink-2")).text(Math.round(v * 100));
+    c.on("pointermove", e => showTip(e, tt => {
+      tt.append(el("div", "t", `${ga.k} et ${gb.k}`));
+      if (a === b) { tt.append(el("div", "big", "—")); return; }
+      tt.append(el("div", "big", v == null ? "—" : Math.round(v * 100) + " %"));
+      tt.append(el("div", null, "des scrutins : " + (mode === "P" ? "pour ensemble" : mode === "C" ? "contre ensemble" : "même position")));
+      const ce = pairCell(a, b);
+      if (ce && ce.n) { tipRow(tt, "pour ensemble", Math.round(ce.P / ce.n * 100) + " %"); tipRow(tt, "contre ensemble", Math.round(ce.C / ce.n * 100) + " %"); tipRow(tt, "même position", Math.round(ce.same / ce.n * 100) + " %"); tipRow(tt, "scrutins comparés", ce.n.toLocaleString("fr-FR")); }
+    }))
+      .on("pointerleave", hideTip).on("click", () => { state.hlGroup = state.hlGroup === a ? null : a; renderMatrix(); renderConstel(lastAgr, lastAxes); renderHemi(); });
   }));
   const sc = document.getElementById("matScale"); sc.replaceChildren();
   const grad = el("div", "gradbar"); grad.style.background = `linear-gradient(90deg, ${seqColors().join(",")})`;
-  sc.append(el("span", null, "20 %"), grad, el("span", null, "100 % d'accord"));
+  sc.append(el("span", null, Math.round(lo * 100) + " %"), grad, el("span", null, `${Math.round(hi * 100)} % ${MODE_SCALE[mode]}`));
 }
 function renderConstel(agr, ax) {
   const host = document.getElementById("constel"); host.replaceChildren();
@@ -920,7 +988,7 @@ function renderConstel(agr, ax) {
     .on("pointermove", (e, d) => showTip(e, tt => { tt.append(el("div", "t", d.g.n)); tt.append(el("div", "big", `${d.g.seats} députés`));
       G.map((h, k) => [h.k, agr[d.i][k], k]).filter(z => z[2] !== d.i && z[1] != null).sort((a, b) => b[1] - a[1]).slice(0, 4).forEach(z => tipRow(tt, "avec " + z[0], fmtPct(z[1]))); }))
     .on("pointerleave", () => { hideTip(); links.selectAll("line").attr("opacity", .55); })
-    .on("click", (e, d) => { state.hlGroup = state.hlGroup === d.i ? null : d.i; renderMatrix(lastAgr); renderConstel(lastAgr, lastAxes); renderHemi(); });
+    .on("click", (e, d) => { state.hlGroup = state.hlGroup === d.i ? null : d.i; renderMatrix(); renderConstel(lastAgr, lastAxes); renderHemi(); });
 }
 function renderMap() {
   const host = document.getElementById("map"); host.replaceChildren();
@@ -996,6 +1064,52 @@ function renderBigVotes(js) {
     const s = el("span"); const b = el("span"); b.style.cssText = `width:13px;height:13px;display:inline-block;margin-right:6px;vertical-align:-2px;${st}`; s.append(b, document.createTextNode(l)); lg.append(s); });
 }
 document.getElementById("moreVotes").onclick = () => { state.voteLimit += 20; renderBigVotes(scope()); };
+
+/* ---------- Explorateur des convergences (III) ---------- */
+const deburr = s => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+function renderConv() {
+  const js = scope(), A = state.convA, B = state.convB, dir = state.convDir;
+  const q = deburr(state.convSearch.trim());
+  const textOf = j => deburr((S.tx[j] >= 0 ? D.texts[S.tx[j]] : "") + " " + (S.ti[j] || ""));
+  const dirOk = (pa, pb) => dir === "pour" ? (pa === 1 && pb === 1) : dir === "contre" ? (pa === -1 && pb === -1) : dir === "same" ? (pa === pb) : (pa !== pb);
+  const collect = (amend, useQ) => { const out = [];
+    for (const j of js) { const pa = majority(j, A), pb = majority(j, B);
+      if (pa === null || pb === null || !dirOk(pa, pb)) continue;
+      if (!amend && isAmendment(j)) continue;
+      if (useQ && q && !textOf(j).includes(q)) continue;
+      out.push(j); }
+    return out; };
+  const match = A === B ? [] : collect(state.convAmend, true);
+  let govN = 0, adoptN = 0;
+  for (const j of match) { const o = S.tx[j] >= 0 ? D.textOrigin[S.tx[j]] : null; if (o && o[0] === "g") govN++; if (S.r[j]) adoptN++; }
+  const ga = G[A].k, gb = G[B].k, verb = dir === "pour" ? "ont voté pour ensemble" : dir === "contre" ? "ont voté contre ensemble" : dir === "same" ? "ont voté dans le même sens" : "ont voté en sens opposé";
+  const withQ = q ? ` (intitulé contenant « ${state.convSearch.trim()} »)` : "";
+  const sum = document.getElementById("convSum"); sum.replaceChildren();
+  if (A === B) sum.textContent = "Choisissez deux groupes différents.";
+  else if (!match.length) {
+    const hints = [];
+    if (!state.convAmend) { const n = collect(true, true).length; if (n) hints.push(`d'inclure les amendements (${n})`); }
+    if (q) { const n = collect(state.convAmend, false).length; if (n) hints.push(`de retirer la recherche (${n})`); }
+    sum.textContent = `Aucun scrutin où ${ga} et ${gb} ${verb}${withQ} sur cette sélection` + (hints.length ? ` — essayez ${hints.join(" ; ou ")}.` : ".");
+  }
+  else {
+    sum.append(document.createTextNode(`${ga} et ${gb} ${verb} ${match.length.toLocaleString("fr-FR")} fois${withQ}${state.convAmend ? " (amendements inclus)" : ", hors amendements"}`));
+    sum.append(document.createTextNode(dir === "oppose" ? "." : ` — dont ${govN} sur un projet du Gouvernement, ${adoptN} adopté${adoptN > 1 ? "s" : ""}.`));
+  }
+  const tb = document.querySelector("#convTable tbody"); tb.replaceChildren();
+  match.reverse();
+  match.slice(0, state.convLimit).forEach(j => {
+    const tr = el("tr"), tx = S.tx[j] >= 0 ? D.texts[S.tx[j]] : "";
+    const t = el("td"), title = el("div", null, tx || S.ti[j]); title.style.fontWeight = 600; t.append(title);
+    const o = S.tx[j] >= 0 ? D.textOrigin[S.tx[j]] : null, og = ORIG(o), sub = el("div", "sub");
+    if (og) sub.append(el("span", "orig" + (o[0] === "g" ? " g" : ""), og), document.createTextNode(" · "));
+    sub.append(document.createTextNode(`${TSHORT[THEMES[S.th[j]].k] || ""} · ${S.ti[j]} · n° ${S.n[j]}`)); t.append(sub);
+    const res = el("td"); res.append(el("span", "res " + (S.r[j] ? "ok" : "ko"), S.r[j] ? "Adopté" : "Rejeté"));
+    const gv = el("td"); gv.append(groupSquares(j));
+    tr.append(el("td", null, fmtDate(j)), t, res, gv); tb.append(tr);
+  });
+  document.getElementById("convMore").style.display = match.length > state.convLimit ? "" : "none";
+}
 
 /* ---------- Le jeu « Tu votes comme qui ? » ---------- */
 // Règle : par question, accord = 1 si le député a voté comme toi, 0 s'il a voté l'inverse, ½ s'il s'est abstenu ;
@@ -1254,11 +1368,11 @@ try { const t = localStorage.getItem("va-theme"); if (t) document.documentElemen
 
 /* ---------- Orchestration ---------- */
 function update() {
-  syncPeriods(); syncThemes(); syncAxes(); syncModes(); syncFrond();
+  syncPeriods(); syncThemes(); syncAxes(); syncModes(); syncFrond(); syncMatMode(); syncConv();
   const js = scope(), st = groupStats(js), agr = agreement(js), ax = groupAxes(js);
-  lastAgr = agr; lastAxes = ax;
+  lastAgr = agr; lastAxes = ax; lastSplit = splitPairs(js);
   renderKPIs(js, st, agr); renderGame(); renderHemi(); renderFiche(); renderAxis();
-  renderMatrix(agr); renderConstel(agr, ax); renderMap(); renderCohesion(st); renderFrond(); renderBigVotes(js);
+  renderMatrix(); renderConstel(agr, ax); renderMap(); renderCohesion(st); renderFrond(); renderBigVotes(js); renderConv();
 }
 let rz, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; update(); } }, 150); });
 state.dep = DEPS.findIndex(d => /Attal/.test(d.n) && d.active); if (state.dep < 0) state.dep = 0;
