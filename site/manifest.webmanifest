@@ -1,0 +1,17 @@
+{
+  "name": "Qui vote avec qui",
+  "short_name": "Qui vote",
+  "description": "Tous les scrutins publics de l'Assemblée nationale (XVIIe législature) : les boussoles des groupes, leurs alliances de vote et la place de chaque député dans l'hémicycle.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "lang": "fr",
+  "background_color": "#efe8dc",
+  "theme_color": "#7a1620",
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" },
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ]
+}

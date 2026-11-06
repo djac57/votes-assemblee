@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Qui vote avec qui</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#7a1620">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Qui vote">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script>/* PWA : capter l'invite d'installation au plus tôt (sinon ratée) */
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__bip=e;var b=document.getElementById("installBtn");if(b)b.hidden=false;});
+window.addEventListener("appinstalled",function(){window.__bip=null;var b=document.getElementById("installBtn");if(b)b.hidden=true;});</script>
 <script src="vendor/d3.min.js"></script>
 <script src="data.js?v=33d499db86"></script>
 <style>
@@ -278,6 +287,33 @@ footer b { color: var(--ink-2); }
   .dp { grid-template-columns: 60px minmax(0, 1fr); } .dp .lab { grid-column: 2; margin-top: -4px; }
   .gauge { grid-template-columns: 62px 1fr 48px; }
 }
+
+/* ---- Bouton « Installer l'app » (tenture) ---- */
+.drape-tools { display: flex; align-items: center; gap: 10px; flex: none; }
+.install-btn { display: inline-flex; align-items: center; gap: 7px; background: transparent; border: 1px solid rgba(233, 207, 143, .7); color: #f1dcae; padding: 9px 14px; cursor: pointer; font: 600 13px/1 "Public Sans", sans-serif; letter-spacing: .02em; white-space: nowrap; }
+.install-btn:hover { background: rgba(0,0,0,.15); border-color: #f1dcae; }
+.install-btn .lbl-short { display: none; }
+.install-tip { max-width: 1180px; margin: 0 auto; padding: 10px 24px 0; color: var(--ink-2); font-size: 12.5px; }
+
+/* ---- Barre d'onglets (mobile uniquement) ---- */
+.tabbar { display: none; }
+:root[data-theme="dark"] .tabbar a.on { color: var(--gold-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tabbar a.on { color: var(--gold-ink); } }
+@media (max-width: 640px) {
+  .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: color-mix(in srgb, var(--paper) 97%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--gold); box-shadow: 0 -3px 0 -2px var(--gold);
+    padding: 6px 2px; padding-bottom: max(6px, env(safe-area-inset-bottom, 0px)); }
+  .tabbar a { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none;
+    color: var(--muted); font: 600 10px/1.1 "Public Sans", sans-serif; letter-spacing: .01em; padding: 3px 1px; min-width: 0; }
+  .tabbar a svg { width: 21px; height: 21px; flex: none; }
+  .tabbar a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tabbar a.on { color: var(--velvet); }
+  body { padding-bottom: 62px; }
+  .install-btn { padding: 8px 12px; }
+  .install-btn .lbl-long { display: none; }
+  .install-btn .lbl-short { display: inline; }
+}
 </style>
 <script data-goatcounter="https://ukraine-map.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="fonts.css">
@@ -295,11 +331,15 @@ footer b { color: var(--ink-2); }
       <button class="play-btn" id="playBtn">✦ Jouer&nbsp;: tu votes comme qui&nbsp;?</button>
       <a class="play-btn" href="2027.html" style="text-decoration:none">✦ Présidentielle 2027&nbsp;: de quel candidat es-tu proche&nbsp;?</a>
     </div>
-    <button class="theme-btn" id="themeBtn" title="Séance de jour / de nuit" aria-label="Changer de thème">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-    </button>
+    <div class="drape-tools">
+      <button class="install-btn" id="installBtn" type="button" hidden><span class="lbl-long">⤓ Installer l'app</span><span class="lbl-short">⤓ Installer</span></button>
+      <button class="theme-btn" id="themeBtn" title="Séance de jour / de nuit" aria-label="Changer de thème">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
   </div>
 </header>
+<p class="install-tip" id="installTip" hidden></p>
 
 <nav class="ledger" aria-label="Filtres">
   <div class="ledger-in">
@@ -449,6 +489,14 @@ footer b { color: var(--ink-2); }
     </div>
   </section>
 </main>
+
+<nav class="tabbar" id="tabbar" aria-label="Chapitres">
+  <a href="#ch-jeu" data-sec="ch-jeu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 5.9.8-4.3 4.1 1 5.9L12 16.8 6.8 19.5l1-5.9L3.5 9.4l5.9-.8z"/></svg><span>Jeu</span></a>
+  <a href="#ch-hemi" data-sec="ch-hemi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18a9 9 0 0118 0"/><path d="M7 18a5 5 0 0110 0"/><circle cx="12" cy="18" r="1.3" fill="currentColor" stroke="none"/></svg><span>Hémicycle</span></a>
+  <a href="#ch-axes" data-sec="ch-axes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2.2 4.8-4.8 2.2 2.2-4.8z"/></svg><span>Boussoles</span></a>
+  <a href="#ch-alliances" data-sec="ch-alliances"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="12" r="3.2"/><circle cx="16" cy="12" r="3.2"/></svg><span>Alliances</span></a>
+  <a href="#ch-votes" data-sec="ch-votes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Scrutins</span></a>
+</nav>
 
 <footer>
   <b>Site indépendant</b>, réalisé à partir de l'open data de l'Assemblée nationale (data.assemblee-nationale.fr, 17<sup>e</sup> législature&nbsp;: scrutins publics et référentiel des acteurs, mandats et organes)&nbsp;; il n'est ni affilié ni validé par l'Assemblée.
@@ -1378,6 +1426,43 @@ let rz, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rz);
 state.dep = DEPS.findIndex(d => /Attal/.test(d.n) && d.active); if (state.dep < 0) state.dep = 0;
 update();
 </script>
-<script id="rgpd-lang">document.querySelectorAll(".rgpd-note").forEach(function(n){try{var en=(navigator.language||navigator.userLanguage||"").slice(0,2).toLowerCase()==="en";var v=n.getAttribute(en?"data-en":"data-fr");if(v)n.textContent=v;}catch(e){}});</script>
+<script id="pwa">/* PWA : service worker (hors-ligne, réseau d'abord) + bouton « Installer l'app » + barre d'onglets */
+(function(){
+  if("serviceWorker" in navigator){ window.addEventListener("load",function(){ navigator.serviceWorker.register("service-worker.js").catch(function(){}); }); }
+  // bouton installer
+  var btn=document.getElementById("installBtn"), tip=document.getElementById("installTip");
+  if(btn){
+    var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+    var standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+    if(standalone){ btn.hidden=true; }
+    else {
+      btn.hidden=false;
+      btn.addEventListener("click",async function(){
+        if(window.__bip){ window.__bip.prompt(); try{ await window.__bip.userChoice; }catch(e){} window.__bip=null; btn.hidden=true; if(tip)tip.hidden=true; return; }
+        if(!tip) return;
+        tip.textContent = isIOS
+          ? "Sur iPhone : touchez Partager, puis « Sur l'écran d'accueil »."
+          : "Pour installer : dans Chrome ou Edge, menu ⋮ puis « Installer l'application ». (Firefox et certains navigateurs ne proposent pas l'installation.)";
+        tip.hidden=!tip.hidden;
+      });
+    }
+  }
+  // barre d'onglets : surlignage du chapitre visible (scrollspy)
+  var bar=document.getElementById("tabbar");
+  if(bar && "IntersectionObserver" in window){
+    var links={}; bar.querySelectorAll("a[data-sec]").forEach(function(a){ links[a.dataset.sec]=a; });
+    var secs=Object.keys(links).map(function(id){ return document.getElementById(id); }).filter(Boolean);
+    var cur=null;
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(en){ if(en.isIntersecting){ cur=en.target.id; } });
+      // choisit la section dont le haut est le plus proche du tiers supérieur
+      var best=null, bd=1e9;
+      secs.forEach(function(s){ var r=s.getBoundingClientRect(); var d=Math.abs(r.top-80); if(r.bottom>60 && d<bd){ bd=d; best=s.id; } });
+      var act=best||cur;
+      for(var k in links) links[k].classList.toggle("on", k===act);
+    },{rootMargin:"-70px 0px -55% 0px",threshold:[0,.1,.5]});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+})();</script>
 </body>
 </html>
