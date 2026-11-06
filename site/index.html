@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Qui vote avec qui</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#7a1620">
+<meta name="theme-color" content="#002654">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,32 +20,32 @@ window.addEventListener("appinstalled",function(){window.__bip=null;var b=docume
 /* Inspiré de l'hémicycle du Palais Bourbon : velours rouge, acajou, dorures, marbre. Site non officiel. */
 :root {
   color-scheme: light;
-  --bg: #efe8dc; --paper: #fbf7ef; --paper-2: #f3ecdf; --ink: #22181a; --ink-2: #5b4a42; --muted: #75665b;
-  --rule: #dccbab; --gold: #a07a32; --gold-ink: #7a5a1f; --velvet: #8a1c26; --velvet-2: #a3262f; --velvet-deep: #5c0f17; --velvet-ink: #f7ecd6;
-  --wood: #5b2f1f; --blue: #1f3a6b;
-  --seq-0: #f6efe2; --seq-1: #e3cf9e; --seq-2: #c58f4a; --seq-3: #9b3b2c; --seq-4: #5c0f17;
-  --pole-l: #4d6680; --pole-r: #8a6a3c; --pole-0: #ece6da;
-  --vein: rgba(120, 100, 80, .06);
+  --bg: #f3f0e8; --paper: #ffffff; --paper-2: #f7f4ec; --ink: #16213a; --ink-2: #3f4a63; --muted: #6b7488;
+  --rule: #e0e1d9; --gold: #13386e; --gold-ink: #002654; --velvet: #e1000f; --velvet-2: #c8101f; --velvet-deep: #002654; --velvet-ink: #ffffff;
+  --wood: #002654; --blue: #1f3a6b;
+  --seq-0: #eef2fb; --seq-1: #b9c9ec; --seq-2: #6f8fce; --seq-3: #2f56a0; --seq-4: #002654;
+  --pole-l: #3a63b0; --pole-r: #d4515f; --pole-0: #ece9e0;
+  --vein: transparent;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
-    --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
-    --wood: #3a1d13; --blue: #8fa9d6;
-    --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
-    --pole-l: #8fa6c0; --pole-r: #c9a46e; --pole-0: #3a2e2a;
-    --vein: rgba(201, 164, 90, .035);
+    --bg: #0e1526; --paper: #141d33; --paper-2: #1a2440; --ink: #eaf0fb; --ink-2: #c2cde3; --muted: #8e9bba;
+    --rule: #2a3550; --gold: #6f93d6; --gold-ink: #9fbaf0; --velvet: #ff5a68; --velvet-2: #ff7480; --velvet-deep: #0a1a3a; --velvet-ink: #ffffff;
+    --wood: #0a1430; --blue: #9fb9e8;
+    --seq-0: #162138; --seq-1: #243a66; --seq-2: #3a5fa0; --seq-3: #5b84cf; --seq-4: #9fc0ff;
+    --pole-l: #7fa0e0; --pole-r: #ff8a94; --pole-0: #28324c;
+    --vein: transparent;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #120a0b; --paper: #1c1012; --paper-2: #26171a; --ink: #f2e7d5; --ink-2: #cdbba3; --muted: #a8957f;
-  --rule: #4a3528; --gold: #c9a45a; --gold-ink: #dcb96c; --velvet: #9e2a33; --velvet-2: #b8343d; --velvet-deep: #3a0a10; --velvet-ink: #f6ead2;
-  --wood: #3a1d13; --blue: #8fa9d6;
-  --seq-0: #2a1a1c; --seq-1: #5a2a24; --seq-2: #8f4630; --seq-3: #c9893f; --seq-4: #efd590;
-  --pole-l: #8fa6c0; --pole-r: #c9a46e; --pole-0: #3a2e2a;
-  --vein: rgba(201, 164, 90, .035);
+  --bg: #0e1526; --paper: #141d33; --paper-2: #1a2440; --ink: #eaf0fb; --ink-2: #c2cde3; --muted: #8e9bba;
+  --rule: #2a3550; --gold: #6f93d6; --gold-ink: #9fbaf0; --velvet: #ff5a68; --velvet-2: #ff7480; --velvet-deep: #0a1a3a; --velvet-ink: #ffffff;
+  --wood: #0a1430; --blue: #9fb9e8;
+  --seq-0: #162138; --seq-1: #243a66; --seq-2: #3a5fa0; --seq-3: #5b84cf; --seq-4: #9fc0ff;
+  --pole-l: #7fa0e0; --pole-r: #ff8a94; --pole-0: #28324c;
+  --vein: transparent;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -62,29 +62,26 @@ button { font: inherit; color: inherit; }
 
 /* ---- Tenture d'en-tête ---- */
 .drape {
-  position: relative; color: var(--velvet-ink); padding: 44px 24px 54px;
-  background: repeating-linear-gradient(90deg, #6e141d 0px, #8e1f29 22px, #a12a33 34px, #8e1f29 46px, #6e141d 68px, #5a0f17 80px),
-    #7a1620;
-  background-blend-mode: normal;
-  box-shadow: inset 0 -30px 40px -20px rgba(0,0,0,.45), inset 0 20px 30px -20px rgba(0,0,0,.5);
+  position: relative; color: #fff; padding: 24px 24px 28px;
+  background: linear-gradient(180deg, #002b60, #001d46);
 }
-.drape::after { /* frange dorée */
-  content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 14px;
-  background: radial-gradient(circle at 8px 0, #b8913f 6px, #8a6a2a 7px, transparent 8px) repeat-x 0 0 / 16px 14px;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,.35));
+.drape::after { /* bande tricolore */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+  background: linear-gradient(90deg, #0b3aa0 0 33.33%, #f4f1ea 33.33% 66.66%, #e1000f 66.66%);
 }
 .drape-in { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
-.eyebrow { font: 600 12px/1.3 "Public Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #e9cf8f; }
-.drape h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; font-size: clamp(38px, 6.4vw, 72px); line-height: .98; margin: 10px 0 14px; letter-spacing: -.01em; }
-.drape h1 em { font-style: italic; font-weight: 500; color: #f1d9a0; }
-.drape .lede { max-width: 700px; margin: 0; font-size: 16px; color: #f3e3c6; }
-.drape .meta { margin-top: 14px; font-size: 13px; color: #e6cfa4; }
-.drape .meta a { color: #f6dc9c; }
-.drape .indep { display: inline-block; margin-top: 10px; font-size: 12px; letter-spacing: .04em; border: 1px solid rgba(233, 207, 143, .6); color: #f1dcae; padding: 3px 10px; }
-.tricolore { display: flex; height: 3px; width: 72px; margin: 0 0 14px; }
-.tricolore span { flex: 1; } .tricolore span:nth-child(1) { background: #3a5aa8; } .tricolore span:nth-child(2) { background: #f4efe6; } .tricolore span:nth-child(3) { background: #e2383f; }
-.theme-btn { background: transparent; border: 1px solid rgba(233, 207, 143, .7); color: #f1dcae; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; flex: none; }
-.theme-btn:hover { background: rgba(0,0,0,.15); }
+.brand { display: flex; gap: 16px; align-items: center; min-width: 0; }
+.logo { width: 60px; height: 60px; flex: none; }
+.eyebrow { font: 600 12px/1.3 "Public Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #9fb7e6; }
+.drape h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; font-size: clamp(32px, 5.4vw, 60px); line-height: .98; margin: 4px 0 0; letter-spacing: -.01em; }
+.drape h1 em { font-style: italic; font-weight: 500; color: #cfe0ff; }
+.drape .lede { max-width: 760px; margin: 16px 0 0; font-size: 16px; color: #dbe6fb; }
+.drape .meta { margin-top: 12px; font-size: 13px; color: #aebfdf; }
+.drape .meta a { color: #cfe0ff; }
+.drape .indep { display: inline-block; margin-top: 10px; font-size: 12px; letter-spacing: .04em; border: 1px solid rgba(255,255,255,.4); color: #dbe6fb; padding: 3px 11px; border-radius: 999px; }
+.tricolore { display: none; }
+.theme-btn { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.4); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; flex: none; }
+.theme-btn:hover { background: rgba(255,255,255,.18); }
 
 /* ---- Barre de filtres : filets dorés ---- */
 .ledger { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px);
@@ -100,24 +97,24 @@ button { font: inherit; color: inherit; }
 
 /* ---- Chapitres ---- */
 main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
-.chapter { margin-top: 46px; }
-.ch-head { text-align: center; margin: 0 auto 22px; max-width: 760px; }
-.ornament { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--gold); margin-bottom: 8px; }
-.ornament::before, .ornament::after { content: ""; flex: 1; max-width: 200px; height: 5px; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
-.ornament span { font: 600 14px/1 "Cormorant Garamond", serif; letter-spacing: .2em; color: var(--gold-ink); }
-.ch-head h2 { font: 700 clamp(28px, 4vw, 40px)/1.05 "Cormorant Garamond", Georgia, serif; margin: 0 0 8px; }
-.ch-head p { margin: 0; color: var(--ink-2); }
-.panel { background: var(--paper); border: 1px solid var(--rule); box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px color-mix(in srgb, var(--gold) 35%, transparent); padding: 22px; min-width: 0; }
+.chapter { margin-top: 26px; background: var(--paper); border: 1px solid var(--rule); border-radius: 18px; box-shadow: 0 1px 2px rgba(0,30,80,.05), 0 10px 26px -16px rgba(0,30,80,.22); padding: 26px; scroll-margin-top: 70px; }
+.ch-head { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; align-items: center; margin: 0 0 16px; max-width: none; text-align: left; }
+.ornament { display: flex; align-items: center; justify-content: flex-start; margin: 0; grid-row: 1; grid-column: 1; color: var(--gold); }
+.ornament::before, .ornament::after { display: none; }
+.ornament span { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: var(--gold); color: #fff; font: 700 21px/1 "Cormorant Garamond", serif; letter-spacing: 0; }
+.ch-head h2 { grid-row: 1; grid-column: 2; font: 700 clamp(26px, 3.4vw, 38px)/1.05 "Cormorant Garamond", Georgia, serif; margin: 0; }
+.ch-head p { grid-column: 1 / -1; margin: 12px 0 0; color: var(--ink-2); }
+.ch-head::after { content: ""; grid-column: 1 / -1; height: 3px; width: 56px; background: var(--velvet); border-radius: 2px; margin-top: 14px; }
+.panel { background: transparent; border: none; box-shadow: none; padding: 0; min-width: 0; }
 .panel h3 { font: 700 22px/1.15 "Cormorant Garamond", Georgia, serif; margin: 0 0 4px; }
 .note { color: var(--muted); font-size: 13px; margin: 0; }
-.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
-.cols-hemi { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px; }
+.cols-hemi { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 26px; align-items: start; }
 .scroll-x { overflow-x: auto; }
 
-/* ---- Chiffres de séance ---- */
-.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); margin-top: 26px; }
-.fig { padding: 16px 18px; border-left: 1px solid var(--rule); min-width: 0; }
-.fig:first-child { border-left: none; }
+/* ---- Chiffres clés (cartes) ---- */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; border: none; margin-top: 22px; }
+.fig { padding: 16px 18px; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper); box-shadow: 0 1px 2px rgba(0,30,80,.04); min-width: 0; }
 .fig .k { font: 600 11px/1.3 "Public Sans"; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .fig .v { font: 700 38px/1.05 "Cormorant Garamond", serif; color: var(--gold-ink); margin-top: 4px; }
 .fig .d { font-size: 13px; color: var(--ink-2); }
@@ -216,9 +213,9 @@ svg text { fill: var(--ink); }
 .tip .r { display: flex; justify-content: space-between; gap: 10px; }
 .tip .r b { color: var(--ink); }
 /* ---- Le jeu ---- */
-.play-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; margin-left: 8px; background: #e9cf8f; color: #3a0a10; border: none; padding: 9px 18px; cursor: pointer;
-  font: 700 17px/1 "Cormorant Garamond", serif; letter-spacing: .02em; box-shadow: 0 2px 0 #8a6a2a; }
-.play-btn:hover { background: #f3dca4; }
+.play-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; margin-right: 8px; background: #fff; color: #002654; border: none; border-radius: 10px; padding: 10px 18px; cursor: pointer;
+  font: 700 17px/1 "Cormorant Garamond", serif; letter-spacing: .02em; box-shadow: 0 2px 10px -4px rgba(0,0,0,.4); }
+.play-btn:hover { background: #eef2fb; }
 .game { max-width: 820px; margin: 0 auto; }
 .game .honest { font-size: 12.5px; color: var(--muted); text-align: center; margin: 12px 0 0; }
 .prog { height: 6px; background: var(--paper-2); border: 1px solid var(--rule); margin: 4px 0 14px; }
@@ -290,8 +287,8 @@ footer b { color: var(--ink-2); }
 
 /* ---- Bouton « Installer l'app » (tenture) ---- */
 .drape-tools { display: flex; align-items: center; gap: 10px; flex: none; }
-.install-btn { display: inline-flex; align-items: center; gap: 7px; background: transparent; border: 1px solid rgba(233, 207, 143, .7); color: #f1dcae; padding: 9px 14px; cursor: pointer; font: 600 13px/1 "Public Sans", sans-serif; letter-spacing: .02em; white-space: nowrap; }
-.install-btn:hover { background: rgba(0,0,0,.15); border-color: #f1dcae; }
+.install-btn { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.4); color: #fff; padding: 9px 14px; border-radius: 9px; cursor: pointer; font: 600 13px/1 "Public Sans", sans-serif; letter-spacing: .02em; white-space: nowrap; }
+.install-btn:hover { background: rgba(255,255,255,.18); border-color: #fff; }
 .install-btn .lbl-short { display: none; }
 .install-tip { max-width: 1180px; margin: 0 auto; padding: 10px 24px 0; color: var(--ink-2); font-size: 12.5px; }
 
@@ -308,12 +305,19 @@ footer b { color: var(--ink-2); }
     color: var(--muted); font: 600 10px/1.1 "Public Sans", sans-serif; letter-spacing: .01em; padding: 3px 1px; min-width: 0; }
   .tabbar a svg { width: 21px; height: 21px; flex: none; }
   .tabbar a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .tabbar a.on { color: var(--velvet); }
+  .tabbar a.on { color: var(--gold); }
   body { padding-bottom: 62px; }
   .install-btn { padding: 8px 12px; }
   .install-btn .lbl-long { display: none; }
   .install-btn .lbl-short { display: inline; }
+  .toc { display: none; }
 }
+
+/* ---- Sommaire (chips) ---- */
+.toc { background: var(--bg); border-bottom: 1px solid var(--rule); }
+.toc-in { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 8px; overflow-x: auto; }
+.toc a { flex: none; text-decoration: none; color: var(--ink-2); font: 600 13px/1 "Public Sans", sans-serif; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); white-space: nowrap; }
+.toc a:hover, .toc a.on { color: #fff; background: var(--gold); border-color: var(--gold); }
 </style>
 <script data-goatcounter="https://ukraine-map.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="fonts.css">
@@ -322,9 +326,22 @@ footer b { color: var(--ink-2); }
 <header class="drape">
   <div class="drape-in">
     <div>
-      <div class="tricolore" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="eyebrow">Assemblée nationale · XVII<sup>e</sup> législature</div>
-      <h1>Qui vote <em>avec qui&nbsp;?</em></h1>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="31" fill="#fff" stroke="#002654" stroke-width="2"/>
+          <path d="M14 26 L32 14 L50 26 Z" fill="#0b3aa0"/>
+          <path d="M24 20.3 L32 14 L40 20.3 Z" fill="#fff"/>
+          <path d="M27.8 17.4 L32 14 L36.2 17.4 Z" fill="#e1000f"/>
+          <rect x="13" y="26" width="38" height="3" rx="1" fill="#002654"/>
+          <g fill="#002654"><rect x="16" y="30" width="4.3" height="16" rx="1"/><rect x="23.3" y="30" width="4.3" height="16" rx="1"/><rect x="30.6" y="30" width="4.3" height="16" rx="1"/><rect x="37.9" y="30" width="4.3" height="16" rx="1"/><rect x="44.2" y="30" width="3.8" height="16" rx="1"/></g>
+          <rect x="13" y="47" width="38" height="3.4" rx="1" fill="#002654"/>
+          <rect x="11" y="51" width="42" height="3.6" rx="1.4" fill="#e1000f"/>
+        </svg>
+        <div>
+          <div class="eyebrow">Assemblée nationale · XVII<sup>e</sup> législature</div>
+          <h1>Qui vote <em>avec qui&nbsp;?</em></h1>
+        </div>
+      </div>
       <p class="lede">Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — sept échelles à deux pôles&nbsp;: environnement, protection sociale, finances publiques, marché, normes, immigration, sécurité et libertés —, leur proximité avec le Gouvernement, leurs alliances de vote et la place de chaque député dans l'hémicycle.</p>
       <div class="meta">Source&nbsp;: données publiques <a href="https://data.assemblee-nationale.fr" target="_blank" rel="noopener">Assemblée nationale</a> · <span id="asof"></span></div>
       <div class="indep">Site indépendant, non affilié à l'Assemblée nationale</div>
@@ -345,6 +362,17 @@ footer b { color: var(--ink-2); }
   <div class="ledger-in">
     <div class="tabs" id="periods"><span class="lab">Session</span></div>
     <div class="tabs" id="themes"><span class="lab">Thème</span></div>
+  </div>
+</nav>
+
+<nav class="toc" aria-label="Sommaire">
+  <div class="toc-in">
+    <a href="#ch-jeu" data-sec="ch-jeu">✦ Le jeu</a>
+    <a href="#ch-hemi" data-sec="ch-hemi">I · L'hémicycle</a>
+    <a href="#ch-axes" data-sec="ch-axes">II · Les boussoles</a>
+    <a href="#ch-alliances" data-sec="ch-alliances">III · Les alliances</a>
+    <a href="#ch-discipline" data-sec="ch-discipline">IV · Discipline</a>
+    <a href="#ch-votes" data-sec="ch-votes">V · Les scrutins</a>
   </div>
 </nav>
 
@@ -434,7 +462,7 @@ footer b { color: var(--ink-2); }
       </div>
       <div class="panel">
         <h3>La constellation</h3>
-        <p class="note">Groupes placés selon leurs votes · filets dorés = accord d'au moins <span id="linkThr"></span></p>
+        <p class="note">Groupes placés selon leurs votes · filets bleus = accord d'au moins <span id="linkThr"></span></p>
         <div id="constel" style="margin-top:6px"></div>
       </div>
     </div>
@@ -1447,19 +1475,15 @@ update();
       });
     }
   }
-  // barre d'onglets : surlignage du chapitre visible (scrollspy)
-  var bar=document.getElementById("tabbar");
-  if(bar && "IntersectionObserver" in window){
-    var links={}; bar.querySelectorAll("a[data-sec]").forEach(function(a){ links[a.dataset.sec]=a; });
-    var secs=Object.keys(links).map(function(id){ return document.getElementById(id); }).filter(Boolean);
-    var cur=null;
-    var io=new IntersectionObserver(function(ents){
-      ents.forEach(function(en){ if(en.isIntersecting){ cur=en.target.id; } });
-      // choisit la section dont le haut est le plus proche du tiers supérieur
+  // surlignage du chapitre visible (scrollspy) sur la barre mobile ET le sommaire
+  var navLinks=[].slice.call(document.querySelectorAll(".tabbar a[data-sec], .toc a[data-sec]"));
+  if(navLinks.length && "IntersectionObserver" in window){
+    var secIds={}; navLinks.forEach(function(a){ secIds[a.dataset.sec]=1; });
+    var secs=Object.keys(secIds).map(function(id){ return document.getElementById(id); }).filter(Boolean);
+    var io=new IntersectionObserver(function(){
       var best=null, bd=1e9;
       secs.forEach(function(s){ var r=s.getBoundingClientRect(); var d=Math.abs(r.top-80); if(r.bottom>60 && d<bd){ bd=d; best=s.id; } });
-      var act=best||cur;
-      for(var k in links) links[k].classList.toggle("on", k===act);
+      if(best) navLinks.forEach(function(a){ a.classList.toggle("on", a.dataset.sec===best); });
     },{rootMargin:"-70px 0px -55% 0px",threshold:[0,.1,.5]});
     secs.forEach(function(s){ io.observe(s); });
   }
