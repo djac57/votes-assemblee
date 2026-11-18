@@ -274,6 +274,11 @@ footer b { color: var(--ink-2); }
   .plist2 li { grid-template-columns: 70px 1fr 20px; }
   .plist2 li .pb { grid-column: 1 / -1; }
 }
+.sharecard { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; justify-content: center; margin: 0 auto 20px; max-width: 620px; }
+.sharecard img { width: 160px; height: 160px; border-radius: 10px; box-shadow: 0 6px 20px -10px rgba(0,30,80,.5); background: #001d46; }
+.sharecard > div { flex: 1 1 220px; }
+.sharecard .sharebtns { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.sharecard .note { margin-top: 6px; }
 </style>
 <script data-goatcounter="https://ukraine-map.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="fonts.css">
@@ -487,12 +492,59 @@ function srcLinks(cell) {
   cell.s.forEach((sk, i) => { const s = SRC[sk]; const a = el("a", null, `${s.o}, ${fmtD(s.d)}`); a.href = s.u; a.target = "_blank"; a.rel = "noopener"; a.title = s.ty; if (i) box.append(document.createTextNode(" · ")); box.append(a); });
   return box;
 }
+/* ---------- Carte de résultat partageable : dessinée dans le navigateur (canvas → PNG), rien n'est envoyé ---------- */
+async function drawCard(o) {
+  try { await Promise.all(['700 96px "Cormorant Garamond"', 'italic 500 60px "Cormorant Garamond"', '600 28px "Public Sans"', '400 28px "Public Sans"'].map(f => document.fonts.load(f))); } catch (e) {}
+  const W = 1080, H = 1080, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const x = cv.getContext("2d"), M = 90, SERIF = '"Cormorant Garamond", Georgia, serif', SANS = '"Public Sans", sans-serif';
+  const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, "#002b60"); bg.addColorStop(1, "#001d46"); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  ["#0b3aa0", "#f4f1ea", "#e1000f"].forEach((c, i) => { x.fillStyle = c; x.fillRect(i * W / 3, H - 18, W / 3 + 1, 18); });
+  x.fillStyle = "#9fb7e6"; x.font = `600 28px ${SANS}`; x.fillText(o.eyebrow.toUpperCase(), M, 140);
+  x.fillStyle = "#cfe0ff"; x.font = `italic 500 66px ${SERIF}`; x.fillText(o.kicker, M, 290);
+  // Nom : retour à la ligne, police réduite au-delà de 3 lignes
+  const wrap = size => { x.font = `700 ${size}px ${SERIF}`; const lines = []; let cur = "";
+    o.name.split(/\s+/).forEach(w => { const t = cur ? cur + " " + w : w; if (x.measureText(t).width > W - 2 * M - 40 && cur) { lines.push(cur); cur = w; } else cur = t; });
+    if (cur) lines.push(cur); return lines; };
+  let size = 104, lines = wrap(size); while (lines.length > 3 && size > 56) { size -= 8; lines = wrap(size); }
+  const lh = size * 1.02, y0 = 290 + size * 1.15;
+  x.fillStyle = o.color || "#ffffff"; x.fillRect(M, y0 - size * .72, 14, (lines.length - 1) * lh + size * .78);
+  x.fillStyle = "#ffffff"; lines.forEach((l, i) => x.fillText(l, M + 40, y0 + i * lh));
+  const yp = y0 + (lines.length - 1) * lh + 190;
+  x.font = `700 160px ${SERIF}`; x.fillText(o.pct, M, yp); const pw = x.measureText(o.pct).width;
+  x.font = `italic 500 60px ${SERIF}`; x.fillStyle = "#cfe0ff"; x.fillText("d'accord", M + pw + 24, yp);
+  x.font = `400 30px ${SANS}`; x.fillStyle = "#dbe6fb"; x.fillText(o.sub, M, H - 150);
+  x.font = `600 28px ${SANS}`; x.fillStyle = "#9fb7e6"; x.fillText(o.foot, M, H - 92);
+  return new Promise(res => cv.toBlob(res, "image/png"));
+}
+function shareBox(o) {
+  const w = el("div", "sharecard"), img = el("img"); img.alt = `${o.kicker} ${o.name}, ${o.pct} d'accord`; img.width = 220; img.height = 220;
+  const right = el("div"), btns = el("div", "sharebtns"), sh = el("button", "ans yes", "Partager mon résultat"), dl = el("button", "link", "Télécharger l'image");
+  sh.disabled = dl.disabled = true;
+  let file = null;
+  const download = () => { const a = document.createElement("a"), u = URL.createObjectURL(file); a.href = u; a.download = file.name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); };
+  drawCard(o).then(blob => { if (!blob) return; file = new File([blob], o.file, { type: "image/png" }); img.src = URL.createObjectURL(blob); sh.disabled = dl.disabled = false; });
+  sh.onclick = async () => {
+    if (!file) return;
+    if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], text: o.text }); return; } catch (e) { if (e.name === "AbortError") return; }
+    }
+    download();
+  };
+  dl.onclick = () => file && download();
+  btns.append(sh, dl); right.append(btns, el("p", "note", o.note));
+  w.append(img, right);
+  return w;
+}
 function renderResults(host) {
   const R = scores().filter(r => r.n > 0).sort((a, b) => b.a - a.a || b.n - a.n);
   const nAns = Object.values(game.ans).filter(v => v).length;
   if (!R.length) { host.append(el("p", "qtext", "Vous n'avez donné aucun avis tranché !"), replayBar(), honest()); return; }
   const v = el("div", "verdict"); v.append(el("div", "k", "Sur ces propositions, vous êtes le plus proche de"), el("div", "v", R[0].c.n), el("div", "d", `${fmtPct(R[0].a)} d'accord sur ${R[0].n} proposition${R[0].n > 1 ? "s" : ""} comparée${R[0].n > 1 ? "s" : ""} · ${nAns} réponse${nAns > 1 ? "s" : ""} tranchée${nAns > 1 ? "s" : ""}`));
   host.append(v);
+  let gameUrl = location.href; try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); gameUrl = u.href; } catch (e) {}
+  host.append(shareBox({ eyebrow: "Présidentielle 2027 · jeu indicatif", kicker: "Mon candidat le plus proche", name: R[0].c.n, color: R[0].c.c, pct: fmtPct(R[0].a),
+    sub: `${R[0].n} proposition${R[0].n > 1 ? "s" : ""} comparée${R[0].n > 1 ? "s" : ""} · positions sourcées`, foot: "djac57.github.io/votes-assemblee/2027.html",
+    file: `proche-de-${surname(R[0].c.n).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`, text: `Présidentielle 2027, mon candidat le plus proche : ${R[0].c.n} (${fmtPct(R[0].a)} d'accord). Et vous ? ${gameUrl}`, note: "Image créée dans votre navigateur : rien n'est envoyé." }));
   host.append(el("div", "sm-h", "Classement par accord"));
   R.forEach(r => {
     const row = el("div", "gauge"), n = el("span", "n"), sw = el("span", "sw"); sw.style.background = r.c.c; n.append(sw, document.createTextNode(surname(r.c.n)));

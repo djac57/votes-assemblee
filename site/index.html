@@ -137,6 +137,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
 .sugg button { display: flex; width: 100%; justify-content: space-between; gap: 10px; padding: 8px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13.5px; }
 .sugg button:hover, .sugg button:focus { background: var(--paper-2); outline: none; }
 .sugg .m { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.sugg > div.m { padding: 8px 12px; }
+#fiche { scroll-margin-top: 16px; }
 .dep-name { font: 700 28px/1.05 "Cormorant Garamond", serif; margin: 16px 0 2px; }
 .dep-meta { font-size: 13px; color: var(--ink-2); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .stats3 { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 12px 0; }
@@ -216,6 +218,14 @@ svg text { fill: var(--ink); }
 .play-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; margin-right: 8px; background: #fff; color: #002654; border: none; border-radius: 10px; padding: 10px 18px; cursor: pointer;
   font: 700 17px/1 "Cormorant Garamond", serif; letter-spacing: .02em; box-shadow: 0 2px 10px -4px rgba(0,0,0,.4); }
 .play-btn:hover { background: #eef2fb; }
+.play-row { display: flex; flex-wrap: wrap; }
+.hsearch { max-width: 520px; margin-top: 14px; }
+.hsearch input { background: rgba(255,255,255,.96); color: #0e1526; border: 1px solid rgba(255,255,255,.5); border-radius: 10px; padding: 10px 14px; font-size: 15px; }
+.hsearch input::placeholder { color: #5b6886; }
+.hsearch .sugg { border-radius: 8px; color: var(--ink); }
+.about { margin-top: 12px; max-width: 760px; color: #dbe6fb; font-size: 14px; }
+.about summary { cursor: pointer; color: #aebfdf; font-size: 13px; }
+.about p { margin: 8px 0 0; }
 .game { max-width: 820px; margin: 0 auto; }
 .game .honest { font-size: 12.5px; color: var(--muted); text-align: center; margin: 12px 0 0; }
 .prog { height: 6px; background: var(--paper-2); border: 1px solid var(--rule); margin: 4px 0 14px; }
@@ -274,7 +284,16 @@ footer b { color: var(--ink-2); }
   .portraits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .drape { padding: 30px 16px 42px; }
+  .drape { padding: 18px 16px 24px; }
+  .drape-in { position: relative; display: block; }
+  .drape-tools { position: absolute; top: 0; right: 0; }
+  .brand { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 10px; align-items: center; }
+  .brand > div { display: contents; }
+  .logo { width: 44px; height: 44px; }
+  .eyebrow { font-size: 10.5px; letter-spacing: .1em; padding-right: 150px; }
+  .drape h1 { grid-column: 1 / -1; font-size: 38px; margin-top: 8px; }
+  .drape .lede { margin-top: 10px; font-size: 15px; }
+  .play-btn { margin-top: 10px; }
   main { padding: 4px 16px 48px; }
   .ledger { position: static; }
   .ledger-in { padding: 8px 16px; }
@@ -318,6 +337,11 @@ footer b { color: var(--ink-2); }
 .toc-in { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 8px; overflow-x: auto; }
 .toc a { flex: none; text-decoration: none; color: var(--ink-2); font: 600 13px/1 "Public Sans", sans-serif; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); white-space: nowrap; }
 .toc a:hover, .toc a.on { color: #fff; background: var(--gold); border-color: var(--gold); }
+.sharecard { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; justify-content: center; margin: 0 auto 20px; max-width: 620px; }
+.sharecard img { width: 160px; height: 160px; border-radius: 10px; box-shadow: 0 6px 20px -10px rgba(0,30,80,.5); background: #001d46; }
+.sharecard > div { flex: 1 1 220px; }
+.sharecard .sharebtns { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.sharecard .note { margin-top: 6px; }
 </style>
 <script data-goatcounter="https://ukraine-map.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="fonts.css">
@@ -342,11 +366,21 @@ footer b { color: var(--ink-2); }
           <h1>Qui vote <em>avec qui&nbsp;?</em></h1>
         </div>
       </div>
-      <p class="lede">Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — sept échelles à deux pôles&nbsp;: environnement, protection sociale, finances publiques, marché, normes, immigration, sécurité et libertés —, leur proximité avec le Gouvernement, leurs alliances de vote et la place de chaque député dans l'hémicycle.</p>
-      <div class="meta">Source&nbsp;: données publiques <a href="https://data.assemblee-nationale.fr" target="_blank" rel="noopener">Assemblée nationale</a> · <span id="asof"></span></div>
-      <div class="indep">Site indépendant, non affilié à l'Assemblée nationale</div>
-      <button class="play-btn" id="playBtn">✦ Jouer&nbsp;: tu votes comme qui&nbsp;?</button>
-      <a class="play-btn" href="2027.html" style="text-decoration:none">✦ Présidentielle 2027&nbsp;: de quel candidat es-tu proche&nbsp;?</a>
+      <p class="lede">Tous les scrutins publics de l'Assemblée depuis juillet 2024, groupe par groupe et député par député.</p>
+      <div class="play-row">
+        <button class="play-btn" id="playBtn">✦ Jouer&nbsp;: tu votes comme qui&nbsp;?</button>
+        <a class="play-btn" href="2027.html" style="text-decoration:none">✦ Présidentielle 2027&nbsp;: de quel candidat es-tu proche&nbsp;?</a>
+      </div>
+      <div class="search hsearch">
+        <input type="search" id="hsearch" placeholder="Mon député : nom ou « Moselle 3 »" autocomplete="off" aria-label="Trouver un député par nom, département ou circonscription">
+        <div class="sugg" id="hsugg"></div>
+      </div>
+      <details class="about">
+        <summary>À propos de ce site</summary>
+        <p>Tous les scrutins publics depuis juillet 2024&nbsp;: les sept «&nbsp;boussoles&nbsp;» des groupes — sept échelles à deux pôles&nbsp;: environnement, protection sociale, finances publiques, marché, normes, immigration, sécurité et libertés —, leur proximité avec le Gouvernement, leurs alliances de vote et la place de chaque député dans l'hémicycle. Recherche par circonscription&nbsp;: département et numéro (ex.&nbsp;«&nbsp;Moselle 3&nbsp;»).</p>
+        <div class="meta">Source&nbsp;: données publiques <a href="https://data.assemblee-nationale.fr" target="_blank" rel="noopener">Assemblée nationale</a> · <span id="asof"></span></div>
+        <div class="indep">Site indépendant, non affilié à l'Assemblée nationale</div>
+      </details>
     </div>
     <div class="drape-tools">
       <button class="install-btn" id="installBtn" type="button" hidden><span class="lbl-long">⤓ Installer l'app</span><span class="lbl-short">⤓ Installer</span></button>
@@ -884,19 +918,27 @@ function renderFiche() {
   list("Ses plus proches", d.close.slice(0, 3));
   list("Ses plus proches hors de son groupe", d.closeOut);
 }
-const search = document.getElementById("search"), sugg = document.getElementById("sugg");
 const nrm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-const idxS = DEPS.map((d, i) => ({ i, k: nrm(`${d.n} ${d.dep} ${G[d.g].k}`) }));
-search.oninput = () => {
-  const q = nrm(search.value.trim()); sugg.replaceChildren();
-  if (q.length < 2) { sugg.style.display = "none"; return; }
-  const res = idxS.filter(s => q.split(/\s+/).every(w => s.k.includes(w))).sort((a, b) => DEPS[b.i].active - DEPS[a.i].active || DEPS[b.i].nv - DEPS[a.i].nv).slice(0, 12);
-  res.forEach(({ i }) => { const b = el("button"); b.append(el("span", null, DEPS[i].n), el("span", "m", `${G[DEPS[i].g].k} · ${DEPS[i].dep}`));
-    b.onclick = () => { selectDep(i); search.value = ""; sugg.style.display = "none"; }; sugg.append(b); });
-  sugg.style.display = res.length ? "block" : "none";
-};
-search.onkeydown = e => { if (e.key === "Enter") sugg.querySelector("button")?.click(); if (e.key === "Escape") sugg.style.display = "none"; };
-document.addEventListener("click", e => { if (!e.target.closest(".search")) sugg.style.display = "none"; });
+const circo = d => d.c ? `${d.c}${d.c === "1" ? "re" : "e"} circ.` : "";
+const idxS = DEPS.map((d, i) => ({ i, k: nrm(`${d.n} ${d.dep} ${G[d.g].k}`), c: String(d.c || "") }));
+// Un nombre dans la requête désigne le numéro de circonscription (« Moselle 3 », « Paris 12e ») : égalité stricte, pas « 13 » pour « 3 »
+const matchS = (s, words) => words.every(w => { const n = w.match(/^(\d+)(?:e|er|re|ere|eme)?$/); return n ? s.c === n[1] : s.k.includes(w); });
+function bindSearch(input, box, onPick) {
+  input.oninput = () => {
+    const q = nrm(input.value.trim()); box.replaceChildren();
+    if (q.length < 2) { box.style.display = "none"; return; }
+    const words = q.split(/\s+/), txt = words.filter(w => !/^\d/.test(w)).join(" "), exact = i => nrm(DEPS[i].dep) === txt ? 1 : 0;
+    const res = idxS.filter(s => matchS(s, words)).sort((a, b) => exact(b.i) - exact(a.i) || DEPS[b.i].active - DEPS[a.i].active || DEPS[b.i].nv - DEPS[a.i].nv).slice(0, 12);
+    res.forEach(({ i }) => { const b = el("button"); b.type = "button"; b.append(el("span", null, DEPS[i].n), el("span", "m", [G[DEPS[i].g].k, DEPS[i].dep, circo(DEPS[i])].filter(Boolean).join(" · ") + (DEPS[i].active ? "" : " · ancien")));
+      b.onclick = () => { onPick(i); input.value = ""; box.style.display = "none"; }; box.append(b); });
+    if (!res.length) box.append(el("div", "m", "Aucun député trouvé"));
+    box.style.display = "block";
+  };
+  input.onkeydown = e => { if (e.key === "Enter") box.querySelector("button")?.click(); if (e.key === "Escape") box.style.display = "none"; };
+}
+bindSearch(document.getElementById("search"), document.getElementById("sugg"), selectDep);
+bindSearch(document.getElementById("hsearch"), document.getElementById("hsugg"), i => { selectDep(i); if (innerWidth >= 900) document.getElementById("fiche").scrollIntoView({ behavior: "smooth", block: "start" }); });
+document.addEventListener("click", e => { if (!e.target.closest(".search")) document.querySelectorAll(".sugg").forEach(s => s.style.display = "none"); });
 
 /* ---------- II. Les sept boussoles ---------- */
 function renderAxis() {
@@ -1370,6 +1412,49 @@ function renderGame(animate) {
   host.append(card, honest());
   if (animate) setTimeout(() => card.classList.remove("in"), 30);
 }
+/* ---------- Carte de résultat partageable : dessinée dans le navigateur (canvas → PNG), rien n'est envoyé ---------- */
+async function drawCard(o) {
+  try { await Promise.all(['700 96px "Cormorant Garamond"', 'italic 500 60px "Cormorant Garamond"', '600 28px "Public Sans"', '400 28px "Public Sans"'].map(f => document.fonts.load(f))); } catch (e) {}
+  const W = 1080, H = 1080, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const x = cv.getContext("2d"), M = 90, SERIF = '"Cormorant Garamond", Georgia, serif', SANS = '"Public Sans", sans-serif';
+  const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, "#002b60"); bg.addColorStop(1, "#001d46"); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  ["#0b3aa0", "#f4f1ea", "#e1000f"].forEach((c, i) => { x.fillStyle = c; x.fillRect(i * W / 3, H - 18, W / 3 + 1, 18); });
+  x.fillStyle = "#9fb7e6"; x.font = `600 28px ${SANS}`; x.fillText(o.eyebrow.toUpperCase(), M, 140);
+  x.fillStyle = "#cfe0ff"; x.font = `italic 500 66px ${SERIF}`; x.fillText(o.kicker, M, 290);
+  // Nom : retour à la ligne, police réduite au-delà de 3 lignes
+  const wrap = size => { x.font = `700 ${size}px ${SERIF}`; const lines = []; let cur = "";
+    o.name.split(/\s+/).forEach(w => { const t = cur ? cur + " " + w : w; if (x.measureText(t).width > W - 2 * M - 40 && cur) { lines.push(cur); cur = w; } else cur = t; });
+    if (cur) lines.push(cur); return lines; };
+  let size = 104, lines = wrap(size); while (lines.length > 3 && size > 56) { size -= 8; lines = wrap(size); }
+  const lh = size * 1.02, y0 = 290 + size * 1.15;
+  x.fillStyle = o.color || "#ffffff"; x.fillRect(M, y0 - size * .72, 14, (lines.length - 1) * lh + size * .78);
+  x.fillStyle = "#ffffff"; lines.forEach((l, i) => x.fillText(l, M + 40, y0 + i * lh));
+  const yp = y0 + (lines.length - 1) * lh + 190;
+  x.font = `700 160px ${SERIF}`; x.fillText(o.pct, M, yp); const pw = x.measureText(o.pct).width;
+  x.font = `italic 500 60px ${SERIF}`; x.fillStyle = "#cfe0ff"; x.fillText("d'accord", M + pw + 24, yp);
+  x.font = `400 30px ${SANS}`; x.fillStyle = "#dbe6fb"; x.fillText(o.sub, M, H - 150);
+  x.font = `600 28px ${SANS}`; x.fillStyle = "#9fb7e6"; x.fillText(o.foot, M, H - 92);
+  return new Promise(res => cv.toBlob(res, "image/png"));
+}
+function shareBox(o) {
+  const w = el("div", "sharecard"), img = el("img"); img.alt = `${o.kicker} ${o.name}, ${o.pct} d'accord`; img.width = 220; img.height = 220;
+  const right = el("div"), btns = el("div", "sharebtns"), sh = el("button", "ans yes", "Partager mon résultat"), dl = el("button", "link", "Télécharger l'image");
+  sh.disabled = dl.disabled = true;
+  let file = null;
+  const download = () => { const a = document.createElement("a"), u = URL.createObjectURL(file); a.href = u; a.download = file.name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); };
+  drawCard(o).then(blob => { if (!blob) return; file = new File([blob], o.file, { type: "image/png" }); img.src = URL.createObjectURL(blob); sh.disabled = dl.disabled = false; });
+  sh.onclick = async () => {
+    if (!file) return;
+    if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], text: o.text }); return; } catch (e) { if (e.name === "AbortError") return; }
+    }
+    download();
+  };
+  dl.onclick = () => file && download();
+  btns.append(sh, dl); right.append(btns, el("p", "note", o.note));
+  w.append(img, right);
+  return w;
+}
 function renderResults(host) {
   const R = quizResult();
   if (!R) {
@@ -1380,6 +1465,11 @@ function renderResults(host) {
   const best = ranked[0];
   const v = el("div", "verdict"); v.append(el("div", "k", "Tu votes le plus souvent comme"), el("div", "v", G[best.g].n), el("div", "d", `${fmtPct(best.a)} d'accord sur ${R.answered.length} question${R.answered.length > 1 ? "s" : ""} répondue${R.answered.length > 1 ? "s" : ""}`));
   host.append(v);
+  let gameUrl = location.href; try { const u = new URL(location.href); u.searchParams.set("q", seedCode()); u.hash = "ch-jeu"; gameUrl = u.href; } catch (e) {}
+  const nA = R.answered.length;
+  host.append(shareBox({ eyebrow: "Qui vote avec qui ? · Assemblée nationale", kicker: "Je vote comme", name: G[best.g].n, color: G[best.g].c, pct: fmtPct(best.a),
+    sub: `${nA} vrai${nA > 1 ? "s" : ""} scrutin${nA > 1 ? "s" : ""} de l'Assemblée · jeu indicatif`, foot: "djac57.github.io/votes-assemblee",
+    file: `je-vote-comme-${G[best.g].k}.png`, text: `Je vote comme ${G[best.g].n} à ${fmtPct(best.a)}. Et toi ? ${gameUrl}`, note: "Image créée dans ton navigateur : rien n'est envoyé." }));
   // Classement des groupes
   host.append(el("div", "sm-h", "Ton accord avec chaque groupe"));
   ranked.forEach(o => {
