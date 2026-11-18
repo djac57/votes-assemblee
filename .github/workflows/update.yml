@@ -37,10 +37,15 @@ jobs:
       - name: Committer les nouvelles données
         continue-on-error: true   # un échec d'envoi ne doit JAMAIS empêcher le déploiement du site
         run: |
-          if [ -z "$(git status --porcelain site)" ]; then echo "Aucune nouvelle donnée."; exit 0; fi
+          # Battement de cœur : GitHub désactive les workflows planifiés d'un dépôt public après 60 jours
+          # sans activité. Si le dernier commit a plus de 45 jours, on horodate un petit fichier.
+          AGE=$(( ($(date -u +%s) - $(git log -1 --format=%ct)) / 86400 ))
+          if [ "$AGE" -ge 45 ]; then date -u +%Y-%m-%dT%H:%M:%SZ > .derniere_verification; echo "Battement de cœur (dernier commit il y a $AGE jours)."; fi
+          if [ -z "$(git status --porcelain site .derniere_verification)" ]; then echo "Aucune nouvelle donnée."; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add site
+          if [ -f .derniere_verification ]; then git add .derniere_verification; fi
           git commit -m "Données Assemblée mises à jour ($(date -u +%Y-%m-%d))"
           for i in 1 2 3; do
             git pull --rebase -X theirs origin main && git push && exit 0
