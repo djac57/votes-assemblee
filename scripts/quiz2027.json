@@ -1,5 +1,5 @@
 {
- "_lisez-moi": "Jeu « Présidentielle 2027 : de quel candidat êtes-vous le plus proche ? ». Chaque position (pour / contre / nuance) renvoie à une source lue (URL, date, type). Une case absente = position inconnue, exclue du calcul. Aucune position n'est déduite de l'étiquette du parti : les déclarations d'un parti ou d'un porte-parole ne sont retenues que si la source les présente explicitement au nom du candidat. Exception : le programme officiel du mouvement que préside le candidat (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan) est retenu comme le sien. Positions relevées le 16 octobre 2026, susceptibles d'évoluer.",
+ "_lisez-moi": "Jeu « Présidentielle 2027 : de quel candidat êtes-vous le plus proche ? ». Chaque position (pour / contre / nuance) renvoie à une source lue (URL, date, type). Une case absente = position inconnue, exclue du calcul. Aucune position n'est déduite de l'étiquette du parti : les déclarations d'un parti ou d'un porte-parole ne sont retenues que si la source les présente explicitement au nom du candidat. Exception : le programme officiel du mouvement que préside le candidat (Nouvelle Énergie pour David Lisnard, Debout la France pour Nicolas Dupont-Aignan) est retenu comme le sien. Positions relevées le 16 octobre 2026, susceptibles d'évoluer. Mise à jour du 24 novembre 2026 : Dominique de Villepin entre dans le jeu (candidature officialisée le 20/11/2026 ; positions tirées de son programme « Réussir à nouveau » et de la presse) ; Marine Tondelier en sort.",
  "collected": "2026-10-17",
  "sources": {
   "fi_retraites": {
@@ -181,30 +181,6 @@
    "o": "franceinfo",
    "d": "2026-09-30",
    "ty": "presse (comparatif des programmes)"
-  },
-  "fi_tondelier_zucman": {
-   "u": "https://www.franceinfo.fr/replay-radio/8h30-fauvelle-dely/pour-marine-tondelier-sebastien-lecornu-n-a-rien-a-faire-la-son-equation-est-insoluble_7498987.html",
-   "o": "franceinfo (entretien)",
-   "d": "2025-10-02",
-   "ty": "entretien"
-  },
-  "fi_tondelier_isf": {
-   "u": "https://www.franceinfo.fr/replay-magazine/franceinfo/l-invite-politique/vague-de-chaleur-on-est-dans-une-impreparation-comme-souvent-dans-ce-pays-estime-l-ecologiste-marine-tondelier_7988627.html",
-   "o": "franceinfo (entretien)",
-   "d": "2026-05-27",
-   "ty": "entretien"
-  },
-  "fi_tondelier_fdv": {
-   "u": "https://www.franceinfo.fr/replay-radio/19h20-politique/droit-a-l-aide-a-mourir-je-suis-tres-emue-c-est-enfin-une-bonne-nouvelle-reagit-marine-tondelier_7259172.html",
-   "o": "franceinfo",
-   "d": "2025-05-27",
-   "ty": "réaction"
-  },
-  "f24_tondelier": {
-   "u": "https://www.france24.com/fr/info-en-continu/20260421-fragilis%C3%A9e-en-interne-marine-tondelier-veut-mettre-du-fond-dans-la-campagne-pour-2027",
-   "o": "France 24 / AFP",
-   "d": "2026-04-21",
-   "ty": "presse"
   },
   "ps_roussel_2022": {
    "u": "https://www.publicsenat.fr/actualites/politique/presidentielle-fabien-roussel-presente-180-propositions-pour-une-france-des-jours",
@@ -439,6 +415,48 @@
    "o": "LCP",
    "d": "2026-09-03",
    "ty": "presse"
+  },
+  "lfh_ch1": {
+   "u": "https://lafrancehumaniste.fr/programme/reussir-a-nouveau/chapitre-1.html",
+   "o": "La France humaniste (programme « Réussir à nouveau », chapitre 1)",
+   "d": "consulté le 2026-11-24",
+   "ty": "programme officiel du mouvement du candidat"
+  },
+  "lfh_ch5": {
+   "u": "https://lafrancehumaniste.fr/programme/reussir-a-nouveau/chapitre-5.html",
+   "o": "La France humaniste (programme, chapitre 5)",
+   "d": "consulté le 2026-11-24",
+   "ty": "programme officiel du mouvement du candidat"
+  },
+  "lfh_ch6": {
+   "u": "https://lafrancehumaniste.fr/programme/reussir-a-nouveau/chapitre-6.html",
+   "o": "La France humaniste (programme, chapitre 6)",
+   "d": "consulté le 2026-11-24",
+   "ty": "programme officiel du mouvement du candidat"
+  },
+  "lfh_ch16": {
+   "u": "https://lafrancehumaniste.fr/programme/reussir-a-nouveau/chapitre-16.html",
+   "o": "La France humaniste (programme, chapitre 16)",
+   "d": "consulté le 2026-11-24",
+   "ty": "programme officiel du mouvement du candidat"
+  },
+  "lfh_prog": {
+   "u": "https://lafrancehumaniste.fr/programme/reussir-a-nouveau/",
+   "o": "La France humaniste (programme, sommaire des propositions)",
+   "d": "consulté le 2026-11-24",
+   "ty": "programme officiel du mouvement du candidat"
+  },
+  "lcp_villepin": {
+   "u": "https://lcp.fr/actualites/presidentielle-2027-dominique-villepin-veut-une-nouvelle-abolition-des-privileges-et-un",
+   "o": "LCP",
+   "d": "2026-08-28",
+   "ty": "presse"
+  },
+  "sorenir_villepin": {
+   "u": "https://www.sorenir.com/articles/villepin-contre-taxe-zucman-retour-impot-fortune-droits-succession/",
+   "o": "So Renir (propos tenus sur LCI)",
+   "d": "2026-09-19",
+   "ty": "presse"
   }
  },
  "candidates": [
@@ -485,10 +503,10 @@
    "c": "#5a4a7a"
   },
   {
-   "k": "tondelier",
-   "n": "Marine Tondelier",
-   "party": "Les Écologistes",
-   "c": "#3d8b4f"
+   "k": "villepin",
+   "n": "Dominique de Villepin",
+   "party": "La France humaniste",
+   "c": "#4a6fa5"
   },
   {
    "k": "roussel",
@@ -511,9 +529,9 @@
  ],
  "others": [
   {
-   "n": "Dominique de Villepin",
-   "party": "La France humaniste",
-   "known": 4
+   "n": "Marine Tondelier",
+   "party": "Les Écologistes",
+   "known": 0
   },
   {
    "n": "Delphine Batho",
@@ -1695,95 +1713,6 @@
     ]
    }
   },
-  "tondelier": {
-   "retraite62": {
-    "p": "pour",
-    "q": "Veut abroger la dernière réforme : « On revient mécaniquement à 62 ans en un trait de plume », puis viser 60 ans en priorité pour les carrières longues et pénibles.",
-    "s": [
-     "fi_retraites_0930",
-     "lcp_retraites"
-    ]
-   },
-   "niches": {
-    "p": "pour",
-    "q": "Pour financer les retraites, propose de revenir sur une partie des exonérations de cotisations des entreprises (« 10 % des 77 milliards » d'exonérations).",
-    "s": [
-     "fi_retraites_0930"
-    ]
-   },
-   "zucman": {
-    "p": "pour",
-    "q": "« Nous allons demander la taxe Zucman » ; « une taxe qui propose 25 milliards par an ».",
-    "s": [
-     "fi_tondelier_zucman"
-    ]
-   },
-   "isf": {
-    "p": "pour",
-    "q": "« On porte depuis très longtemps un ISF climatique », pour faire payer les plus fortunés selon leur contribution au changement climatique.",
-    "s": [
-     "fi_tondelier_isf"
-    ]
-   },
-   "heritages": {
-    "p": "pour",
-    "q": "« La “grande transmission” doit financer la “grande transition” » : contribution de 10 % sur les héritages de plus de 4 millions d'euros, et 10 % de plus au-delà de 13 millions.",
-    "s": [
-     "lcp_heritages"
-    ]
-   },
-   "aideamourir": {
-    "p": "pour",
-    "q": "Après le vote des députés en mai 2025 : « Je suis très émue, c'est enfin une bonne nouvelle », pour « partir dans la dignité ».",
-    "s": [
-     "fi_tondelier_fdv"
-    ]
-   },
-   "enseignants": {
-    "p": "pour",
-    "q": "« Augmenter les salaires des enseignants de 15 % en cinq ans, en plus de l'inflation ».",
-    "s": [
-     "ps_ecole",
-     "f24_tondelier"
-    ]
-   },
-   "nucleaire": {
-    "p": "contre",
-    "q": "« Pour nous, le nucléaire n'est pas une option viable, ni une alternative crédible » ; les EPR2 « ne seront pas livrés avant 2040 ou 2050 ».",
-    "s": [
-     "sfen_ufe"
-    ]
-   },
-   "smic": {
-    "p": "pour",
-    "q": "« Les Écologistes porteront un SMIC à 2 000 euros brut », avec un plan d'aide pour les TPE et PME.",
-    "s": [
-     "f24_medef",
-     "lcp_medef"
-    ]
-   },
-   "regularisation": {
-    "p": "pour",
-    "q": "Propose la régularisation des travailleurs sans papiers.",
-    "s": [
-     "f24_tondelier"
-    ]
-   },
-   "superprofits": {
-    "p": "pour",
-    "q": "Veut taxer les « superprofits » des pétroliers, via une proposition de loi de son parti.",
-    "s": [
-     "fi_carburants"
-    ]
-   },
-   "aidesciblees": {
-    "p": "pour",
-    "q": "Favorable aux aides ciblées.",
-    "s": [
-     "fi_carburants"
-    ]
-   }
-  },
   "roussel": {
    "retraite62": {
     "p": "pour",
@@ -2064,6 +1993,96 @@
     "q": "« Supprimer la régularisation pour les étrangers en situation irrégulière. »",
     "s": [
      "dlf_immigration"
+    ]
+   }
+  },
+  "villepin": {
+   "zucman": {
+    "p": "contre",
+    "q": "« Je suis contre la taxe Zucman mais je suis pour le retour de l'impôt sur la fortune ».",
+    "s": [
+     "sorenir_villepin"
+    ]
+   },
+   "isf": {
+    "p": "pour",
+    "q": "« En rétablissant l'Impôt sur la Fortune, suivant un barème proche de celui de 2016 ».",
+    "s": [
+     "lfh_ch1",
+     "sorenir_villepin"
+    ]
+   },
+   "heritages": {
+    "p": "pour",
+    "q": "« Corriger les inégalités de succession par une réforme de l'héritage » : taux progressifs de 50 à 60 % au-delà d'un puis de cinq millions d'euros ; LCP : « une imposition unique et renforcée des successions ».",
+    "s": [
+     "lfh_ch1",
+     "lcp_villepin"
+    ]
+   },
+   "niches": {
+    "p": "pour",
+    "q": "« Éteindre l'ensemble des privilèges fiscaux, des niches sociales et fiscales » ; LCP : « une grande loi d'extinction des niches fiscales et sociales ».",
+    "s": [
+     "lfh_ch5",
+     "lcp_villepin"
+    ]
+   },
+   "enseignants": {
+    "p": "pour",
+    "q": "« Revaloriser les métiers pédagogiques d'au moins 10 % » (proposition 189).",
+    "s": [
+     "lfh_prog"
+    ]
+   },
+   "reglor": {
+    "p": "nuance",
+    "q": "« En fixant par loi organique une règle pluriannuelle pour les déficits » : une loi organique, pas une règle inscrite dans la Constitution.",
+    "s": [
+     "lfh_ch1"
+    ]
+   },
+   "impotsprod": {
+    "p": "pour",
+    "q": "« Un impôt sur les sociétés absorbant l'ensemble des impôts de production inefficaces ».",
+    "s": [
+     "lfh_ch1",
+     "lfh_ch5"
+    ]
+   },
+   "droitdusol": {
+    "p": "contre",
+    "q": "« L'hospitalité, c'est l'identité profonde et universelle de notre nation, fondée sur le droit du sol ».",
+    "s": [
+     "lfh_ch6"
+    ]
+   },
+   "nucleaire": {
+    "p": "pour",
+    "q": "« Il faudra poursuivre le programme des six EPR2 mais prendre en compte l'ensemble des coûts et options avant de lancer les tranches suivantes ».",
+    "s": [
+     "lfh_ch1"
+    ]
+   },
+   "agents": {
+    "p": "nuance",
+    "q": "« En stabilisant strictement le nombre de fonctionnaires des trois fonctions publiques » : une stabilisation, pas une réduction.",
+    "s": [
+     "lfh_ch6"
+    ]
+   },
+   "capitalisation": {
+    "p": "pour",
+    "q": "« Une retraite par capitalisation publique à rendement fixe dans le cadre du Fonds France » (proposition 162).",
+    "s": [
+     "lfh_ch16"
+    ]
+   },
+   "economies": {
+    "p": "nuance",
+    "q": "LCP : « une réduction drastique des dépenses publiques », sans montant chiffré.",
+    "s": [
+     "lcp_villepin"
     ]
    }
   }
